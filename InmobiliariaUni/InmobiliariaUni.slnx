@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/1. Presentaciones/">
+    <Project Path="consola_inmobiliaria/consola_inmobiliaria.csproj" />
+    <Project Path="libreria_presentaciones_inmobiliaria/libreria_presentaciones_inmobiliaria.csproj" />
+  </Folder>
+  <Folder Name="/2. Servicios/">
+    <Project Path="libreria_inmobiliaria/libreria_inmobiliaria.csproj" />
+    <Project Path="servicios_inmobiliaria/servicios_inmobiliaria.csproj" />
+  </Folder>
+</Solution>
