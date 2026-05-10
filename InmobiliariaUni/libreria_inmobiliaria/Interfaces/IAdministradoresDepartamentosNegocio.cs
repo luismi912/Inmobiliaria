@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<AdministradoresDepartamentos> Consultar();
         string Eliminar(String Cedula);
         AdministradoresDepartamentos Modificar(AdministradoresDepartamentos entidad);
-        string Guardar(CrearUsuarioAdministradorDto dto);
+        string Guardar(CrearUsuariosAdministradoresDtos dto);
     }
 }

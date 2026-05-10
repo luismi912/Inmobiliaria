@@ -46,7 +46,7 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Guardar(CrearUsuarioAdministradorDto dto)
+        public string Guardar(CrearUsuariosAdministradoresDtos dto)
         {
             var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
 
@@ -71,13 +71,14 @@ namespace libreria_inmobiliaria.Implementaciones
                 PrimerApellido = dto.AdministradorDto.PrimerApellido,
                 FechaNacimiento = dto.AdministradorDto.FechaNacimiento,
                 FechaRegistro = dto.AdministradorDto.FechaRegistro,
-                HorarioTrabajo = dto.AdministradorDto.HorarioTrabajo,
-                PresupuestoDepartamento = dto.AdministradorDto.PresupuestoDepartamento,
                 Estado = dto.AdministradorDto.Estado,
-                UsuarioRol = usuario.Id,
+                HorarioTrabajo = dto.AdministradorDto.HorarioTrabajo,
+                Sueldo = dto.AdministradorDto.Sueldo,
+                PresupuestoDepartamento = dto.AdministradorDto.PresupuestoDepartamento,
+                Departamento = dto.AdministradorDto.Departamento,
                 Nacionalidad = dto.AdministradorDto.Nacionalidad,
-                EstadoCivil = dto.AdministradorDto.EstadoCivil,
-                Genero = dto.AdministradorDto.Genero
+                Genero = dto.AdministradorDto.Genero,
+                UsuarioRol = usuario.Id,
             };
 
             this.conexion!.AdministradoresDepartamentos.Add(admin);

@@ -21,11 +21,6 @@ CREATE TABLE Nacionalidades (
     Nombre NVARCHAR(100) NOT NULL
 );
 
-CREATE TABLE EstadosCiviles (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL
-);
-
 CREATE TABLE Generos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(100) NOT NULL
@@ -78,7 +73,6 @@ CREATE TABLE Personas (
     FechaRegistro DATETIME NOT NULL,
     Estado BIT,
     Nacionalidad INT NOT NULL,
-    EstadoCivil INT NOT NULL,
     Genero INT NOT NULL,
     UsuarioRol INT NOT NULL,
 

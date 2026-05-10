@@ -1,4 +1,5 @@
-﻿using libreria_inmobiliaria.Entidades;
+﻿using libreria_inmobiliaria.crearDTOS;
+using libreria_inmobiliaria.Entidades;
 using libreria_inmobiliaria.Interfaces;
 using libreria_inmobiliaria.Nucleo;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,70 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.SaveChanges();
 
             return entidad;
+        }
+
+        public string Guardar(CrearUsuariosEmpleadosDtos dto)
+        {
+            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
+
+            if (usuario != null)
+                return "El usuario a crear ya existe ingrese otro correo por favor";
+
+            //CREAMOS EL USUARIO DEL ADMIN
+            usuario = new UsuarioRoles()
+            {
+                Correo = dto.Correo,
+                Contraseña = dto.Contraseña
+            };
+
+            this.conexion!.UsuariosRoles.Add(usuario);
+            this.conexion.SaveChanges();
+
+            //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
+            var empleado = new EmpleadosSectores()
+            {
+                Cedula = dto.EmpleadoDto.Cedula,
+                PrimerNombre = dto.EmpleadoDto.PrimerNombre,
+                PrimerApellido = dto.EmpleadoDto.PrimerApellido,
+                FechaNacimiento = dto.EmpleadoDto.FechaNacimiento,
+                FechaRegistro = dto.EmpleadoDto.FechaRegistro,
+                Estado = dto.EmpleadoDto.Estado,
+                HorarioTrabajo = dto.EmpleadoDto.HorarioTrabajo,
+                Sueldo = dto.EmpleadoDto.Sueldo,
+                Sector = dto.EmpleadoDto.Sector,
+                JefeSector = dto.EmpleadoDto.JefeSector,
+                Nacionalidad = dto.EmpleadoDto.Nacionalidad,
+                Genero = dto.EmpleadoDto.Genero,
+                UsuarioRol = usuario.Id,
+            };
+
+            this.conexion!.EmpleadosSectores.Add(empleado);
+            this.conexion.SaveChanges();   //Guardamos cambios para generar el id y utilizarlo en las otras entidades
+
+            // DIRECCIÓNES
+            var direccion = new Direcciones
+            {
+                TipoVia = dto.EmpleadoDto.Direccion.TipoVia,
+                NumeroVia = dto.EmpleadoDto.Direccion.NumeroVia,
+                Complemento = dto.EmpleadoDto.Direccion.Complemento,
+                Ciudad = dto.EmpleadoDto.Direccion.Ciudad,
+                Persona = empleado.Id
+            };
+
+            this.conexion!.Direcciones.Add(direccion);
+
+            //TELÉFONOS
+            var telefono = new Telefonos
+            {
+                Numero = dto.EmpleadoDto.Telefono.Numero,
+                Prefijo = dto.EmpleadoDto.Telefono.Prefijo,
+                Persona = empleado.Id
+            };
+
+            this.conexion.Telefonos.Add(telefono);
+            this.conexion.SaveChanges();
+
+            return $"Empleado creado correctamente con id: {empleado.Id} \nCon correo {usuario.Correo}";
         }
     }
 }

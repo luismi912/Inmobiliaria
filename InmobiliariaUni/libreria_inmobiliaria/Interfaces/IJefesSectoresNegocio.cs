@@ -1,4 +1,5 @@
-﻿using libreria_inmobiliaria.Entidades;
+﻿using libreria_inmobiliaria.crearDTOS;
+using libreria_inmobiliaria.Entidades;
 
 namespace libreria_inmobiliaria.Interfaces
 {
@@ -7,5 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<JefesSectores> Consultar();
         string Eliminar(String Cedula);
         JefesSectores Modificar(JefesSectores entidad);
+        string Guardar(CrearUsuariosJefesDtos dto);
     }
 }

@@ -1,4 +1,5 @@
-﻿using libreria_inmobiliaria.Entidades;
+﻿using libreria_inmobiliaria.crearDTOS;
+using libreria_inmobiliaria.Entidades;
 using libreria_inmobiliaria.Implementaciones;
 using libreria_inmobiliaria.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,14 @@ namespace Inmobiliaria_Servicios.Controllers
         public JefesSectoresController()
         {
             this.IJefesSectoresnegocio = new JefesSectoresNegocio();    //CADA VEZ QUE SE CREE LA CLASE EL CONSTRUCTOR LA INICIALIZA CON LA CLASE QUE IMPLEMENTA LOS METODOS
+        }
+
+        [HttpPost]
+        public string Guardar(CrearUsuariosJefesDtos dto)
+        {
+            if (this.IJefesSectoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.IJefesSectoresnegocio!.Guardar(dto);
         }
 
         [HttpGet]

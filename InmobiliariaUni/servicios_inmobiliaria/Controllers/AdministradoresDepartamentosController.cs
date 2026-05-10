@@ -18,11 +18,11 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public string Guardar(CrearUsuarioAdministradorDto admin)
+        public string Guardar(CrearUsuariosAdministradoresDtos dto)
         {
             if (this.IAdministradoresDepartamentosnegocio == null)
                 throw new Exception("No implementado");
-            return this.IAdministradoresDepartamentosnegocio!.Guardar(admin);
+            return this.IAdministradoresDepartamentosnegocio!.Guardar(dto);
         }
 
         [HttpGet]

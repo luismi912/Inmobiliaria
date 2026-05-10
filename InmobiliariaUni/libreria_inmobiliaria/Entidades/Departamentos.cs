@@ -6,5 +6,6 @@
         public String? Nombre { get; set; }
 
         public List<Ciudades>? Ciudades { get; set; }
+        public List<AdministradoresDepartamentos> AdministradoresDepartamentos { get; set; }
     }
 }
