@@ -1,4 +1,5 @@
-﻿using libreria_inmobiliaria.Entidades;
+﻿using libreria_inmobiliaria.crearDTOS;
+using libreria_inmobiliaria.Entidades;
 using libreria_inmobiliaria.Implementaciones;
 using libreria_inmobiliaria.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,14 @@ namespace Inmobiliaria_Servicios.Controllers
             if (this.ICodeudoresnegocio == null)
                 throw new Exception("No implementado");
             return this.ICodeudoresnegocio!.Eliminar(Cedula);
+        }
+
+        [HttpPost]
+        public Codeudores Guardar(CrearUsuariosCodeudoresDtos dto)
+        {
+            if (this.ICodeudoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.ICodeudoresnegocio!.Guardar(dto);
         }
     }
 }

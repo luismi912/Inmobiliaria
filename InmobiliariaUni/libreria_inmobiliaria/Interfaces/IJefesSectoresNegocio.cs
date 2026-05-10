@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<JefesSectores> Consultar();
         string Eliminar(String Cedula);
         JefesSectores Modificar(JefesSectores entidad);
-        string Guardar(CrearUsuariosJefesDtos dto);
+        JefesSectores Guardar(CrearUsuariosJefesDtos dto);
     }
 }

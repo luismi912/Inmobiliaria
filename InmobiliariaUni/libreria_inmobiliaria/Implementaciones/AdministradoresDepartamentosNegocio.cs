@@ -46,18 +46,19 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Guardar(CrearUsuariosAdministradoresDtos dto)
+        public AdministradoresDepartamentos Guardar(CrearUsuariosAdministradoresDtos dto)
         {
             var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
 
             if (usuario != null)
-                return "El usuario a crear ya existe ingrese otro correo por favor";
+                return null!;
 
             //CREAMOS EL USUARIO DEL ADMIN
             usuario = new UsuarioRoles()
             {
                 Correo = dto.Correo,
-                Contraseña = dto.Contraseña
+                Contraseña = dto.Contraseña,
+                Rol = dto.Rol
             };
 
             this.conexion!.UsuariosRoles.Add(usuario);
@@ -66,18 +67,18 @@ namespace libreria_inmobiliaria.Implementaciones
             //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
             var admin = new AdministradoresDepartamentos
             {
-                Cedula = dto.AdministradorDto.Cedula,
-                PrimerNombre = dto.AdministradorDto.PrimerNombre,
-                PrimerApellido = dto.AdministradorDto.PrimerApellido,
-                FechaNacimiento = dto.AdministradorDto.FechaNacimiento,
-                FechaRegistro = dto.AdministradorDto.FechaRegistro,
-                Estado = dto.AdministradorDto.Estado,
-                HorarioTrabajo = dto.AdministradorDto.HorarioTrabajo,
-                Sueldo = dto.AdministradorDto.Sueldo,
-                PresupuestoDepartamento = dto.AdministradorDto.PresupuestoDepartamento,
-                Departamento = dto.AdministradorDto.Departamento,
-                Nacionalidad = dto.AdministradorDto.Nacionalidad,
-                Genero = dto.AdministradorDto.Genero,
+                Cedula = dto.Administrador.Cedula,
+                PrimerNombre = dto.Administrador.PrimerNombre,
+                PrimerApellido = dto.Administrador.PrimerApellido,
+                FechaNacimiento = dto.Administrador.FechaNacimiento,
+                FechaRegistro = dto.Administrador.FechaRegistro,
+                Estado = dto.Administrador.Estado,
+                HorarioTrabajo = dto.Administrador.HorarioTrabajo,
+                Sueldo = dto.Administrador.Sueldo,
+                PresupuestoDepartamento = dto.Administrador.PresupuestoDepartamento,
+                Departamento = dto.Administrador.Departamento,
+                Nacionalidad = dto.Administrador.Nacionalidad,
+                Genero = dto.Administrador.Genero,
                 UsuarioRol = usuario.Id,
             };
 
@@ -87,10 +88,10 @@ namespace libreria_inmobiliaria.Implementaciones
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
-                TipoVia = dto.AdministradorDto.Direccion.TipoVia,
-                NumeroVia = dto.AdministradorDto.Direccion.NumeroVia,
-                Complemento = dto.AdministradorDto.Direccion.Complemento,
-                Ciudad = dto.AdministradorDto.Direccion.Ciudad,
+                TipoVia = dto.Administrador.Direccion.TipoVia,
+                NumeroVia = dto.Administrador.Direccion.NumeroVia,
+                Complemento = dto.Administrador.Direccion.Complemento,
+                Ciudad = dto.Administrador.Direccion.Ciudad,
                 Persona = admin.Id
             };
 
@@ -99,15 +100,15 @@ namespace libreria_inmobiliaria.Implementaciones
             //TELÉFONOS
             var telefono = new Telefonos
             {
-                Numero = dto.AdministradorDto.Telefono.Numero,
-                Prefijo = dto.AdministradorDto.Telefono.Prefijo,
+                Numero = dto.Administrador.Telefono.Numero,
+                Prefijo = dto.Administrador.Telefono.Prefijo,
                 Persona = admin.Id
             };
 
             this.conexion.Telefonos.Add(telefono);
             this.conexion.SaveChanges();
 
-            return $"Admin creado correctamente con id: {admin.Id} \nCon correo {usuario.Correo}";
+            return admin;
         }
     }
 }

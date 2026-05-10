@@ -46,18 +46,19 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Guardar(CrearUsuariosEmpleadosDtos dto)
+        public EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos dto)
         {
             var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
 
             if (usuario != null)
-                return "El usuario a crear ya existe ingrese otro correo por favor";
+                return null!;
 
             //CREAMOS EL USUARIO DEL ADMIN
             usuario = new UsuarioRoles()
             {
                 Correo = dto.Correo,
-                Contraseña = dto.Contraseña
+                Contraseña = dto.Contraseña,
+                Rol = dto.Rol
             };
 
             this.conexion!.UsuariosRoles.Add(usuario);
@@ -107,7 +108,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.Telefonos.Add(telefono);
             this.conexion.SaveChanges();
 
-            return $"Empleado creado correctamente con id: {empleado.Id} \nCon correo {usuario.Correo}";
+            return empleado;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace libreria_inmobiliaria.crearDTOS
         public String? Correo { get; set; }
         public String? Contraseña { get; set; }
         public String? Rol { get; set; }
-        public CompradoresDtos CompradorDto { get; set; } = new ();
+        public CompradoresDtos Comprador { get; set; } = new ();
     }
 
     public class CompradoresDtos
@@ -26,7 +26,14 @@ namespace libreria_inmobiliaria.crearDTOS
 
         public DireccionesDtos Direccion { get; set; } = new();
         public TelefonosDtos Telefono { get; set; } = new();
-        public RespaldosCompradores RespaldoComprador { get; set; } = new();
+        public RespaldosCompradoresDtos RespaldoComprador { get; set; } = new();
+    }
 
+    public class RespaldosCompradoresDtos
+    {
+        public int Comprador { get; set; }
+
+        public BienesDtos Bien { get; set; } = new();
+        public ActivosFinancierosDtos ActivoFinanciero { get; set; } = new();
     }
 }

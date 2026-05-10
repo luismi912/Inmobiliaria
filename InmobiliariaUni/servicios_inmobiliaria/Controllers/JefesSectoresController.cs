@@ -18,7 +18,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public string Guardar(CrearUsuariosJefesDtos dto)
+        public JefesSectores Guardar(CrearUsuariosJefesDtos dto)
         {
             if (this.IJefesSectoresnegocio == null)
                 throw new Exception("No implementado");

@@ -18,7 +18,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public string Guardar(CrearUsuariosEmpleadosDtos dto)
+        public EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos dto)
         {
             if (this.IEmpleadosSectoresnegocio == null)
                 throw new Exception("No implementado");

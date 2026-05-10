@@ -8,7 +8,7 @@ namespace libreria_inmobiliaria.crearDTOS
         public String? Correo { get; set; }
         public String? Contraseña { get; set; }
         public String? Rol { get; set; }
-        public EmpleadosDtos EmpleadoDto { get; set; } = new ();
+        public EmpleadosDtos Empleado { get; set; } = new ();
     }
 
     public class EmpleadosDtos

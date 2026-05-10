@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace libreria_inmobiliaria.crearDTOS
 {
-    public class CrearUsuariosAdministradoresDtos
+    public class CrearUsuariosClientesDtos
     {
         public String? Correo { get; set; }
         public String? Contraseña { get; set; }
         public String? Rol { get; set; }
-        public AdministradoresDtos Administrador { get; set; } = new ();
+        public ClientesDtos Cliente { get; set; } = new ();
     }
 
-    public class AdministradoresDtos
+    public class ClientesDtos
     {
         public string? Cedula { get; set; }
         public string? PrimerNombre { get; set; }

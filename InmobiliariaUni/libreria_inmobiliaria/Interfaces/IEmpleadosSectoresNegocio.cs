@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<EmpleadosSectores> Consultar();
         string Eliminar(String Cedula);
         EmpleadosSectores Modificar(EmpleadosSectores entidad);
-        string Guardar(CrearUsuariosEmpleadosDtos dto);
+        EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos dto);
     }
 }
