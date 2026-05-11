@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         Generos Guardar(Generos entidad);
         List<Generos> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Generos entidad);
         Generos Modificar(Generos entidad);
     }
 }

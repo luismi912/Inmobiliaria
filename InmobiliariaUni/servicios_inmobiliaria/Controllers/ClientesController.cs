@@ -33,12 +33,12 @@ namespace Inmobiliaria_Servicios.Controllers
             return this.IClientesnegocio!.Modificar(entidad);
         }
 
-        [HttpDelete("{Cedula}")]
-        public string Eliminar(string Cedula)
+        [HttpDelete]
+        public string Eliminar(Clientes entidad)
         {
             if (this.IClientesnegocio == null)
                 throw new Exception("No implementado");
-            return this.IClientesnegocio!.Eliminar(Cedula);
+            return this.IClientesnegocio!.Eliminar(entidad);
         }
 
         [HttpPost]

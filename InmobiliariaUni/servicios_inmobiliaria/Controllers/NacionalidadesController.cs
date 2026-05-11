@@ -9,43 +9,43 @@ namespace Inmobiliaria_Servicios.Controllers
     [Route("[controller]/[action]")]
     public class NacionalidadesController : ControllerBase
     {
-        private INacionalidadesNegocio? INaciondalidadesnegocio { get; set; }
+        private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
 
         public NacionalidadesController()
         {
-            this.INaciondalidadesnegocio = new NacionalidadesNegocio();    //CADA VEZ QUE SE CREE LA CLASE EL CONSTRUCTOR LA INICIALIZA CON LA CLASE QUE IMPLEMENTA LOS METODOS
+            this.INacionalidadesnegocio = new NacionalidadesNegocio();    //CADA VEZ QUE SE CREE LA CLASE EL CONSTRUCTOR LA INICIALIZA CON LA CLASE QUE IMPLEMENTA LOS METODOS
         }
 
         [HttpGet]
         public List<Nacionalidades> Consultar()
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.INacionalidadesnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio.Consultar();
+            return this.INacionalidadesnegocio.Consultar();
         }
 
         [HttpPost]
         public Nacionalidades Guardar(Nacionalidades entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.INacionalidadesnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Guardar(entidad);
+            return this.INacionalidadesnegocio!.Guardar(entidad);
         }
 
-        [HttpDelete("Id")]
-        public string Eliminar(int Id)
+        [HttpDelete]
+        public string Eliminar(Nacionalidades entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.INacionalidadesnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Eliminar(Id);
+            return this.INacionalidadesnegocio!.Eliminar(entidad);
         }
 
         [HttpPut]
         public Nacionalidades Modificar(Nacionalidades entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.INacionalidadesnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Modificar(entidad);
+            return this.INacionalidadesnegocio!.Modificar(entidad);
         }
     }
 }

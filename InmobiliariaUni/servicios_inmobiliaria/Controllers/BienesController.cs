@@ -24,12 +24,12 @@ namespace Inmobiliaria_Servicios.Controllers
             return this.IBienesnegocio!.Consultar();
         }
 
-        [HttpDelete("{Id}")]
-        public string Eliminar(int Id)
+        [HttpDelete]
+        public string Eliminar(Bienes entidad)
         {
             if (this.IBienesnegocio == null)
                 throw new Exception("No implementado");
-            return this.IBienesnegocio!.Eliminar(Id);
+            return this.IBienesnegocio!.Eliminar(entidad);
         }
 
         [HttpPut]

@@ -28,7 +28,8 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public Nacionalidades Eliminar(Nacionalidades entidad)
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = $"https://localhost:7165/Nacionalidades/Eliminar/{entidad.Id}";
+            datos["Url"] = "https://localhost:7165/Nacionalidades/Eliminar";
+            datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();
             var task = this.iComunicaciones.EjecutarEliminar(datos)!;

@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         Sectores Guardar(Sectores entidad);
         List<Sectores> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Sectores entidad);
         Sectores Modificar(Sectores entidad);
     }
 }

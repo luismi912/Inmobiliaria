@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     public interface IJefesSectoresNegocio
     {
         List<JefesSectores> Consultar();
-        string Eliminar(String Cedula);
+        string Eliminar(JefesSectores entidad);
         JefesSectores Modificar(JefesSectores entidad);
         JefesSectores Guardar(CrearUsuariosJefesDtos dto);
     }

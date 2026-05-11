@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         TiposPropiedades Guardar(TiposPropiedades entidad);
         List<TiposPropiedades> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(TiposPropiedades entidad);
         TiposPropiedades Modificar(TiposPropiedades entidad);
     }
 }

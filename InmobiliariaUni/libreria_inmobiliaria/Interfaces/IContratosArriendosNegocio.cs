@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         ContratosArriendos Guardar(ContratosArriendos entidad);
         List<ContratosArriendos> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(ContratosArriendos entidad);
         ContratosArriendos Modificar(ContratosArriendos entidad);
     }
 }

@@ -22,17 +22,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(string cedula)
+        public string Eliminar(Clientes entidad)
         {
-            var codeudor = this.conexion!.Clientes!.FirstOrDefault(p => p.Cedula == cedula);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (codeudor == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.Clientes.Remove(codeudor);
+            this.conexion!.Clientes.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino al empleado correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public Clientes Modificar(Clientes entidad)
@@ -79,7 +77,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 UsuarioRol = usuario.Id,
             };
 
-            this.conexion!.ClienteesDepartamentos.Add(cliente);
+            this.conexion!.Clientes.Add(cliente);
             this.conexion.SaveChanges();   //Guardamos cambios para generar el id y utilizarlo en las otras entidades
 
             // DIRECCIÓNES
@@ -103,8 +101,21 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.Telefonos.Add(telefono);
+
+            //EXPEDIENTE
+            var expediente = new ExpedientesLaborales()
+            {
+                FechaIngreso = dto.Cliente.Expediente.FechaIngreso,
+                Cargo = dto.Cliente.Expediente.Cargo,
+                Antiguedad = dto.Cliente.Expediente.Antiguedad,
+                EstadoLaboral = dto.Cliente.Expediente.EstadoLaboral,
+                Persona = cliente.Id
+            };
+
+            this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
 
+            
             return cliente;
         }
     }

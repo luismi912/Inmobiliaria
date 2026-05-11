@@ -32,17 +32,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(UsuarioRoles entidad)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (usuario == null)
-                throw new Exception("No existe el usuario a eliminar");
-
-            this.conexion!.Entry(usuario).State = EntityState.Modified;
+            this.conexion!.UsuariosRoles.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "El usuario a sido eliminado de manera exitosa";
+            return "La eliminacion se logro con exito";
         }
     }
 }

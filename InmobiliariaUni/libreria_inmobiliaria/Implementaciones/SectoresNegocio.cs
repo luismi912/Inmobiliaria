@@ -31,17 +31,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(Sectores entidad)
         {
-            var sector = this.conexion!.Sectores!.FirstOrDefault(p => p.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (sector == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.Sectores.Remove(sector);
+            this.conexion!.Sectores.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino la nacionalidad correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public Sectores Modificar(Sectores entidad)

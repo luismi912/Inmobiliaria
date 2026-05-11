@@ -33,10 +33,16 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var url = datos["Url"].ToString();
             datos.Remove("Url");
 
+            var stringData = datos.ContainsKey("Entidad") ? JsonConvert.SerializeObject(datos["Entidad"]) : "{}";
+
+            var body = new StringContent(stringData, Encoding.UTF8, "application/json");
+
             var httpClient = new HttpClient();
             httpClient.Timeout = new TimeSpan(0, 4, 0);
 
-            var message = await httpClient.DeleteAsync(url);
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            request.Content = body;
+            var message = await httpClient.SendAsync(request);
 
             if (!message.IsSuccessStatusCode)
                 throw new Exception("Error Comunicacion");

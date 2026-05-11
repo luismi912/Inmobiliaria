@@ -5,14 +5,6 @@ namespace libreria_inmobiliaria.crearDTOS
 {
     public class CrearUsuariosCodeudoresDtos
     {
-        public String? Correo { get; set; }
-        public String? Contraseña { get; set; }
-        public String? Rol { get; set; }
-        public CodeudoresDtos Codeudor { get; set; } = new ();
-    }
-
-    public class CodeudoresDtos
-    {
         public string? Cedula { get; set; }
         public string? PrimerNombre { get; set; }
         public string? PrimerApellido { get; set; }
@@ -21,12 +13,12 @@ namespace libreria_inmobiliaria.crearDTOS
         public bool Estado { get; set; }
         public decimal IngresosMensuales { get; set; }
         public int Comprador { get; set; }
-        public int UsuarioRol { get; set; }
         public int Nacionalidad { get; set; }
         public int Genero { get; set; }
 
         public DireccionesDtos Direccion { get; set; } = new();
         public TelefonosDtos Telefono { get; set; } = new();
+        public ExpedientesLaborales Expediente { get; set; } = new();
         public RespaldosCodeudoresDtos RespaldoCodeudor { get; set; } = new();
     }
 

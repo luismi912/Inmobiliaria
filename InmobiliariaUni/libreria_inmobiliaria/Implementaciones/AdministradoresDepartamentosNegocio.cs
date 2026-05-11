@@ -22,14 +22,12 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(string cedula)
+        public string Eliminar(AdministradoresDepartamentos entidad)
         {
-            var admin = this.conexion!.AdministradoresDepartamentos!.FirstOrDefault(c => c.Cedula == cedula);
-
-            if (admin == null)
+            if (entidad == null)
                 return "El administrador no existe";
 
-            this.conexion.AdministradoresDepartamentos.Remove(admin);
+            this.conexion!.AdministradoresDepartamentos.Remove(entidad);
             this.conexion.SaveChanges();
 
             return "Se elimino la Administrador correctamente";
@@ -65,7 +63,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.SaveChanges();
 
             //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
-            var admin = new AdministradoresDepartamentos
+            var admin = new AdministradoresDepartamentos ()
             {
                 Cedula = dto.Administrador.Cedula,
                 PrimerNombre = dto.Administrador.PrimerNombre,
@@ -86,7 +84,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.SaveChanges();   //Guardamos cambios para generar el id y utilizarlo en las otras entidades
 
             // DIRECCIÓNES
-            var direccion = new Direcciones
+            var direccion = new Direcciones ()
             {
                 TipoVia = dto.Administrador.Direccion.TipoVia,
                 NumeroVia = dto.Administrador.Direccion.NumeroVia,
@@ -98,7 +96,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Direcciones.Add(direccion);
 
             //TELÉFONOS
-            var telefono = new Telefonos
+            var telefono = new Telefonos ()
             {
                 Numero = dto.Administrador.Telefono.Numero,
                 Prefijo = dto.Administrador.Telefono.Prefijo,
@@ -106,8 +104,21 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.Telefonos.Add(telefono);
+
+            //EXPEDIENTE
+            var expediente = new ExpedientesLaborales()
+            {
+                FechaIngreso = dto.Administrador.Expediente.FechaIngreso,
+                Cargo = dto.Administrador.Expediente.Cargo,
+                Antiguedad = dto.Administrador.Expediente.Antiguedad,
+                EstadoLaboral = dto.Administrador.Expediente.EstadoLaboral,
+                Persona = admin.Id
+            };
+
+            this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
 
+            
             return admin;
         }
     }

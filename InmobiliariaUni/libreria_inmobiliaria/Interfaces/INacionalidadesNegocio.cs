@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         Nacionalidades Guardar(Nacionalidades entidad);
         List<Nacionalidades> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Nacionalidades entidad);
         Nacionalidades Modificar(Nacionalidades entidad);
     }
 }

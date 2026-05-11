@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         ContratosCuotas Guardar(ContratosCuotas entidad);
         List<ContratosCuotas> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(ContratosCuotas entidad);
         ContratosCuotas Modificar(ContratosCuotas entidad);
     }
 }

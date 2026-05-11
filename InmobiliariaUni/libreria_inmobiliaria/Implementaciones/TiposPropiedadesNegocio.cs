@@ -31,17 +31,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(TiposPropiedades entidad)
         {
-            var tipo = this.conexion!.TiposPropiedades!.FirstOrDefault(p => p.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (tipo == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.TiposPropiedades.Remove(tipo);
+            this.conexion!.TiposPropiedades.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino la nacionalidad correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public TiposPropiedades Modificar(TiposPropiedades entidad)

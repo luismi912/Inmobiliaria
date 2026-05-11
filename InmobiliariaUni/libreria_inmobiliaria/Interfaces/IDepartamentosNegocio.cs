@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         Departamentos Guardar(Departamentos entidad);
         List<Departamentos> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Departamentos entidad);
         Departamentos Modificar(Departamentos entidad);
     }
 }

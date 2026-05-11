@@ -23,17 +23,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(string cedula)
+        public string Eliminar(Codeudores entidad)
         {
-            var codeudor = this.conexion!.Codeudores!.FirstOrDefault(p => p.Cedula == cedula);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (codeudor == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.Codeudores.Remove(codeudor);
+            this.conexion!.Codeudores.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino al empleado correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public Codeudores Modificar(Codeudores entidad)
@@ -49,47 +47,31 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public Codeudores Guardar(CrearUsuariosCodeudoresDtos dto)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
-
-            if (usuario != null)
-                return null!;
-
-            usuario = new UsuarioRoles()
+            var codeudor = new Codeudores()
             {
-                Correo = dto.Correo,
-                Contraseña = dto.Contraseña,
-                Rol = dto.Rol
+                Cedula = dto.Cedula,
+                PrimerNombre = dto.PrimerNombre,
+                PrimerApellido = dto.PrimerApellido,
+                FechaNacimiento = dto.FechaNacimiento,
+                FechaRegistro = dto.FechaRegistro,
+                Estado = dto.Estado,
+                IngresosMensuales = dto.IngresosMensuales,
+                Comprador = dto.Comprador,
+                Nacionalidad = dto.Nacionalidad,
+                Genero = dto.Genero,
             };
 
-            this.conexion!.UsuariosRoles.Add(usuario);
-            this.conexion.SaveChanges();
-
-            var Codeudor = new Codeudores()
-            {
-                Cedula = dto.CodeudorDto.Cedula,
-                PrimerNombre = dto.CodeudorDto.PrimerNombre,
-                PrimerApellido = dto.CodeudorDto.PrimerApellido,
-                FechaNacimiento = dto.CodeudorDto.FechaNacimiento,
-                FechaRegistro = dto.CodeudorDto.FechaRegistro,
-                Estado = dto.CodeudorDto.Estado,
-                IngresosMensuales = dto.CodeudorDto.IngresosMensuales,
-                Comprador = dto.CodeudorDto.Comprador,
-                Nacionalidad = dto.CodeudorDto.Nacionalidad,
-                Genero = dto.CodeudorDto.Genero,
-                UsuarioRol = usuario.Id,
-            };
-
-            this.conexion!.Codeudores.Add(Codeudor);
+            this.conexion!.Codeudores.Add(codeudor);
             this.conexion.SaveChanges();   //Guardamos cambios para generar el id y utilizarlo en las otras entidades
 
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
-                TipoVia = dto.CodeudorDto.Direccion.TipoVia,
-                NumeroVia = dto.CodeudorDto.Direccion.NumeroVia,
-                Complemento = dto.CodeudorDto.Direccion.Complemento,
-                Ciudad = dto.CodeudorDto.Direccion.Ciudad,
-                Persona = Codeudor.Id
+                TipoVia = dto.Direccion.TipoVia,
+                NumeroVia = dto.Direccion.NumeroVia,
+                Complemento = dto.Direccion.Complemento,
+                Ciudad = dto.Direccion.Ciudad,
+                Persona = codeudor.Id
             };
 
             this.conexion!.Direcciones.Add(direccion);
@@ -97,9 +79,9 @@ namespace libreria_inmobiliaria.Implementaciones
             //TELÉFONOS
             var telefono = new Telefonos
             {
-                Numero = dto.CodeudorDto.Telefono.Numero,
-                Prefijo = dto.CodeudorDto.Telefono.Prefijo,
-                Persona = Codeudor.Id
+                Numero = dto.Telefono.Numero,
+                Prefijo = dto.Telefono.Prefijo,
+                Persona = codeudor.Id
             };
 
             this.conexion.Telefonos.Add(telefono);
@@ -108,7 +90,7 @@ namespace libreria_inmobiliaria.Implementaciones
             //RESPALDO CodeudorES
             var respaldo = new RespaldosCodeudores()
             {
-                Codeudor = Codeudor.Id
+                Codeudor = codeudor.Id
             };
 
             this.conexion.RespaldosCodeudores.Add(respaldo);
@@ -117,11 +99,11 @@ namespace libreria_inmobiliaria.Implementaciones
             //BIENES
             var bien = new Bienes()
             {
-                Nombre = dto.CodeudorDto.RespaldoCodeudorDto.BienDto.Nombre,
-                Descripcion = dto.CodeudorDto.RespaldoCodeudorDto.BienDto.Descripcion,
-                FechaAdquisicion = dto.CodeudorDto.RespaldoCodeudorDto.BienDto.FechaAdquisicion,
-                ValorAdquisicion = dto.CodeudorDto.RespaldoCodeudorDto.BienDto.ValorAdquisicion,
-                ValorActual = dto.CodeudorDto.RespaldoCodeudorDto.BienDto.ValorActual,
+                Nombre = dto.RespaldoCodeudor.Bien.Nombre,
+                Descripcion = dto.RespaldoCodeudor.Bien.Descripcion,
+                FechaAdquisicion = dto.RespaldoCodeudor.Bien.FechaAdquisicion,
+                ValorAdquisicion = dto.RespaldoCodeudor.Bien.ValorAdquisicion,
+                ValorActual = dto.RespaldoCodeudor.Bien.ValorActual,
                 RespaldoFinanciero = respaldo.Id,
             };
             this.conexion.Bienes!.Add(bien);
@@ -129,17 +111,29 @@ namespace libreria_inmobiliaria.Implementaciones
             //ACTIVOFINANCIERO
             var Activo = new ActivosFinancieros()
             {
-                Nombre = dto.CodeudorDto.RespaldoCodeudorDto.ActivoFinancieroDto.Nombre,
-                Descripcion = dto.CodeudorDto.RespaldoCodeudorDto.ActivoFinancieroDto.Descripcion,
-                FechaAdquisicion = dto.CodeudorDto.RespaldoCodeudorDto.ActivoFinancieroDto.FechaAdquisicion,
-                Valor = dto.CodeudorDto.RespaldoCodeudorDto.ActivoFinancieroDto.Valor,
+                Nombre = dto.RespaldoCodeudor.ActivoFinanciero.Nombre,
+                Descripcion = dto.RespaldoCodeudor.ActivoFinanciero.Descripcion,
+                FechaAdquisicion = dto.RespaldoCodeudor.ActivoFinanciero.FechaAdquisicion,
+                Valor = dto.RespaldoCodeudor.ActivoFinanciero.Valor,
                 RespaldoFinanciero = respaldo.Id,
             };
 
             this.conexion.ActivosFinancieros!.Add(Activo);
+
+            //EXPEDIENTE
+            var expediente = new ExpedientesLaborales()
+            {
+                FechaIngreso = dto.Expediente.FechaIngreso,
+                Cargo = dto.Expediente.Cargo,
+                Antiguedad = dto.Expediente.Antiguedad,
+                EstadoLaboral = dto.Expediente.EstadoLaboral,
+                Persona = codeudor.Id
+            };
+
+            this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
 
-            return Codeudor;
+            return codeudor;
         }
     }
 }

@@ -22,17 +22,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(string cedula)
+        public string Eliminar(EmpleadosSectores entidad)
         {
-            var empleado = this.conexion!.EmpleadosSectores!.FirstOrDefault(p => p.Cedula == cedula);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (empleado == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.EmpleadosSectores.Remove(empleado);
+            this.conexion!.EmpleadosSectores.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino al empleado correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public EmpleadosSectores Modificar(EmpleadosSectores entidad)
@@ -67,18 +65,18 @@ namespace libreria_inmobiliaria.Implementaciones
             //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
             var empleado = new EmpleadosSectores()
             {
-                Cedula = dto.EmpleadoDto.Cedula,
-                PrimerNombre = dto.EmpleadoDto.PrimerNombre,
-                PrimerApellido = dto.EmpleadoDto.PrimerApellido,
-                FechaNacimiento = dto.EmpleadoDto.FechaNacimiento,
-                FechaRegistro = dto.EmpleadoDto.FechaRegistro,
-                Estado = dto.EmpleadoDto.Estado,
-                HorarioTrabajo = dto.EmpleadoDto.HorarioTrabajo,
-                Sueldo = dto.EmpleadoDto.Sueldo,
-                Sector = dto.EmpleadoDto.Sector,
-                JefeSector = dto.EmpleadoDto.JefeSector,
-                Nacionalidad = dto.EmpleadoDto.Nacionalidad,
-                Genero = dto.EmpleadoDto.Genero,
+                Cedula = dto.Empleado.Cedula,
+                PrimerNombre = dto.Empleado.PrimerNombre,
+                PrimerApellido = dto.Empleado.PrimerApellido,
+                FechaNacimiento = dto.Empleado.FechaNacimiento,
+                FechaRegistro = dto.Empleado.FechaRegistro,
+                Estado = dto.Empleado.Estado,
+                HorarioTrabajo = dto.Empleado.HorarioTrabajo,
+                Sueldo = dto.Empleado.Sueldo,
+                Sector = dto.Empleado.Sector,
+                JefeSector = dto.Empleado.JefeSector,
+                Nacionalidad = dto.Empleado.Nacionalidad,
+                Genero = dto.Empleado.Genero,
                 UsuarioRol = usuario.Id,
             };
 
@@ -88,10 +86,10 @@ namespace libreria_inmobiliaria.Implementaciones
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
-                TipoVia = dto.EmpleadoDto.Direccion.TipoVia,
-                NumeroVia = dto.EmpleadoDto.Direccion.NumeroVia,
-                Complemento = dto.EmpleadoDto.Direccion.Complemento,
-                Ciudad = dto.EmpleadoDto.Direccion.Ciudad,
+                TipoVia = dto.Empleado.Direccion.TipoVia,
+                NumeroVia = dto.Empleado.Direccion.NumeroVia,
+                Complemento = dto.Empleado.Direccion.Complemento,
+                Ciudad = dto.Empleado.Direccion.Ciudad,
                 Persona = empleado.Id
             };
 
@@ -100,12 +98,24 @@ namespace libreria_inmobiliaria.Implementaciones
             //TELÉFONOS
             var telefono = new Telefonos
             {
-                Numero = dto.EmpleadoDto.Telefono.Numero,
-                Prefijo = dto.EmpleadoDto.Telefono.Prefijo,
+                Numero = dto.Empleado.Telefono.Numero,
+                Prefijo = dto.Empleado.Telefono.Prefijo,
                 Persona = empleado.Id
             };
 
             this.conexion.Telefonos.Add(telefono);
+
+            //EXPEDIENTE
+            var expediente = new ExpedientesLaborales()
+            {
+                FechaIngreso = dto.Empleado.Expediente.FechaIngreso,
+                Cargo = dto.Empleado.Expediente.Cargo,
+                Antiguedad = dto.Empleado.Expediente.Antiguedad,
+                EstadoLaboral = dto.Empleado.Expediente.EstadoLaboral,
+                Persona = empleado.Id
+            };
+
+            this.conexion.ExpedientesLaborales.Add(expediente);
             this.conexion.SaveChanges();
 
             return empleado;

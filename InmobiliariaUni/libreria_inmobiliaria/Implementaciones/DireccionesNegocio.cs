@@ -32,17 +32,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(Direcciones entidad)
         {
-            var direccion = this.conexion!.Direcciones!.FirstOrDefault(p => p.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (direccion == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.Direcciones.Remove(direccion);
+            this.conexion!.Direcciones.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino la direccion correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public Direcciones Modificar(Direcciones entidad)

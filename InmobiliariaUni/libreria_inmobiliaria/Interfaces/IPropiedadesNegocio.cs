@@ -5,7 +5,7 @@ namespace libreria_inmobiliaria.Interfaces
     public interface IPropiedadesNegocio
     {
         List<Propiedades> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Propiedades entidad);
         Propiedades Modificar(Propiedades entidad);
         Propiedades Guardar(Propiedades entidad);
     }

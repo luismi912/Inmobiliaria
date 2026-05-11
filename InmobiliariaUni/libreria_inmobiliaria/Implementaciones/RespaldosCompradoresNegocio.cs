@@ -31,17 +31,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(RespaldosCompradores entidad)
         {
-            var respaldos = this.conexion!.RespaldosCompradores!.FirstOrDefault(p => p.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (respaldos == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.RespaldosCompradores.Remove(respaldos);
+            this.conexion!.RespaldosCompradores.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino la nacionalidad correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public RespaldosCompradores Modificar(RespaldosCompradores entidad)

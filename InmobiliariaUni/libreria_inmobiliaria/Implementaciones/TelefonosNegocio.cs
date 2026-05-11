@@ -32,17 +32,15 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(Telefonos entidad)
         {
-            var telefono = this.conexion!.Telefonos!.FirstOrDefault(p => p.Id == Id);
+            if (entidad == null)
+                throw new Exception("No se encontro ningun registro a eliminar");
 
-            if (telefono == null)
-                return "No exsite la entidad a eliminar";
-
-            this.conexion.Telefonos.Remove(telefono);
+            this.conexion!.Telefonos.Remove(entidad);
             this.conexion.SaveChanges();
 
-            return "Se elimino el telefono correctamente";
+            return "La eliminacion se logro con exito";
         }
 
         public Telefonos Modificar(Telefonos entidad)

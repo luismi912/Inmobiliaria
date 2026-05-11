@@ -32,14 +32,12 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Eliminar(int Id)
+        public string Eliminar(ActivosFinancieros entidad)
         {
-            var activo = this.conexion!.ActivosFinancieros.FirstOrDefault(a => a.Id == Id);
-
-            if (activo == null)
+            if (entidad == null)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
-            this.conexion.ActivosFinancieros.Remove(activo);
+            this.conexion!.ActivosFinancieros.Remove(entidad);
             this.conexion.SaveChanges();
 
             return "La eliminacion se logro con exito";

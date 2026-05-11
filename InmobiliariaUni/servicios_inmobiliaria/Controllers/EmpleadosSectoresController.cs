@@ -41,12 +41,12 @@ namespace Inmobiliaria_Servicios.Controllers
             return this.IEmpleadosSectoresnegocio!.Modificar(entidad);
         }
 
-        [HttpDelete("Cedula")]
-        public string Eliminar(String Cedula)
+        [HttpDelete]
+        public string Eliminar(EmpleadosSectores entidad)
         {
             if (this.IEmpleadosSectoresnegocio == null)
                 throw new Exception("No implementado");
-            return this.IEmpleadosSectoresnegocio!.Eliminar(Cedula);
+            return this.IEmpleadosSectoresnegocio!.Eliminar(entidad);
         }
     }
 }

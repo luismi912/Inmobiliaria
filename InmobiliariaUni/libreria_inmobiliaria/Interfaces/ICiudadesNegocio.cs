@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         Ciudades Guardar(Ciudades entidad);
         List<Ciudades> Consultar();
-        string Eliminar(int Id);
+        string Eliminar(Ciudades entidad);
         Ciudades Modificar(Ciudades entidad);
     }
 }

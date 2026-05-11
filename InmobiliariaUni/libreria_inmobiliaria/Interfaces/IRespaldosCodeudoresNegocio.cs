@@ -2,11 +2,11 @@
 
 namespace libreria_inmobiliaria.Interfaces
 {
-    public interface IRespaldosCompradoresNegocio
+    public interface IRespaldosCodeudoresNegocio
     {
-        List<RespaldosCompradores> Consultar();
-        RespaldosCompradores Guardar(RespaldosCompradores entidad);
-        string Eliminar(int Id);
-        RespaldosCompradores Modificar(RespaldosCompradores entidad);
+        List<RespaldosCodeudores> Consultar();
+        RespaldosCodeudores Guardar(RespaldosCodeudores entidad);
+        string Eliminar(RespaldosCodeudores entidad);
+        RespaldosCodeudores Modificar(RespaldosCodeudores entidad);
     }
 }

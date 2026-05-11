@@ -32,12 +32,12 @@ namespace Inmobiliaria_Servicios.Controllers
             return this.ITiposPropiedadesnegocio!.Guardar(entidad);
         }
 
-        [HttpDelete("Id")]
-        public string Eliminar(int Id)
+        [HttpDelete]
+        public string Eliminar(TiposPropiedades entidad)
         {
             if (this.ITiposPropiedadesnegocio == null)
                 throw new Exception("No implementado");
-            return this.ITiposPropiedadesnegocio!.Eliminar(Id);
+            return this.ITiposPropiedadesnegocio!.Eliminar(entidad);
         }
 
         [HttpPut]

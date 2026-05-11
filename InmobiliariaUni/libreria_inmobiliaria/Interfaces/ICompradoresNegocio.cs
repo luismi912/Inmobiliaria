@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     public interface ICompradoresNegocio
     {
         List<Compradores> Consultar();
-        string Eliminar(String Cedula);
+        string Eliminar(Compradores entidad);
         Compradores Modificar(Compradores entidad);
         Compradores Guardar(CrearUsuariosCompradoresDtos dto);
     }

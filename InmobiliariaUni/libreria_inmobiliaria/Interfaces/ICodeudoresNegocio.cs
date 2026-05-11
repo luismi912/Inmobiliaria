@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Interfaces
     public interface ICodeudoresNegocio
     {
         List<Codeudores> Consultar();
-        string Eliminar(String Cedula);
+        string Eliminar(Codeudores entidad);
         Codeudores Modificar(Codeudores entidad);
         Codeudores Guardar(CrearUsuariosCodeudoresDtos dto);
     }

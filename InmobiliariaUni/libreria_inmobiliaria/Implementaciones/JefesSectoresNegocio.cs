@@ -33,14 +33,12 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Eliminar(string cedula)
+        public string Eliminar(JefesSectores entidad)
         {
-            var jefe = this.conexion!.JefesSectores.FirstOrDefault(a => a.Cedula == cedula);
-
-            if (jefe == null)
+            if (entidad == null)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
-            this.conexion.JefesSectores.Remove(jefe);
+            this.conexion!.JefesSectores.Remove(entidad);
             this.conexion.SaveChanges();
 
             return "La eliminacion se logro con exito";
@@ -63,48 +61,60 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.UsuariosRoles.Add(usuario);
             this.conexion.SaveChanges();
 
-            var Jefes = new JefesSectores()
+            var jefe = new JefesSectores()
             {
-                Cedula = dto.JefeDto.Cedula,
-                PrimerNombre = dto.JefeDto.PrimerNombre,
-                PrimerApellido = dto.JefeDto.PrimerApellido,
-                FechaNacimiento = dto.JefeDto.FechaNacimiento,
-                FechaRegistro = dto.JefeDto.FechaRegistro,
-                Estado = dto.JefeDto.Estado,
-                HorarioTrabajo = dto.JefeDto.HorarioTrabajo,
-                Sueldo = dto.JefeDto.Sueldo,
-                Sector = dto.JefeDto.Sector,
-                AdministradorSector = dto.JefeDto.AdministradorSector,
-                Nacionalidad = dto.JefeDto.Nacionalidad,
-                Genero = dto.JefeDto.Genero,
+                Cedula = dto.Jefe.Cedula,
+                PrimerNombre = dto.Jefe.PrimerNombre,
+                PrimerApellido = dto.Jefe.PrimerApellido,
+                FechaNacimiento = dto.Jefe.FechaNacimiento,
+                FechaRegistro = dto.Jefe.FechaRegistro,
+                Estado = dto.Jefe.Estado,
+                HorarioTrabajo = dto.Jefe.HorarioTrabajo,
+                Sueldo = dto.Jefe.Sueldo,
+                Sector = dto.Jefe.Sector,
+                AdministradorSector = dto.Jefe.AdministradorSector,
+                Nacionalidad = dto.Jefe.Nacionalidad,
+                Genero = dto.Jefe.Genero,
                 UsuarioRol = usuario.Id,
             };
 
-            this.conexion!.JefesSectores.Add(Jefes);
+            this.conexion!.JefesSectores.Add(jefe);
             this.conexion.SaveChanges(); 
 
             var direccion = new Direcciones
             {
-                TipoVia = dto.JefeDto.Direccion.TipoVia,
-                NumeroVia = dto.JefeDto.Direccion.NumeroVia,
-                Complemento = dto.JefeDto.Direccion.Complemento,
-                Ciudad = dto.JefeDto.Direccion.Ciudad,
-                Persona = Jefes.Id
+                TipoVia = dto.Jefe.Direccion.TipoVia,
+                NumeroVia = dto.Jefe.Direccion.NumeroVia,
+                Complemento = dto.Jefe.Direccion.Complemento,
+                Ciudad = dto.Jefe.Direccion.Ciudad,
+                Persona = jefe.Id
             };
 
             this.conexion!.Direcciones.Add(direccion);
 
             var telefono = new Telefonos
             {
-                Numero = dto.JefeDto.Telefono.Numero,
-                Prefijo = dto.JefeDto.Telefono.Prefijo,
-                Persona = Jefes.Id
+                Numero = dto.Jefe.Telefono.Numero,
+                Prefijo = dto.Jefe.Telefono.Prefijo,
+                Persona = jefe.Id
             };
 
             this.conexion.Telefonos.Add(telefono);
+
+            //EXPEDIENTE
+            var expediente = new ExpedientesLaborales()
+            {
+                FechaIngreso = dto.Jefe.Expediente.FechaIngreso,
+                Cargo = dto.Jefe.Expediente.Cargo,
+                Antiguedad = dto.Jefe.Expediente.Antiguedad,
+                EstadoLaboral = dto.Jefe.Expediente.EstadoLaboral,
+                Persona = jefe.Id
+            };
+
+            this.conexion.ExpedientesLaborales.Add(expediente);
             this.conexion.SaveChanges();
 
-            return Jefes;
+            return jefe;
         }
     }
 }

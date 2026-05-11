@@ -9,43 +9,43 @@ namespace Inmobiliaria_Servicios.Controllers
     [Route("[controller]/[action]")]
     public class TelefonosController : ControllerBase
     {
-        private ITelefonosNegocio? INaciondalidadesnegocio { get; set; }
+        private ITelefonosNegocio? ITelefonosnegocio { get; set; }
 
         public TelefonosController()
         {
-            this.INaciondalidadesnegocio = new TelefonosNegocio();    //CADA VEZ QUE SE CREE LA CLASE EL CONSTRUCTOR LA INICIALIZA CON LA CLASE QUE IMPLEMENTA LOS METODOS
+            this.ITelefonosnegocio = new TelefonosNegocio();    //CADA VEZ QUE SE CREE LA CLASE EL CONSTRUCTOR LA INICIALIZA CON LA CLASE QUE IMPLEMENTA LOS METODOS
         }
 
         [HttpGet]
         public List<Telefonos> Consultar(int Id)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.ITelefonosnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio.Consultar(Id);
+            return this.ITelefonosnegocio.Consultar(Id);
         }
 
         [HttpPost]
         public Telefonos Guardar(Telefonos entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.ITelefonosnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Guardar(entidad);
+            return this.ITelefonosnegocio!.Guardar(entidad);
         }
 
-        [HttpDelete("Id")]
-        public string Eliminar(int Id)
+        [HttpDelete]
+        public string Eliminar(Telefonos entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.ITelefonosnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Eliminar(Id);
+            return this.ITelefonosnegocio!.Eliminar(entidad);
         }
 
         [HttpPut]
         public Telefonos Modificar(Telefonos entidad)
         {
-            if (this.INaciondalidadesnegocio == null)
+            if (this.ITelefonosnegocio == null)
                 throw new Exception("No implementado");
-            return this.INaciondalidadesnegocio!.Modificar(entidad);
+            return this.ITelefonosnegocio!.Modificar(entidad);
         }
     }
 }

@@ -32,12 +32,12 @@ namespace Inmobiliaria_Servicios.Controllers
             return this.IRespaldosCodeudoresnegocio!.Guardar(entidad);
         }
 
-        [HttpDelete("Id")]
-        public string Eliminar(int Id)
+        [HttpDelete]
+        public string Eliminar(RespaldosCodeudores entidad)
         {
             if (this.IRespaldosCodeudoresnegocio == null)
                 throw new Exception("No implementado");
-            return this.IRespaldosCodeudoresnegocio!.Eliminar(Id);
+            return this.IRespaldosCodeudoresnegocio!.Eliminar(entidad);
         }
 
         [HttpPut]
