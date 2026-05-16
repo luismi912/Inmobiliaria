@@ -26,7 +26,6 @@ namespace libreria_inmobiliaria.crearDTOS
         public int AdministradorSector { get; set; }
         public int UsuarioRol { get; set; }
         public int Nacionalidad { get; set; }
-        public int Genero { get; set; }
 
         public DireccionesDtos Direccion { get; set; } = new();
         public TelefonosDtos Telefono { get; set; } = new();

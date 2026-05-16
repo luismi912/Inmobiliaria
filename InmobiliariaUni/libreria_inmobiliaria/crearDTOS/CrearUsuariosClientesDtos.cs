@@ -21,7 +21,6 @@ namespace libreria_inmobiliaria.crearDTOS
         public bool Estado { get; set; }
         public decimal PorcentajeComision { get; set; }
         public int Nacionalidad { get; set; }
-        public int Genero { get; set; }
         public int UsuarioRol { get; set; }
 
         public DireccionesDtos Direccion { get; set; } = new();

@@ -24,7 +24,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(EmpleadosSectores entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.EmpleadosSectores.Remove(entidad);
@@ -76,7 +76,6 @@ namespace libreria_inmobiliaria.Implementaciones
                 Sector = dto.Empleado.Sector,
                 JefeSector = dto.Empleado.JefeSector,
                 Nacionalidad = dto.Empleado.Nacionalidad,
-                Genero = dto.Empleado.Genero,
                 UsuarioRol = usuario.Id,
             };
 

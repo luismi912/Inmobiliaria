@@ -24,7 +24,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(AdministradoresDepartamentos entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 return "El administrador no existe";
 
             this.conexion!.AdministradoresDepartamentos.Remove(entidad);
@@ -76,7 +76,6 @@ namespace libreria_inmobiliaria.Implementaciones
                 PresupuestoDepartamento = dto.Administrador.PresupuestoDepartamento,
                 Departamento = dto.Administrador.Departamento,
                 Nacionalidad = dto.Administrador.Nacionalidad,
-                Genero = dto.Administrador.Genero,
                 UsuarioRol = usuario.Id,
             };
 

@@ -33,7 +33,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(ContratosCuotas entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.ContratosCuotas.Remove(entidad);

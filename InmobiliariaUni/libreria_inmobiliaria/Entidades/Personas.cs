@@ -16,12 +16,10 @@ namespace libreria_inmobiliaria.Entidades
 		public DateTime FechaRegistro { get; set; }
 		public bool Estado { get; set; }
 		public int Nacionalidad { get; set; }
-		public int Genero { get; set; }
 		public int UsuarioRol { get; set; }
 
 		[ForeignKey("UsuarioRol")] public UsuarioRoles? _UsuarioRol { get; set; }
         [ForeignKey("Nacionalidad")] public Nacionalidades? _Nacionalidad { get; set; }
-        [ForeignKey("Genero")] public Generos? _Genero { get; set; }
 		public List<Direcciones>? Direcciones { get; set; }
 		public List<Telefonos>? Telefonos { get; set; }
         public List<ExpedientesLaborales>? ExpedientesLaborales { get; set; }

@@ -24,7 +24,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(Compradores entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.Compradores.Remove(entidad);
@@ -71,7 +71,6 @@ namespace libreria_inmobiliaria.Implementaciones
                 Estado = dto.Comprador.Estado,
                 PresupuestoMaximo = dto.Comprador.PresupuestoMaximo,
                 Nacionalidad = dto.Comprador.Nacionalidad,
-                Genero = dto.Comprador.Genero,
                 UsuarioRol = usuario.Id,
             };
 

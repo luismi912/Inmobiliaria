@@ -24,7 +24,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(Clientes entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.Clientes.Remove(entidad);
@@ -73,7 +73,6 @@ namespace libreria_inmobiliaria.Implementaciones
                 Estado = dto.Cliente.Estado,
                 PorcentajeComision = dto.Cliente.PorcentajeComision,
                 Nacionalidad = dto.Cliente.Nacionalidad,
-                Genero = dto.Cliente.Genero,
                 UsuarioRol = usuario.Id,
             };
 

@@ -34,7 +34,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(Bienes entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.Bienes.Remove(entidad);

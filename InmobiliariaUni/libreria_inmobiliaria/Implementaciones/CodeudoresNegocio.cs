@@ -25,7 +25,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public string Eliminar(Codeudores entidad)
         {
-            if (entidad == null)
+            if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.Codeudores.Remove(entidad);
@@ -57,8 +57,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 Estado = dto.Estado,
                 IngresosMensuales = dto.IngresosMensuales,
                 Comprador = dto.Comprador,
-                Nacionalidad = dto.Nacionalidad,
-                Genero = dto.Genero,
+                Nacionalidad = dto.Nacionalidad
             };
 
             this.conexion!.Codeudores.Add(codeudor);
