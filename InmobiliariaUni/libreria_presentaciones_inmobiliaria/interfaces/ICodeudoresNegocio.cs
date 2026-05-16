@@ -7,7 +7,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     {
         List<Codeudores> Consultar();
         Codeudores Guardar(CrearUsuariosCodeudoresDtos codeudorDto);
-        Codeudores Eliminar(Codeudores entidad);
+        string Eliminar(Codeudores entidad);
         Codeudores Modificar(Codeudores entidad);
     }
 }

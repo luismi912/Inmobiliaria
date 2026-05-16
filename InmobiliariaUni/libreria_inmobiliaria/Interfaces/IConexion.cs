@@ -14,7 +14,6 @@ namespace libreria_inmobiliaria.Interfaces
         DbSet<Auditorias> Auditorias { get; set; }
         DbSet<Personas> Personas { get; set; }
         DbSet<Nacionalidades> Nacionalidades { get; set; }
-        DbSet<Generos> Generos { get; set; }
         DbSet<Departamentos> Departamentos { get; set; }
         DbSet<Ciudades> Ciudades { get; set; }
         DbSet<Direcciones> Direcciones { get; set; }

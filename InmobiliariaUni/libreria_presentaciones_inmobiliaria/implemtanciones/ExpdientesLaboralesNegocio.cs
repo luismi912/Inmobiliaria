@@ -1,18 +1,17 @@
-﻿using libreria_inmobiliaria.crearDTOS;
-using libreria_inmobiliaria.Entidades;
+﻿using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.interfaces;
 using Newtonsoft.Json;
 
 namespace libreria_presentaciones_inmobiliaria.implemtanciones
 {
-    public class CodeudoresNegocio : ICodeudoresNegocio
+    public class ExpedientesLaboralesNegocio : IExpedientesLaboralesNegocio
     {
         private IComunicaciones? iComunicaciones;
 
-        public List<Codeudores> Consultar()
+        public List<ExpedientesLaborales> Consultar()
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/Codeudores/Consultar";
+            datos["Url"] = "https://localhost:7165/ExpedientesLaborales/Consultar";
 
             this.iComunicaciones = new Comunicaciones();
             var task = this.iComunicaciones.EjecutarConsultar(datos)!;
@@ -20,16 +19,16 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new List<Codeudores>();
+                return new List<ExpedientesLaborales>();
 
-            return JsonConvert.DeserializeObject<List<Codeudores>>(
+            return JsonConvert.DeserializeObject<List<ExpedientesLaborales>>(
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public Codeudores Eliminar(Codeudores entidad)
+        public string Eliminar(ExpedientesLaborales entidad)
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/Codeudores/Eliminar";
+            datos["Url"] = "https://localhost:7165/ExpedientesLaborales/Eliminar";
             datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();
@@ -38,45 +37,12 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new Codeudores();
+                return "No se logro concretar la eliminacion, intenlo de nuevo o mas tarde";
 
-            return JsonConvert.DeserializeObject<Codeudores>(
-                respuesta["Valor"].ToString()!)!;
+            return respuesta["Valor"].ToString()!;
         }
 
-        public Codeudores Guardar(CrearUsuariosCodeudoresDtos codeudorDto)
-        {
-            if (codeudorDto == null)
-                throw new ArgumentNullException("La entidad no puede ser nula");
-
-            if (string.IsNullOrWhiteSpace(codeudorDto.PrimerNombre))
-                throw new Exception("El nombre es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(codeudorDto.Cedula))
-                throw new Exception("El correo es obligatorio");
-
-            if (string.IsNullOrWhiteSpace(codeudorDto.PrimerApellido))
-                throw new Exception("La contraseña es obligatoria");
-
-            this.iComunicaciones = new Comunicaciones();
-
-            var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/Codeudores/Guardar";
-            datos["Entidad"] = codeudorDto;
-
-            this.iComunicaciones = new Comunicaciones();
-            var task = this.iComunicaciones.EjecutarGuardar(datos)!;
-            task.Wait();
-            var respuesta = task.Result;
-
-            if (!respuesta.ContainsKey("Valor"))
-                return new Codeudores();
-
-            return JsonConvert.DeserializeObject<Codeudores>(
-                respuesta["Valor"].ToString()!)!;
-        }
-
-        public Codeudores Modificar(Codeudores entidad)
+        public ExpedientesLaborales Guardar(ExpedientesLaborales entidad)
         {
             if (entidad.Id != 0)
                 throw new Exception("Ya se guardo");
@@ -84,7 +50,30 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             this.iComunicaciones = new Comunicaciones();
 
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/Codeudores/Modificar";
+            datos["Url"] = "https://localhost:7165/ExpedientesLaborales/Guardar";
+            datos["Entidad"] = entidad;
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarGuardar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new ExpedientesLaborales();
+
+            return JsonConvert.DeserializeObject<ExpedientesLaborales>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
+        public ExpedientesLaborales Modificar(ExpedientesLaborales entidad)
+        {
+            if (entidad.Id != 0)
+                throw new Exception("Ya se guardo");
+
+            this.iComunicaciones = new Comunicaciones();
+
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = "https://localhost:7165/ExpedientesLaborales/Modificar";
             datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();
@@ -93,9 +82,9 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new Codeudores();
+                return new ExpedientesLaborales();
 
-            return JsonConvert.DeserializeObject<Codeudores>(
+            return JsonConvert.DeserializeObject<ExpedientesLaborales>(
                 respuesta["Valor"].ToString()!)!;
         }
     }

@@ -7,7 +7,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     {
         List<Clientes> Consultar();
         Clientes Guardar(CrearUsuariosClientesDtos clienteDto);
-        Clientes Eliminar(Clientes entidad);
+        string Eliminar(Clientes entidad);
         Clientes Modificar(Clientes entidad);
     }
 }

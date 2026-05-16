@@ -26,7 +26,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public AdministradoresDepartamentos Eliminar(AdministradoresDepartamentos entidad)
+        public string Eliminar(AdministradoresDepartamentos entidad)
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = "https://localhost:7165/AdministradoresDepartamentos/Eliminar";
@@ -38,10 +38,9 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new AdministradoresDepartamentos();
+                return "No se logro concretar la eliminacion, intenlo de nuevo o mas tarde";
 
-            return JsonConvert.DeserializeObject<AdministradoresDepartamentos>(
-                respuesta["Valor"].ToString()!)!;
+            return respuesta["Valor"].ToString()!;
         }
 
         public AdministradoresDepartamentos Guardar(CrearUsuariosAdministradoresDtos adminDto)

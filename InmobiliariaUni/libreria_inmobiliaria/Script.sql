@@ -21,11 +21,6 @@ CREATE TABLE Nacionalidades (
     Nombre NVARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Generos (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL
-);
-
 CREATE TABLE Departamentos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(150) NOT NULL

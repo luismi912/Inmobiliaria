@@ -7,7 +7,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     {
         List<AdministradoresDepartamentos> Consultar();
         AdministradoresDepartamentos Guardar(CrearUsuariosAdministradoresDtos adminDto);
-        AdministradoresDepartamentos Eliminar(AdministradoresDepartamentos entidad);
+        string Eliminar(AdministradoresDepartamentos entidad);
         AdministradoresDepartamentos Modificar(AdministradoresDepartamentos entidad);
     }
 }

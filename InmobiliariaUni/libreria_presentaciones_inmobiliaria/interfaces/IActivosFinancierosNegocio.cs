@@ -6,7 +6,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     {
         List<ActivosFinancieros> Consultar();
         ActivosFinancieros Guardar(ActivosFinancieros entidad);
-        ActivosFinancieros Eliminar(ActivosFinancieros entidad);
+        string Eliminar(ActivosFinancieros entidad);
         ActivosFinancieros Modificar(ActivosFinancieros entidad);
     }
 }

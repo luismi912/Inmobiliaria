@@ -25,7 +25,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public Nacionalidades Eliminar(Nacionalidades entidad)
+        public string Eliminar(Nacionalidades entidad)
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = "https://localhost:7165/Nacionalidades/Eliminar";
@@ -37,10 +37,9 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new Nacionalidades();
+                return "No se logro concretar la eliminacion, intenlo de nuevo o mas tarde";
 
-            return JsonConvert.DeserializeObject<Nacionalidades>(
-                respuesta["Valor"].ToString()!)!;
+            return respuesta["Valor"].ToString()!;
         }
 
         public Nacionalidades Guardar(Nacionalidades entidad)

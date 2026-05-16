@@ -6,7 +6,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     {
         List<Bienes> Consultar();
         Bienes Guardar(Bienes entidad);
-        Bienes Eliminar(Bienes entidad);
+        string Eliminar(Bienes entidad);
         Bienes Modificar(Bienes entidad);
     }
 }

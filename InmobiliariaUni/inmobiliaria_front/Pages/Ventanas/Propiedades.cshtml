@@ -1,0 +1,276 @@
+﻿@page
+@using presentacion_aspnetcore.Pages
+@model PropiedadesModel
+@{
+    ViewData["Title"] = "Propiedades";
+}
+<center>
+    <div>
+        <form method="POST"
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
+
+            <div align="left">
+                <h3>Propiedades</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                    value="Refrescar"
+                    class="btn btn-secondary"         
+                    asp-page-handler="BtRefrescar" />
+                <input type="submit"
+                    value="Nuevo"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtNuevo"
+                    disabled="@(Model.propiedad != null)"/>     
+                <input type="submit"
+                    value="Guardar"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtGuardar"
+                    disabled="@(Model.propiedad == null)"/>
+            </div>
+
+            @if (Model.propiedad != null)
+            {
+                <input type="hidden" 
+                    asp-for="@Model.propiedad!.Id"/>     
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            NumeroHabitaciones
+                        </label>
+                        <div class="col-6">
+                            <input id="inNumeroHabitaciones"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.propiedad!.NumeroHabitaciones" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            NumeroBaños
+                        </label>
+                        <div class="col-6">
+                            <input id="inNumeroBaños"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.propiedad!.NumeroBaños" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Patio
+                        </label>
+                        <div class="col-6">
+                            <input id="inPatio"
+                                   asp-for="@Model.propiedad!.Patio" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Garaje
+                        </label>
+                        <div class="col-6">
+                            <input id="inGaraje"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.propiedad!.Garaje" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Pisos
+                        </label>
+                        <div class="col-6">
+                            <input id="inPisos"
+                                   asp-for="@Model.propiedad!.Pisos" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            FechaConstruccion
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaConstruccion"
+                                   asp-for="@Model.propiedad!.FechaConstruccion" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            ValorPropiedad
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorPropiedad"
+                                   asp-for="@Model.propiedad!.ValorPropiedad" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            ValorArriendo
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorArriendo"
+                                   asp-for="@Model.propiedad!.ValorArriendo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Disponible
+                        </label>
+                        <div class="col-6">
+                            <input id="inDisponible"
+                                   asp-for="@Model.propiedad!.Disponible" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Tipo Propiedad
+                        </label>
+                        <div class="col-6">
+                            @if (Model.listaTiposPropiedades != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.propiedad!.TipoPropiedad" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.listaTiposPropiedades, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Sector
+                        </label>
+                        <div class="col-6">
+                            @if (Model.listaSectores != null)
+                            {   <select class="form-control"  @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.propiedad!.Sector" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.listaSectores, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+            }
+
+            @if (Model.propiedad != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el Propiedades?
+                            </h6>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Disponible
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Valor Arriendo
+                        </th>
+                        <th>
+                            Valor Propiedad
+                        </th>
+                        <th class="cl_hidden">
+                            Pisos
+                        </th>
+                        <th class="cl_hidden">
+                            Fecha Construccion
+                        </th>
+                        <th class="cl_hidden">
+                            Garaje
+                        </th>
+                        <th class="cl_hidden">
+                            Patio
+                        </th>
+                        <th class="cl_hidden">
+                            Habitaciones
+                        </th>
+                        <th class="cl_hidden">
+                            Baños
+                        </th>
+                        <th class="cl_hidden">
+                            Tipo
+                        </th>
+                        <th class="cl_hidden">
+                            Sector
+                        </th>
+                    </tr>
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.Disponible
+                            </td>
+                            <td>
+                                @elemento._Cliente!.PrimerNombre
+                            </td>
+                            <td>
+                                @elemento.ValorArriendo
+                            </td>
+                            <td>
+                                @elemento.ValorPropiedad
+                            </td>                           
+                            <td class="cl_hidden">
+                                @elemento.Pisos
+                            </td>
+                            <td class="cl_hidden">
+                                @elemento.FechaConstruccion
+                            </td>
+                            <td class ="cl_hidden">
+                                @(Model.listaTiposPropiedades?.FirstOrDefault(x => x.Id == elemento.TipoPropiedad)?.Nombre ?? "Sin tipo")
+                            </td>
+                            <td class="cl_hidden">
+                                @(Model.listaSectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
+                            </td>
+                            <td>
+                                <input type="submit"
+                                    value="Modicar"
+                                    asp-page-handler="BtModificar"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                                <input type="submit"
+                                    value="Borrar"
+                                    asp-page-handler="BtBorrarVal"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

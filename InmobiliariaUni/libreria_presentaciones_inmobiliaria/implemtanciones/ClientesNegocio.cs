@@ -26,7 +26,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public Clientes Eliminar(Clientes entidad)
+        public string Eliminar(Clientes entidad)
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = "https://localhost:7165/Clientes/Eliminar";
@@ -38,10 +38,9 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new Clientes();
+                return "No se logro concretar la eliminacion, intenlo de nuevo o mas tarde";
 
-            return JsonConvert.DeserializeObject<Clientes>(
-                respuesta["Valor"].ToString()!)!;
+            return respuesta["Valor"].ToString()!;
         }
 
         public Clientes Guardar(CrearUsuariosClientesDtos clienteDto)
