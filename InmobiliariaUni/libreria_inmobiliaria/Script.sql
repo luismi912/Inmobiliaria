@@ -18,17 +18,20 @@ CREATE TABLE Auditorias (
 
 CREATE TABLE Nacionalidades (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(100) NOT NULL
+    Nombre NVARCHAR(100) NOT NULL,
+	Estado BIT DEFAULT 1
 );
 
 CREATE TABLE Departamentos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(150) NOT NULL
+    Nombre NVARCHAR(150) NOT NULL,
+	Estado BIT DEFAULT 1
 );
-
+ 
 CREATE TABLE TiposPropiedades (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre NVARCHAR(150) NOT NULL
+    Nombre NVARCHAR(150) NOT NULL,
+	Estado BIT DEFAULT 1
 );
 
 CREATE TABLE Ciudades (
@@ -37,7 +40,8 @@ CREATE TABLE Ciudades (
     Poblacion INT,
     FechaCreacion DATETIME,
     CodigoPostal NVARCHAR(20),
-    Departamento INT NOT NULL,
+    Estado BIT DEFAULT 1 NOT NULL,
+    Departamento INT NOT NULL,    
 
     FOREIGN KEY (Departamento) REFERENCES Departamentos(Id)
 );
@@ -45,12 +49,13 @@ CREATE TABLE Ciudades (
 CREATE TABLE Sectores (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Nombre NVARCHAR(150) NOT NULL,
+    Estado BIT DEFAULT 1 NOT NULL,
     Ciudad INT NOT NULL,
 
     FOREIGN KEY (Ciudad) REFERENCES Ciudades(Id)
 );
 
-CREATE TABLE UsuarioRoles (
+CREATE TABLE UsuariosRoles (
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	Correo VARCHAR(70) NOT NULL,
     Constraseña VARCHAR(70) NOT NULL
@@ -68,13 +73,10 @@ CREATE TABLE Personas (
     FechaRegistro DATETIME NOT NULL,
     Estado BIT,
     Nacionalidad INT NOT NULL,
-    Genero INT NOT NULL,
     UsuarioRol INT NOT NULL,
 
     FOREIGN KEY (UsuarioRol) REFERENCES UsuariosRoles(Id),
     FOREIGN KEY (Nacionalidad) REFERENCES Nacionalidades(Id),
-    FOREIGN KEY (EstadoCivil) REFERENCES EstadosCiviles(Id),
-    FOREIGN KEY (Genero) REFERENCES Generos(Id)
 );
 
 CREATE TABLE Compradores (
@@ -225,7 +227,7 @@ CREATE TABLE ExpedientesLaborales (
 CREATE TABLE Propiedades (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     NumeroHabitaciones INT,
-    NumeroBanos INT,
+    NumeroBaños INT,
     Patio BIT,
     Garaje BIT,
     Pisos INT,

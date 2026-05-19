@@ -1,0 +1,157 @@
+﻿@page
+@using presentacion_aspnetcore.Pages
+@model SectoresModel
+@{
+    ViewData["Title"] = "Sectores";
+}
+<center>
+    <div>
+        <form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
+
+            <div align="left">
+                <h3>Sectores</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                    value="Refrescar"
+                    class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
+                    asp-page-handler="BtRefrescar" />
+                <input type="submit"
+                    value="Nuevo"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtNuevo"
+                    disabled="@(Model.Sector != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
+                <input type="submit"
+                    value="Guardar"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtGuardar"
+                    disabled="@(Model.Sector == null)"/>
+            </div>
+
+            @if (Model.Sector != null)
+            {
+                <input type="hidden" 
+                    asp-for="@Model.Sector!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            Nombre
+                        </label>
+                        <div class="col-6">
+                            <input id="inNombre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Sector!.Nombre" />
+                        </div>
+                    </div>                
+                    <div class="form-group">
+                        <label>
+                            Estado
+                        </label>
+                        <div class="col-6">
+                            <input id="inEstado"
+                                   asp-for="@Model.Sector!.Estado" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Departamento
+                        </label>
+                        <div class="col-6">
+                            @if (Model.ListaCiudad != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Sector!.Ciudad" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.ListaCiudad, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+            }
+
+            @if (Model.Sector != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el Sectors?
+                            </h6>
+                            <h6 align="left">
+                                @Model.Sector!.Nombre
+                            </h6>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>                       
+                        <th class="cl_hidden">
+                            Estado
+                        </th>
+                        <th class="cl_hidden">
+                            Departamento
+                        </th>
+                    </tr>
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <th>
+                                @elemento.Nombre
+                            </th>                           
+                            <th class="cl_hidden">
+                                @elemento.Estado
+                            </th>
+                            <th class="cl_hidden">
+                                @(Model.ListaCiudad!.FirstOrDefault(c => c.Id == elemento.Ciudad)?.Nombre ?? "Sin tipo")
+                            </th>
+                            <th>
+                                <input type="submit"
+                                    value="Modificar"
+                                    asp-page-handler="BtModificar"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                                <input type="submit"
+                                    value="Borrar"
+                                    asp-page-handler="BtBorrarVal"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                            </th>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

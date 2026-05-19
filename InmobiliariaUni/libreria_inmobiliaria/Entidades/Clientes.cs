@@ -8,6 +8,9 @@ namespace libreria_inmobiliaria.Entidades
         public int Calificacion { get; set; }
         public int EmpleadoSector { get; set; }
 
-        public List<Contratos>? Contratos { get; set; }    //EL CLIENTE PUEDE TENER MUCHOS CONTRATOS
+
+        [ForeignKey("EmpleadoSector")] public EmpleadosSectores? _EmpleadoSector { get; set; }
+        [NotMapped] public List<Contratos>? Contratos { get; set; }    //EL CLIENTE PUEDE TENER MUCHOS CONTRATOS
+        [NotMapped] public List<Propiedades>? Propiedades { get; set; }
     }
 }

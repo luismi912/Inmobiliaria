@@ -72,7 +72,6 @@
                         </label>
                         <div class="col-6">
                             <input id="inGaraje"
-                                   class="cts_forms form-control"
                                    asp-for="@Model.propiedad!.Garaje" />
                         </div>
                     </div>
@@ -231,33 +230,33 @@
                     @foreach (var elemento in Model.Lista)
                     {
                         <tr>
-                            <td>
+                            <th>
                                 @elemento.Disponible
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 @elemento._Cliente!.PrimerNombre
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 @elemento.ValorArriendo
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 @elemento.ValorPropiedad
-                            </td>                           
-                            <td class="cl_hidden">
+                            </th>                           
+                            <th class="cl_hidden">
                                 @elemento.Pisos
-                            </td>
-                            <td class="cl_hidden">
+                            </th>
+                            <th class="cl_hidden">
                                 @elemento.FechaConstruccion
-                            </td>
-                            <td class ="cl_hidden">
+                            </th>
+                            <th class ="cl_hidden">
                                 @(Model.listaTiposPropiedades?.FirstOrDefault(x => x.Id == elemento.TipoPropiedad)?.Nombre ?? "Sin tipo")
-                            </td>
-                            <td class="cl_hidden">
+                            </th>
+                            <th class="cl_hidden">
                                 @(Model.listaSectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <input type="submit"
-                                    value="Modicar"
+                                    value="Modificar"
                                     asp-page-handler="BtModificar"
                                     class="btn btn-secondary"
                                     asp-route-data="@elemento.Id" />
@@ -266,7 +265,7 @@
                                     asp-page-handler="BtBorrarVal"
                                     class="btn btn-secondary"
                                     asp-route-data="@elemento.Id" />
-                            </td>
+                            </th>
                         </tr>
                     }
                 </table>

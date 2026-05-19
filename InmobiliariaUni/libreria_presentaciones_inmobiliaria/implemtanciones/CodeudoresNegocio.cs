@@ -52,10 +52,10 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 throw new Exception("El nombre es obligatorio");
 
             if (string.IsNullOrWhiteSpace(codeudorDto.Cedula))
-                throw new Exception("El correo es obligatorio");
+                throw new Exception("La cedula es obligatoria");
 
             if (string.IsNullOrWhiteSpace(codeudorDto.PrimerApellido))
-                throw new Exception("La contraseña es obligatoria");
+                throw new Exception("El apellido es obligatorio");
 
             this.iComunicaciones = new Comunicaciones();
 
@@ -77,7 +77,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
 
         public Codeudores Modificar(Codeudores entidad)
         {
-            if (entidad.Id != 0)
+            if (entidad.Id == 0)
                 throw new Exception("Ya se guardo");
 
             this.iComunicaciones = new Comunicaciones();

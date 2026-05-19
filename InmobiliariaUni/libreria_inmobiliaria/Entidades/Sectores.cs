@@ -6,6 +6,7 @@ namespace libreria_inmobiliaria.Entidades
     {
         public int Id { get; set; }
         public String? Nombre { get; set; }
+        public bool Estado { get; set; }
         public int Ciudad { get; set; }
 
         [ForeignKey("Ciudad")] public Ciudades? _Ciudad { get; set; }

@@ -9,6 +9,7 @@ namespace libreria_inmobiliaria.Entidades
         public int Poblacion { get; set; }
         public DateTime FechaCreacion { get; set; }
         public String? CodigoPostal { get; set; }
+        public bool Estado { get; set; }
         public int Departamento { get; set; }
 
         [ForeignKey("Departamento")] public Departamentos? _Departamento { get; set; }  //VARIAS CIUDADES PERTENECEN A UN DEPARTAMENTO

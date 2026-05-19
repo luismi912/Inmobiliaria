@@ -1,0 +1,73 @@
+﻿@page
+@using presentacion_aspnetcore.Pages
+@model AuditoriasModel
+@{
+    ViewData["Title"] = "Auditorias";
+}
+<center>
+    <div>
+        <form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
+
+            <div align="left">
+                <h3>Auditorias</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                    value="Refrescar"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtRefrescar"/>                      
+            </div>
+
+             @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+            }
+
+            @if (Model.Lista != null)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover"> 
+                    <tr>
+                        <td>
+                            Tipo
+                        </td>
+                        <td>
+                            Entidad Modificada
+                        </td>
+                        <td>
+                            IdEntidad
+                        </td>
+                        <td>
+                            Fecha
+                        </td>
+                        <td>
+                            Descripcion
+                        </td>
+                    </tr>
+                    @foreach (var lista in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @lista.TipoAccion
+                            </td>
+                            <td>
+                                @lista.Entidad
+                            </td>
+                            <td>
+                                @lista.IdEntidad
+                            </td>
+                            <td>
+                                @lista.Fecha
+                            </td>
+                            <td>
+                                @lista.Descripcion
+                            </td>
+                        </tr>                     
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

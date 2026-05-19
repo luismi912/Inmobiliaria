@@ -3,33 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
-using Microsoft.Win32.SafeHandles;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class PropiedadesModel : PageModel
+    public class SectoresModel : PageModel
     {
-        private IPropiedadesNegocio? IPropiedadesnegocio;
-        private ITiposPropiedadesNegocio? ITiposPropiedadesnegocio;
         private ISectoresNegocio? ISectoresnegocio;
+        private ICiudadesNegocio? ICiudadesnegocio;
 
-        [BindProperty] public List<Propiedades>? Lista { get; set; }
-        [BindProperty] public Propiedades? propiedad { get; set; }
-        [BindProperty] public List<TiposPropiedades>? listaTiposPropiedades { get; set; }
-        [BindProperty] public List<Sectores>? listaSectores { get; set; }
+        [BindProperty] public List<Sectores>? Lista { get; set; }
+        [BindProperty] public Sectores? Sector { get; set; }
         [BindProperty] public bool Borrando { get; set; }
+        [BindProperty] public List<Ciudades>? ListaCiudad { get; set; }
 
-        public PropiedadesModel()
+        public SectoresModel()
         {
-            IPropiedadesnegocio = new PropiedadesNegocio();
-            ITiposPropiedadesnegocio = new TiposPropiedadesNegocio();
             ISectoresnegocio = new SectoresNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            listaTiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
-            listaSectores = ISectoresnegocio!.Consultar();
+            ICiudadesnegocio = new CiudadesNegocio();
         }
 
         public void OnGet()
@@ -37,15 +27,20 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
         }
 
+        public void CargarListaCiudad()
+        {
+            ListaCiudad = ICiudadesnegocio!.Consultar();
+        }
+
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (IPropiedadesnegocio == null)
+                if (ISectoresnegocio == null)
                     return;
-                Lista = IPropiedadesnegocio.Consultar();
-                cargarlistas();
-                propiedad = null;
+                Lista = ISectoresnegocio!.Consultar();
+                CargarListaCiudad();
+                Sector = null;
             }
             catch (Exception ex)
             {
@@ -55,10 +50,10 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            cargarlistas();
-            propiedad = new Propiedades()
+            CargarListaCiudad();
+            Sector = new Sectores()
             {
-
+                Estado = true
             };
             Borrando = false;
         }
@@ -68,9 +63,9 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
+                Sector = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
+                CargarListaCiudad();
                 Borrando = false;
             }
             catch (Exception ex)
@@ -83,13 +78,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Sector == null)
                     return;
-                if (propiedad.Id == 0)
-                    propiedad = IPropiedadesnegocio!.Guardar(propiedad!);
+                if (Sector.Id == 0)
+                    Sector = ISectoresnegocio!.Guardar(Sector!);
                 else
-                    propiedad = IPropiedadesnegocio!.Modificar(propiedad!);
-                if (propiedad.Id == 0)
+                    Sector = ISectoresnegocio!.Modificar(Sector!);
+                if (Sector.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -103,10 +98,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Sector == null)
                     return;
-                ViewData["Mensaje"] = IPropiedadesnegocio!.Eliminar(propiedad!);
-                propiedad = null;
+                ViewData["Mensaje"] = ISectoresnegocio!.Eliminar(Sector!);
+                Sector = null;
             }
             catch (Exception ex)
             {
@@ -119,7 +114,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
+                Sector = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

@@ -4,8 +4,9 @@
     {
         public int Id { get; set; }
         public String? Nombre { get; set; }
+        public bool Estado { get; set; }
 
         public List<Ciudades>? Ciudades { get; set; }
-        public List<AdministradoresDepartamentos> AdministradoresDepartamentos { get; set; }
+        public List<AdministradoresDepartamentos>? AdministradoresDepartamentos { get; set; }
     }
 }

@@ -3,33 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
-using Microsoft.Win32.SafeHandles;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class PropiedadesModel : PageModel
+    public class CiudadesModel : PageModel
     {
-        private IPropiedadesNegocio? IPropiedadesnegocio;
-        private ITiposPropiedadesNegocio? ITiposPropiedadesnegocio;
-        private ISectoresNegocio? ISectoresnegocio;
+        private ICiudadesNegocio? ICiudadesnegocio;
+        private IDepartamentosNegocio? IDepartamentosnegocio;
 
-        [BindProperty] public List<Propiedades>? Lista { get; set; }
-        [BindProperty] public Propiedades? propiedad { get; set; }
-        [BindProperty] public List<TiposPropiedades>? listaTiposPropiedades { get; set; }
-        [BindProperty] public List<Sectores>? listaSectores { get; set; }
+        [BindProperty] public List<Ciudades>? Lista { get; set; }
+        [BindProperty] public Ciudades? Ciudad { get; set; }
         [BindProperty] public bool Borrando { get; set; }
+        [BindProperty] public List<Departamentos>? ListaDepartamento { get; set; }
 
-        public PropiedadesModel()
+        public CiudadesModel()
         {
-            IPropiedadesnegocio = new PropiedadesNegocio();
-            ITiposPropiedadesnegocio = new TiposPropiedadesNegocio();
-            ISectoresnegocio = new SectoresNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            listaTiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
-            listaSectores = ISectoresnegocio!.Consultar();
+            ICiudadesnegocio = new CiudadesNegocio();
+            IDepartamentosnegocio = new DepartamentosNegocio();
         }
 
         public void OnGet()
@@ -37,15 +27,20 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
         }
 
+        public void CargarListaDepartamento()
+        {
+            ListaDepartamento = IDepartamentosnegocio!.Consultar();
+        }
+
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (IPropiedadesnegocio == null)
+                if (ICiudadesnegocio == null)
                     return;
-                Lista = IPropiedadesnegocio.Consultar();
-                cargarlistas();
-                propiedad = null;
+                Lista = ICiudadesnegocio!.Consultar();
+                CargarListaDepartamento();
+                Ciudad = null;
             }
             catch (Exception ex)
             {
@@ -55,10 +50,11 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            cargarlistas();
-            propiedad = new Propiedades()
+            CargarListaDepartamento();
+            Ciudad = new Ciudades()
             {
-
+                Estado = true,
+                FechaCreacion = DateTime.Now
             };
             Borrando = false;
         }
@@ -68,9 +64,9 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
+                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
+                CargarListaDepartamento();
                 Borrando = false;
             }
             catch (Exception ex)
@@ -83,13 +79,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Ciudad == null)
                     return;
-                if (propiedad.Id == 0)
-                    propiedad = IPropiedadesnegocio!.Guardar(propiedad!);
+                if (Ciudad.Id == 0)
+                    Ciudad = ICiudadesnegocio!.Guardar(Ciudad!);
                 else
-                    propiedad = IPropiedadesnegocio!.Modificar(propiedad!);
-                if (propiedad.Id == 0)
+                    Ciudad = ICiudadesnegocio!.Modificar(Ciudad!);
+                if (Ciudad.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -103,10 +99,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Ciudad == null)
                     return;
-                ViewData["Mensaje"] = IPropiedadesnegocio!.Eliminar(propiedad!);
-                propiedad = null;
+                ViewData["Mensaje"] = ICiudadesnegocio!.Eliminar(Ciudad!);
+                Ciudad = null;
             }
             catch (Exception ex)
             {
@@ -119,7 +115,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
+                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

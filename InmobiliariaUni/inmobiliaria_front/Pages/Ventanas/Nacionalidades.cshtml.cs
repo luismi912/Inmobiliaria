@@ -3,33 +3,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
-using Microsoft.Win32.SafeHandles;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class PropiedadesModel : PageModel
+    public class NacionalidadesModel : PageModel
     {
-        private IPropiedadesNegocio? IPropiedadesnegocio;
-        private ITiposPropiedadesNegocio? ITiposPropiedadesnegocio;
-        private ISectoresNegocio? ISectoresnegocio;
+        private INacionalidadesNegocio? INacionalidadesnegocio;
 
-        [BindProperty] public List<Propiedades>? Lista { get; set; }
-        [BindProperty] public Propiedades? propiedad { get; set; }
-        [BindProperty] public List<TiposPropiedades>? listaTiposPropiedades { get; set; }
-        [BindProperty] public List<Sectores>? listaSectores { get; set; }
+        [BindProperty] public List<Nacionalidades>? Lista { get; set; }
+        [BindProperty] public Nacionalidades? Nacionalidad { get; set; }
         [BindProperty] public bool Borrando { get; set; }
 
-        public PropiedadesModel()
+        public NacionalidadesModel()
         {
-            IPropiedadesnegocio = new PropiedadesNegocio();
-            ITiposPropiedadesnegocio = new TiposPropiedadesNegocio();
-            ISectoresnegocio = new SectoresNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            listaTiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
-            listaSectores = ISectoresnegocio!.Consultar();
+            INacionalidadesnegocio = new NacionalidadesNegocio();
         }
 
         public void OnGet()
@@ -41,11 +28,11 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (IPropiedadesnegocio == null)
+                if (INacionalidadesnegocio == null)
                     return;
-                Lista = IPropiedadesnegocio.Consultar();
-                cargarlistas();
-                propiedad = null;
+                Lista = INacionalidadesnegocio.Consultar();
+                Nacionalidad = null;
+                Borrando = false; 
             }
             catch (Exception ex)
             {
@@ -55,10 +42,9 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            cargarlistas();
-            propiedad = new Propiedades()
+            Nacionalidad = new Nacionalidades()
             {
-
+                Estado = true
             };
             Borrando = false;
         }
@@ -68,8 +54,7 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
+                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = false;
             }
@@ -83,13 +68,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Nacionalidad == null)
                     return;
-                if (propiedad.Id == 0)
-                    propiedad = IPropiedadesnegocio!.Guardar(propiedad!);
+                if (Nacionalidad.Id == 0)
+                    Nacionalidad = INacionalidadesnegocio!.Guardar(Nacionalidad!);
                 else
-                    propiedad = IPropiedadesnegocio!.Modificar(propiedad!);
-                if (propiedad.Id == 0)
+                    Nacionalidad = INacionalidadesnegocio!.Modificar(Nacionalidad!);
+                if (Nacionalidad.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -103,10 +88,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (propiedad == null)
+                if (Nacionalidad == null)
                     return;
-                ViewData["Mensaje"] = IPropiedadesnegocio!.Eliminar(propiedad!);
-                propiedad = null;
+                ViewData["Mensaje"] = INacionalidadesnegocio!.Eliminar(Nacionalidad!);
+                Nacionalidad = null;
             }
             catch (Exception ex)
             {
@@ -119,7 +104,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
+                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

@@ -77,7 +77,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
 
         public Compradores Modificar(Compradores entidad)
         {
-            if (entidad.Id != 0)
+            if (entidad.Id == 0)
                 throw new Exception("Ya se guardo");
 
             this.iComunicaciones = new Comunicaciones();

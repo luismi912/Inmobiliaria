@@ -20,8 +20,8 @@ namespace libreria_inmobiliaria.Entidades
 
 		[ForeignKey("UsuarioRol")] public UsuarioRoles? _UsuarioRol { get; set; }
         [ForeignKey("Nacionalidad")] public Nacionalidades? _Nacionalidad { get; set; }
-		public List<Direcciones>? Direcciones { get; set; }
-		public List<Telefonos>? Telefonos { get; set; }
-        public List<ExpedientesLaborales>? ExpedientesLaborales { get; set; }
+		[NotMapped] public List<Direcciones>? Direcciones { get; set; }
+        [NotMapped] public List<Telefonos>? Telefonos { get; set; }
+        [NotMapped] public List<ExpedientesLaborales>? ExpedientesLaborales { get; set; }
     }
 }

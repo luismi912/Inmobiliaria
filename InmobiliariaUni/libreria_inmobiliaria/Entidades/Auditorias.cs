@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public String? TipoAccion { get; set; }
-        public String? HaceAccion { get; set; }
+        public String? Entidad { get; set; }
         public int IdEntidad { get; set; }
         public DateTime Fecha { get; set; }
         public String? Descripcion { get; set; }
