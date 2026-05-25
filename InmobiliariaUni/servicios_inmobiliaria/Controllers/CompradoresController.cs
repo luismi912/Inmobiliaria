@@ -42,7 +42,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public Compradores Guardar(CrearUsuariosCompradoresDtos dto)
+        public Compradores Guardar(CompradoresDtos dto)
         {
             if (this.ICompradoresnegocio == null)
                 throw new Exception("No implementado");

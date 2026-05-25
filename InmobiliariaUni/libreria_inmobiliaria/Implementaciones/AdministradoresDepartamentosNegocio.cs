@@ -52,7 +52,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 return null!;
 
             //CREAMOS EL USUARIO DEL ADMIN
-            usuario = new UsuarioRoles()
+            usuario = new UsuariosRoles()
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
@@ -66,8 +66,8 @@ namespace libreria_inmobiliaria.Implementaciones
             var admin = new AdministradoresDepartamentos ()
             {
                 Cedula = dto.Administrador.Cedula,
-                PrimerNombre = dto.Administrador.PrimerNombre,
-                PrimerApellido = dto.Administrador.PrimerApellido,
+                Nombre = dto.Administrador.Nombre,
+                Apellido = dto.Administrador.Apellido,
                 FechaNacimiento = dto.Administrador.FechaNacimiento,
                 FechaRegistro = dto.Administrador.FechaRegistro,
                 Estado = dto.Administrador.Estado,
@@ -86,7 +86,7 @@ namespace libreria_inmobiliaria.Implementaciones
             var direccion = new Direcciones ()
             {
                 TipoVia = dto.Administrador.Direccion.TipoVia,
-                NumeroVia = dto.Administrador.Direccion.NumeroVia,
+                Numero = dto.Administrador.Direccion.Numero,
                 Complemento = dto.Administrador.Direccion.Complemento,
                 Ciudad = dto.Administrador.Direccion.Ciudad,
                 Persona = admin.Id
@@ -116,8 +116,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
             this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
-
-            
+           
             return admin;
         }
     }

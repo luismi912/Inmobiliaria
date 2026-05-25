@@ -43,18 +43,18 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             return respuesta["Valor"].ToString()!;
         }
 
-        public Compradores Guardar(CrearUsuariosCompradoresDtos compradoresDto)
+        public Compradores Guardar(CompradoresDtos compradoresDto)
         {
             if (compradoresDto == null)
                 throw new ArgumentNullException("La entidad no puede ser nula");
 
-            if (string.IsNullOrWhiteSpace(compradoresDto.Comprador.PrimerNombre))
+            if (string.IsNullOrWhiteSpace(compradoresDto.Nombre))
                 throw new Exception("El nombre es obligatorio");
 
-            if (string.IsNullOrWhiteSpace(compradoresDto.Comprador.PrimerApellido))
+            if (string.IsNullOrWhiteSpace(compradoresDto.Apellido))
                 throw new Exception("El correo es obligatorio");
 
-            if (string.IsNullOrWhiteSpace(compradoresDto.Correo))
+            if (string.IsNullOrWhiteSpace(compradoresDto.Cedula))
                 throw new Exception("La contraseña es obligatoria");
 
             this.iComunicaciones = new Comunicaciones();

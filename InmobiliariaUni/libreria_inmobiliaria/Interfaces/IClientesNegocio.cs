@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<Clientes> Consultar();
         string Eliminar(Clientes entidad);
         Clientes Modificar(Clientes entidad);
-        Clientes Guardar(CrearUsuariosClientesDtos dto);
+        Clientes Guardar(ClientesDtos dto);
     }
 }

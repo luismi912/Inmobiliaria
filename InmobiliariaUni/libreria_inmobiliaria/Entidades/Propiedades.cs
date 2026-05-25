@@ -21,6 +21,6 @@ namespace libreria_inmobiliaria.Entidades
         [ForeignKey("Cliente")] public Clientes? _Cliente { get; set; }
         [ForeignKey("TipoPropiedad")] public TiposPropiedades? _TipoPropiedades { get; set; }
         [ForeignKey("Sector")] public Sectores? _Sector { get; set; }
-        public List<Contratos>? Contratos { get; set; }
+        [NotMapped] public List<Contratos>? Contratos { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace libreria_inmobiliaria.Entidades
     {
         public int Id { get; set; }
         public String? TipoVia { get; set; }
-        public String? NumeroVia { get; set; }
+        public String? Numero { get; set; }
         public String? Complemento { get; set; }
         public int Persona { get; set; }
         public int Ciudad { get; set; }

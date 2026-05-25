@@ -1,8 +1,8 @@
 ﻿@page
 @using presentacion_aspnetcore.Pages
-@model DepartamentosModel
+@model TiposPropiedadesModel
 @{
-    ViewData["Title"] = "Departamentoes";
+    ViewData["Title"] = "TiposPropiedades";
 }
 <center>
     <div>
@@ -11,30 +11,33 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Departamentos</h3>
+                <h3>TiposPropiedades</h3>
             </div>
 
             <div>
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Refrescar"
                     class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
-                    disabled="@(Model.Departamento != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
+                       disabled="@(Model.TipoPropiedad != null)" />     @*Hace que el boton quede deshabilitado segun la condicion*@
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
-                    disabled="@(Model.Departamento == null)"/>
+                       disabled="@(Model.TipoPropiedad == null)" />
             </div>
 
-            @if (Model.Departamento != null)
+            @if (Model.TipoPropiedad != null)
             {
                 <input type="hidden" 
-                    asp-for="@Model.Departamento!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
+                       asp-for="@Model.TipoPropiedad!.Id" />     @*Sirve para guardar datos sin que el usuario lo vea*@
 
                 <div>
                     <div class="form-group">
@@ -44,16 +47,7 @@
                         <div class="col-6">
                             <input id="inNombre"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.Departamento!.Nombre" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Estado
-                        </label>
-                        <div class="col-6">
-                            <input id="inEstado"
-                                   asp-for="@Model.Departamento!.Estado" />
+                                   asp-for="@Model.TipoPropiedad!.Nombre" />
                         </div>
                     </div>
                 </div>
@@ -64,7 +58,7 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.Departamento != null && Model.Borrando)
+            @if (Model.TipoPropiedad != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -74,10 +68,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Departamentos?
+                                Desea borrar el TiposPropiedads?
                             </h6>
                             <h6 align="left">
-                                @Model.Departamento!.Nombre
+                                @Model.TipoPropiedad!.Nombre
                             </h6>
                             <input type="submit"
                                    value="Cerrar"

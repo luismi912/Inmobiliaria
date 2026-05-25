@@ -43,22 +43,19 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             return respuesta["Valor"].ToString()!;
         }
 
-        public Clientes Guardar(CrearUsuariosClientesDtos clienteDto)
+        public Clientes Guardar(ClientesDtos clienteDto)
         {
             if (clienteDto == null)
                 throw new ArgumentNullException("La entidad no puede ser nula");
 
-            if (string.IsNullOrWhiteSpace(clienteDto.Cliente.PrimerNombre))
+            if (string.IsNullOrWhiteSpace(clienteDto.Nombre))
                 throw new Exception("El nombre es obligatorio");
 
-            if (string.IsNullOrWhiteSpace(clienteDto.Correo))
+            if (string.IsNullOrWhiteSpace(clienteDto.Apellido))
                 throw new Exception("El correo es obligatorio");
 
-            if (string.IsNullOrWhiteSpace(clienteDto.Contraseña))
+            if (string.IsNullOrWhiteSpace(clienteDto.Cedula))
                 throw new Exception("La contraseña es obligatoria");
-
-            if (!clienteDto.Correo!.Contains("@"))
-                throw new Exception("El correo no tiene un formato válido");
 
             this.iComunicaciones = new Comunicaciones();
 

@@ -9,9 +9,11 @@ namespace libreria_inmobiliaria.Entidades
         public decimal Sueldo { get; set; }
         public int Sector { get; set; }
         public int AdministradorSector { get; set; }
+        public int UsuarioRol { get; set; }
 
+        [ForeignKey("UsuarioRol")] public UsuariosRoles? _UsuarioRol { get; set; }
         [ForeignKey("Sector")] public Sectores? _Sector { get; set; }
-        [ForeignKey("AdministradoSector")] public AdministradoresDepartamentos? _AdministradorSector { get; set; }
+        [ForeignKey("AdministradorSector")] public AdministradoresDepartamentos? _AdministradorSector { get; set; }
         public List<EmpleadosSectores>? EmpleadosSectores { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace libreria_inmobiliaria.Entidades
         public int Departamento { get; set; }
 
         [ForeignKey("Departamento")] public Departamentos? _Departamento { get; set; }  //VARIAS CIUDADES PERTENECEN A UN DEPARTAMENTO
-        public List<Sectores>? Sectores { get; set; }    //EN UNA CIUDAD HAY VARIOS SECTORES
-        public List<Direcciones>? Direcciones { get; set; }    //EN UNA CIUDAD HAY VARIAS DIRECCIONES
+        [NotMapped] public List<Sectores>? Sectores { get; set; }    //EN UNA CIUDAD HAY VARIOS SECTORES
+        [NotMapped] public List<Direcciones>? Direcciones { get; set; }    //EN UNA CIUDAD HAY VARIAS DIRECCIONES
     }
 }

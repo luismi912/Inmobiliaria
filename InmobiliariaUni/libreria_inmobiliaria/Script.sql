@@ -1,4 +1,4 @@
-CREATE DATABASE inmobiliariaUni;
+ CREATE DATABASE inmobiliariaUni;
 GO
 
 USE inmobiliariaUni;
@@ -58,24 +58,20 @@ CREATE TABLE Sectores (
 CREATE TABLE UsuariosRoles (
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	Correo VARCHAR(70) NOT NULL,
-    Constraseña VARCHAR(70) NOT NULL
+    Contraseña VARCHAR(70) NOT NULL,
+    Rol VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Personas (
     Id INT IDENTITY(1,1) PRIMARY KEY,
-    Cedula NVARCHAR(20) UNIQUE,
-    PrimerNombre NVARCHAR(100) NOT NULL,
-    SegundoNombre NVARCHAR(100),
-    PrimerApellido NVARCHAR(100) NOT NULL,
-    SegundoApellido NVARCHAR(100) NOT NULL,
-    Correo NVARCHAR(200) UNIQUE,
+    Cedula NVARCHAR(20),
+    Nombre NVARCHAR(100) NOT NULL,
+    Apellido NVARCHAR(100),
     FechaNacimiento DATETIME NOT NULL,
     FechaRegistro DATETIME NOT NULL,
     Estado BIT,
     Nacionalidad INT NOT NULL,
-    UsuarioRol INT NOT NULL,
 
-    FOREIGN KEY (UsuarioRol) REFERENCES UsuariosRoles(Id),
     FOREIGN KEY (Nacionalidad) REFERENCES Nacionalidades(Id),
 );
 
@@ -88,7 +84,6 @@ CREATE TABLE Compradores (
 
 CREATE TABLE Codeudores (
     Id INT NOT NULL PRIMARY KEY,
-    IngresosMensuales DECIMAL(18,2),
     Comprador INT NOT NULL,
 
     FOREIGN KEY (Id) REFERENCES Personas(Id),
@@ -96,25 +91,28 @@ CREATE TABLE Codeudores (
 );
 
 -- Tabla que indica el respaldo financiero de el cliente y el codeudor
-CREATE TABLE RespaldoFinanciero (
-    Id INT IDENTITY(1,1) PRIMARY KEY
+CREATE TABLE RespaldosFinancieros (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    DeudasTotales DECIMAL(18,2) NOT NULL,
+    IngresosMensuales DECIMAL(18,2),
+    Observaciones VARCHAR(200) NOT NULL
 );
 
 -- Tabla que indica el respaldo del comprado
-CREATE TABLE RespaldoCompradores (
+CREATE TABLE RespaldosCompradores (
     Id INT NOT NULL PRIMARY KEY,
     Comprador INT NOT NULL,
 
-    FOREIGN KEY (Id) REFERENCES RespaldoFinanciero(Id),
+    FOREIGN KEY (Id) REFERENCES RespaldosFinancieros(Id),
     FOREIGN KEY (Comprador) REFERENCES Compradores(Id)
 );
 
 -- Tabla que indica el respaldo del codeudor
-CREATE TABLE RespaldoCodeudores (
+CREATE TABLE RespaldosCodeudores (
     Id INT NOT NULL PRIMARY KEY,
     Codeudor INT NOT NULL,
 
-    FOREIGN KEY (Id) REFERENCES RespaldoFinanciero(Id),
+    FOREIGN KEY (Id) REFERENCES RespaldosFinancieros(Id),
     FOREIGN KEY (Codeudor) REFERENCES Codeudores(Id)
 );
 
@@ -128,7 +126,7 @@ CREATE TABLE Bienes (
     ValorActual DECIMAL(18,2),
     RespaldoFinanciero INT NOT NULL,
 
-    FOREIGN KEY (RespaldoFinanciero) REFERENCES RespaldoFinanciero(Id)
+    FOREIGN KEY (RespaldoFinanciero) REFERENCES RespaldosFinancieros(Id)
 );
 
 -- Esta lleva la clave foranea de la tabla principal para distinguir entre comprador y codeudor
@@ -140,7 +138,7 @@ CREATE TABLE ActivosFinancieros (
     Valor DECIMAL(18,2),
     RespaldoFinanciero INT NOT NULL,
 
-    FOREIGN KEY (RespaldoFinanciero) REFERENCES RespaldoFinanciero(Id)
+    FOREIGN KEY (RespaldoFinanciero) REFERENCES RespaldosFinancieros(Id)
 );
 
 CREATE TABLE AdministradoresDepartamentos (
@@ -149,8 +147,9 @@ CREATE TABLE AdministradoresDepartamentos (
     HorarioTrabajo VARCHAR(20) NOT NULL,
     Sueldo DECIMAL(18,2),
     Departamento INT NOT NULL,
-    TipoContrato INT NOT NULL,
+    UsuarioRol INT NOT NULL,
 
+    FOREIGN KEY (UsuarioRol) REFERENCES UsuariosRoles(Id),
     FOREIGN KEY (Id) REFERENCES Personas(Id),
     FOREIGN KEY (Departamento) REFERENCES Departamentos(Id),
 );
@@ -162,8 +161,9 @@ CREATE TABLE JefesSectores (
     Sueldo DECIMAL(18,2),
     Sector INT NOT NULL,
     AdministradorSector INT NOT NULL,
-    TipoContrato INT NOT NULL,
+    UsuarioRol INT NOT NULL,
 
+    FOREIGN KEY (UsuarioRol) REFERENCES UsuariosRoles(Id),
     FOREIGN KEY (Id) REFERENCES Personas(Id),
     FOREIGN KEY (Sector) REFERENCES Sectores(Id),
     FOREIGN KEY (AdministradorSector) REFERENCES AdministradoresDepartamentos(Id),
@@ -175,8 +175,9 @@ CREATE TABLE EmpleadosSectores (
     Sueldo DECIMAL(18,2),
     Sector INT NOT NULL,
     JefeSector INT NOT NULL,
-    TipoContrato INT NOT NULL,
+    UsuarioRol INT NOT NULL,
 
+    FOREIGN KEY (UsuarioRol) REFERENCES UsuariosRoles(Id),
     FOREIGN KEY (Id) REFERENCES Personas(Id),
     FOREIGN KEY (Sector) REFERENCES Sectores(Id),
     FOREIGN KEY (JefeSector) REFERENCES JefesSectores(Id),
@@ -195,7 +196,7 @@ CREATE TABLE Clientes (
 CREATE TABLE Direcciones (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     TipoVia NVARCHAR(100),
-    NumeroVia NVARCHAR(50),
+    Numero NVARCHAR(50),
     Complemento NVARCHAR(200),
     Persona INT NOT NULL,
     Ciudad INT NOT NULL,
@@ -249,7 +250,7 @@ CREATE TABLE Contratos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     FechaContrato DATETIME,
     FechaFinalizacion DATETIME,
-    Codeudor INT NULL,
+    Codeudor INT NOT NULL,
     Cliente INT NOT NULL,
     Comprador INT NOT NULL,
     EmpleadoSector INT NOT NULL,
@@ -287,3 +288,4 @@ CREATE TABLE ContratosContado (
 
     FOREIGN KEY (Id) REFERENCES Contratos(Id)
 );
+

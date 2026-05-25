@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 
 namespace libreria_presentaciones_inmobiliaria.implemtanciones
 {
-    public class UsuariosRolesNegocioNegocio : IUsuarioRolesNegocio
+    public class UsuariosRolesNegocio : IUsuarioRolesNegocio
     {
         private IComunicaciones? iComunicaciones;
 
-        public List<UsuarioRoles> Consultar()
+        public List<UsuariosRoles> Consultar()
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = "https://localhost:7165/UsuarioRoles/Consultar";
@@ -19,13 +19,13 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new List<UsuarioRoles>();
+                return new List<UsuariosRoles>();
 
-            return JsonConvert.DeserializeObject<List<UsuarioRoles>>(
+            return JsonConvert.DeserializeObject<List<UsuariosRoles>>(
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public string Eliminar(UsuarioRoles entidad)
+        public string Eliminar(UsuariosRoles entidad)
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = "https://localhost:7165/UsuarioRoles/Eliminar";
@@ -42,7 +42,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             return respuesta["Valor"].ToString()!;
         }
 
-        public UsuarioRoles Modificar(UsuarioRoles entidad)
+        public UsuariosRoles Modificar(UsuariosRoles entidad)
         {
             if (entidad.Id == 0)
                 throw new Exception("Ya se guardo");
@@ -59,9 +59,9 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var respuesta = task.Result;
 
             if (!respuesta.ContainsKey("Valor"))
-                return new UsuarioRoles();
+                return new UsuariosRoles();
 
-            return JsonConvert.DeserializeObject<UsuarioRoles>(
+            return JsonConvert.DeserializeObject<UsuariosRoles>(
                 respuesta["Valor"].ToString()!)!;
         }
     }

@@ -51,7 +51,7 @@ namespace libreria_inmobiliaria.Implementaciones
             if (usuario != null)
                 return null!;
 
-            usuario = new UsuarioRoles()
+            usuario = new UsuariosRoles()
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
@@ -64,8 +64,8 @@ namespace libreria_inmobiliaria.Implementaciones
             var jefe = new JefesSectores()
             {
                 Cedula = dto.Jefe.Cedula,
-                PrimerNombre = dto.Jefe.PrimerNombre,
-                PrimerApellido = dto.Jefe.PrimerApellido,
+                Nombre = dto.Jefe.Nombre,
+                Apellido = dto.Jefe.Apellido,
                 FechaNacimiento = dto.Jefe.FechaNacimiento,
                 FechaRegistro = dto.Jefe.FechaRegistro,
                 Estado = dto.Jefe.Estado,
@@ -83,7 +83,7 @@ namespace libreria_inmobiliaria.Implementaciones
             var direccion = new Direcciones
             {
                 TipoVia = dto.Jefe.Direccion.TipoVia,
-                NumeroVia = dto.Jefe.Direccion.NumeroVia,
+                Numero = dto.Jefe.Direccion.Numero,
                 Complemento = dto.Jefe.Direccion.Complemento,
                 Ciudad = dto.Jefe.Direccion.Ciudad,
                 Persona = jefe.Id

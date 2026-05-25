@@ -10,7 +10,7 @@ namespace libreria_inmobiliaria.Interfaces
         String? StringConexion { get; set; }
         int SaveChanges();
         EntityEntry<T> Entry<T>(T entidad) where T : class;
-        DbSet<UsuarioRoles> UsuariosRoles { get; set; }
+        DbSet<UsuariosRoles> UsuariosRoles { get; set; }
         DbSet<Auditorias> Auditorias { get; set; }
         DbSet<Personas> Personas { get; set; }
         DbSet<Nacionalidades> Nacionalidades { get; set; }

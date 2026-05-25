@@ -3,19 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace libreria_inmobiliaria.crearDTOS
 {
-    public class CrearUsuariosCompradoresDtos
-    {
-        public String? Correo { get; set; }
-        public String? Contraseña { get; set; }
-        public String? Rol { get; set; }
-        public CompradoresDtos Comprador { get; set; } = new ();
-    }
-
     public class CompradoresDtos
     {
         public string? Cedula { get; set; }
-        public string? PrimerNombre { get; set; }
-        public string? PrimerApellido { get; set; }
+        public string? Nombre { get; set; }
+        public string? Apellido { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaRegistro { get; set; }
         public bool Estado { get; set; }
@@ -31,7 +23,9 @@ namespace libreria_inmobiliaria.crearDTOS
 
     public class RespaldosCompradoresDtos
     {
-        public int Comprador { get; set; }
+        public decimal DeudasTotales { get; set; }
+        public decimal IngresosMensuales { get; set; }
+        public string? Observaciones { get; set; }
 
         public BienesDtos Bien { get; set; } = new();
         public ActivosFinancierosDtos ActivoFinanciero { get; set; } = new();

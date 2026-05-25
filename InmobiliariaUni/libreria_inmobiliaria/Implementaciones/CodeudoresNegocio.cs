@@ -50,12 +50,11 @@ namespace libreria_inmobiliaria.Implementaciones
             var codeudor = new Codeudores()
             {
                 Cedula = dto.Cedula,
-                PrimerNombre = dto.PrimerNombre,
-                PrimerApellido = dto.PrimerApellido,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
                 FechaNacimiento = dto.FechaNacimiento,
                 FechaRegistro = dto.FechaRegistro,
                 Estado = dto.Estado,
-                IngresosMensuales = dto.IngresosMensuales,
                 Comprador = dto.Comprador,
                 Nacionalidad = dto.Nacionalidad
             };
@@ -67,7 +66,7 @@ namespace libreria_inmobiliaria.Implementaciones
             var direccion = new Direcciones
             {
                 TipoVia = dto.Direccion.TipoVia,
-                NumeroVia = dto.Direccion.NumeroVia,
+                Numero = dto.Direccion.Numero,
                 Complemento = dto.Direccion.Complemento,
                 Ciudad = dto.Direccion.Ciudad,
                 Persona = codeudor.Id
@@ -89,7 +88,10 @@ namespace libreria_inmobiliaria.Implementaciones
             //RESPALDO CodeudorES
             var respaldo = new RespaldosCodeudores()
             {
-                Codeudor = codeudor.Id
+                Codeudor = codeudor.Id,
+                DeudasTotales = dto.RespaldoCodeudor.DeudasTotales,
+                IngresosMensuales = dto.RespaldoCodeudor.IngresosMensuales,
+                Observaciones = dto.RespaldoCodeudor.Observaciones
             };
 
             this.conexion.RespaldosCodeudores.Add(respaldo);

@@ -8,7 +8,9 @@ namespace libreria_inmobiliaria.Entidades
         public String? HorarioTrabajo { get; set; }
         public int Sector { get; set; }
         public int JefeSector { get; set; }
+        public int UsuarioRol { get; set; }
 
+        [ForeignKey("UsuarioRol")] public UsuariosRoles? _UsuarioRol { get; set; }
         [ForeignKey("Sector")] public Sectores? _Sector { get; set; }
         [ForeignKey("JefeSector")] public JefesSectores? _JefeSector { get; set; }
         public List<Contratos>? Contratos { get; set; }

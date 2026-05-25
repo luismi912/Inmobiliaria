@@ -7,18 +7,13 @@ namespace libreria_inmobiliaria.Entidades
     {
         public int Id { get; set; }
 		public String? Cedula { get; set; }
-		public String? PrimerNombre { get; set; }
-		public String? SegundoNombre { get; set; }
-        public String? PrimerApellido { get; set; }
-        public String? SegundoApellido { get; set; }
-		public String? Correo { get; set; }
+		public String? Nombre { get; set; }
+		public String? Apellido { get; set; }
 		public DateTime FechaNacimiento { get; set; }
 		public DateTime FechaRegistro { get; set; }
 		public bool Estado { get; set; }
 		public int Nacionalidad { get; set; }
-		public int UsuarioRol { get; set; }
 
-		[ForeignKey("UsuarioRol")] public UsuarioRoles? _UsuarioRol { get; set; }
         [ForeignKey("Nacionalidad")] public Nacionalidades? _Nacionalidad { get; set; }
 		[NotMapped] public List<Direcciones>? Direcciones { get; set; }
         [NotMapped] public List<Telefonos>? Telefonos { get; set; }

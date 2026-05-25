@@ -16,15 +16,18 @@
 
             <div>
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Refrescar"
                     class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
                     disabled="@(Model.Ciudad != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"

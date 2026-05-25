@@ -6,7 +6,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     public interface IClientesNegocio
     {
         List<Clientes> Consultar();
-        Clientes Guardar(CrearUsuariosClientesDtos clienteDto);
+        Clientes Guardar(ClientesDtos clienteDto);
         string Eliminar(Clientes entidad);
         Clientes Modificar(Clientes entidad);
     }

@@ -15,13 +15,13 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.StringConexion = Configuraciones.Obtener("Clave");
         }
 
-        public List<UsuarioRoles> Consultar()
+        public List<UsuariosRoles> Consultar()
         {
             var lista = this.conexion!.UsuariosRoles!.ToList();
             return lista;
         }
 
-        public UsuarioRoles Modificar(UsuarioRoles entidad)
+        public UsuariosRoles Modificar(UsuariosRoles entidad)
         {
             if (entidad.Id == 0)
                 throw new Exception("No se puede modificar");
@@ -32,7 +32,7 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public string Eliminar(UsuarioRoles entidad)
+        public string Eliminar(UsuariosRoles entidad)
         {
             if (entidad.Id == 0)
                 throw new Exception("No se encontro ningun registro a eliminar");

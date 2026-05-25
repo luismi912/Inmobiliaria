@@ -8,8 +8,10 @@ namespace libreria_inmobiliaria.Entidades
         public String? HorarioTrabajo { get; set; }
         public decimal Sueldo { get; set; }
         public int Departamento { get; set; }
+        public int UsuarioRol { get; set; }
 
+        [ForeignKey("UsuarioRol")] public UsuariosRoles? _UsuarioRol { get; set; }
         [ForeignKey("Departamento")] public Departamentos? _Departamento { get; set; }   //UNO O MAS ADMINS PUEDEN ADMINISTRAR UN DEPARTAMENTO
-        public List<JefesSectores>? _JefeSector { get; set; }    //PUEDE MANEJAR A MUCHOS JEFES
+        [NotMapped] public List<JefesSectores>? _JefeSector { get; set; }    //PUEDE MANEJAR A MUCHOS JEFES
     }
 }

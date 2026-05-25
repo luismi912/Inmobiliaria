@@ -8,4 +8,7 @@
     <Project Path="libreria_inmobiliaria/libreria_inmobiliaria.csproj" />
     <Project Path="servicios_inmobiliaria/servicios_inmobiliaria.csproj" />
   </Folder>
+  <Folder Name="/3.Pruebas/">
+    <Project Path="Pruebas_Unitarias/Pruebas_Unitarias.csproj" Id="63ff0084-f668-4679-9b01-5c316da7c765" />
+  </Folder>
 </Solution>

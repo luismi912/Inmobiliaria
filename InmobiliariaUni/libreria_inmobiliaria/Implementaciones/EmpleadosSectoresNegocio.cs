@@ -52,7 +52,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 return null!;
 
             //CREAMOS EL USUARIO DEL ADMIN
-            usuario = new UsuarioRoles()
+            usuario = new UsuariosRoles()
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
@@ -66,8 +66,8 @@ namespace libreria_inmobiliaria.Implementaciones
             var empleado = new EmpleadosSectores()
             {
                 Cedula = dto.Empleado.Cedula,
-                PrimerNombre = dto.Empleado.PrimerNombre,
-                PrimerApellido = dto.Empleado.PrimerApellido,
+                Nombre = dto.Empleado.Nombre,
+                Apellido = dto.Empleado.Apellido,
                 FechaNacimiento = dto.Empleado.FechaNacimiento,
                 FechaRegistro = dto.Empleado.FechaRegistro,
                 Estado = dto.Empleado.Estado,
@@ -86,7 +86,7 @@ namespace libreria_inmobiliaria.Implementaciones
             var direccion = new Direcciones
             {
                 TipoVia = dto.Empleado.Direccion.TipoVia,
-                NumeroVia = dto.Empleado.Direccion.NumeroVia,
+                Numero = dto.Empleado.Direccion.Numero,
                 Complemento = dto.Empleado.Direccion.Complemento,
                 Ciudad = dto.Empleado.Direccion.Ciudad,
                 Persona = empleado.Id

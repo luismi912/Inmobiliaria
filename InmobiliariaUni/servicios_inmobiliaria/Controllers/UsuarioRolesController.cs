@@ -17,7 +17,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpGet]
-        public List<UsuarioRoles> Consultar()
+        public List<UsuariosRoles> Consultar()
         {
             if (this.IUsuariosRolesnegocio == null)
                 throw new Exception("No implementado");
@@ -25,7 +25,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPut]
-        public UsuarioRoles Modificar(UsuarioRoles entidad)
+        public UsuariosRoles Modificar(UsuariosRoles entidad)
         {
             if (this.IUsuariosRolesnegocio == null)
                 throw new Exception("No implementado");
@@ -33,7 +33,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpDelete]
-        public string Eliminar(UsuarioRoles entidad)
+        public string Eliminar(UsuariosRoles entidad)
         {
             if (this.IUsuariosRolesnegocio == null)
                 throw new Exception("No implementado");

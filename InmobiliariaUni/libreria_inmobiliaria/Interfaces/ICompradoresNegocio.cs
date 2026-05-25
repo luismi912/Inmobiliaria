@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<Compradores> Consultar();
         string Eliminar(Compradores entidad);
         Compradores Modificar(Compradores entidad);
-        Compradores Guardar(CrearUsuariosCompradoresDtos dto);
+        Compradores Guardar(CompradoresDtos dto);
     }
 }

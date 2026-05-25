@@ -48,13 +48,13 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             if (codeudorDto == null)
                 throw new ArgumentNullException("La entidad no puede ser nula");
 
-            if (string.IsNullOrWhiteSpace(codeudorDto.PrimerNombre))
+            if (string.IsNullOrWhiteSpace(codeudorDto.Nombre))
                 throw new Exception("El nombre es obligatorio");
 
             if (string.IsNullOrWhiteSpace(codeudorDto.Cedula))
                 throw new Exception("La cedula es obligatoria");
 
-            if (string.IsNullOrWhiteSpace(codeudorDto.PrimerApellido))
+            if (string.IsNullOrWhiteSpace(codeudorDto.Apellido))
                 throw new Exception("El apellido es obligatorio");
 
             this.iComunicaciones = new Comunicaciones();

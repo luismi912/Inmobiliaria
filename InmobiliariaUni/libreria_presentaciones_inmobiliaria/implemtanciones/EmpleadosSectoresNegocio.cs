@@ -48,7 +48,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             if (empleadoDto == null)
                 throw new ArgumentNullException("La entidad no puede ser nula");
 
-            if (string.IsNullOrWhiteSpace(empleadoDto.Empleado.PrimerNombre))
+            if (string.IsNullOrWhiteSpace(empleadoDto.Empleado.Nombre))
                 throw new Exception("El nombre es obligatorio");
 
             if (string.IsNullOrWhiteSpace(empleadoDto.Correo))

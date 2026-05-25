@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
 
-namespace presentacion_aspnetcore.Pages
+namespace inmobiliaria_front.Pages.Administradores
 {
     public class DepartamentosModel : PageModel
     {

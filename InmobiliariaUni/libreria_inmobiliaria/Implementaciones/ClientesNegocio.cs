@@ -44,36 +44,20 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public Clientes Guardar(CrearUsuariosClientesDtos dto)
+        public Clientes Guardar(ClientesDtos dto)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
-
-            if (usuario != null)
-                return null!;
-
-            //CREAMOS EL USUARIO DEL ADMIN
-            usuario = new UsuarioRoles()
-            {
-                Correo = dto.Correo,
-                Contraseña = dto.Contraseña,
-                Rol = dto.Rol
-            };
-
-            this.conexion!.UsuariosRoles.Add(usuario);
-            this.conexion.SaveChanges();
 
             //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
             var cliente = new Clientes()
             {
-                Cedula = dto.Cliente.Cedula,
-                PrimerNombre = dto.Cliente.PrimerNombre,
-                PrimerApellido = dto.Cliente.PrimerApellido,
-                FechaNacimiento = dto.Cliente.FechaNacimiento,
-                FechaRegistro = dto.Cliente.FechaRegistro,
-                Estado = dto.Cliente.Estado,
-                PorcentajeComision = dto.Cliente.PorcentajeComision,
-                Nacionalidad = dto.Cliente.Nacionalidad,
-                UsuarioRol = usuario.Id,
+                Cedula = dto.Cedula,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                FechaNacimiento = dto.FechaNacimiento,
+                FechaRegistro = dto.FechaRegistro,
+                Estado = dto.Estado,
+                PorcentajeComision = dto.PorcentajeComision,
+                Nacionalidad = dto.Nacionalidad,
             };
 
             this.conexion!.Clientes.Add(cliente);
@@ -82,10 +66,10 @@ namespace libreria_inmobiliaria.Implementaciones
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
-                TipoVia = dto.Cliente.Direccion.TipoVia,
-                NumeroVia = dto.Cliente.Direccion.NumeroVia,
-                Complemento = dto.Cliente.Direccion.Complemento,
-                Ciudad = dto.Cliente.Direccion.Ciudad,
+                TipoVia = dto.Direccion.TipoVia,
+                Numero = dto.Direccion.Numero,
+                Complemento = dto.Direccion.Complemento,
+                Ciudad = dto.Direccion.Ciudad,
                 Persona = cliente.Id
             };
 
@@ -94,8 +78,8 @@ namespace libreria_inmobiliaria.Implementaciones
             //TELÉFONOS
             var telefono = new Telefonos
             {
-                Numero = dto.Cliente.Telefono.Numero,
-                Prefijo = dto.Cliente.Telefono.Prefijo,
+                Numero = dto.Telefono.Numero,
+                Prefijo = dto.Telefono.Prefijo,
                 Persona = cliente.Id
             };
 
@@ -104,10 +88,10 @@ namespace libreria_inmobiliaria.Implementaciones
             //EXPEDIENTE
             var expediente = new ExpedientesLaborales()
             {
-                FechaIngreso = dto.Cliente.Expediente.FechaIngreso,
-                Cargo = dto.Cliente.Expediente.Cargo,
-                Antiguedad = dto.Cliente.Expediente.Antiguedad,
-                EstadoLaboral = dto.Cliente.Expediente.EstadoLaboral,
+                FechaIngreso = dto.Expediente.FechaIngreso,
+                Cargo = dto.Expediente.Cargo,
+                Antiguedad = dto.Expediente.Antiguedad,
+                EstadoLaboral = dto.Expediente.EstadoLaboral,
                 Persona = cliente.Id
             };
 

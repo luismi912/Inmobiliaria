@@ -70,6 +70,6 @@ namespace libreria_inmobiliaria.Implementaciones
         public DbSet<RespaldosFinancieros> RespaldosFinancieros { get; set; }
         public DbSet<RespaldosCodeudores> RespaldosCodeudores { get; set; }
         public DbSet<RespaldosCompradores> RespaldosCompradores { get; set; }
-        public DbSet<UsuarioRoles> UsuariosRoles { get; set; }
+        public DbSet<UsuariosRoles> UsuariosRoles { get; set; }
     }
 }

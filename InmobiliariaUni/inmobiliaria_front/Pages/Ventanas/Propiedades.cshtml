@@ -16,15 +16,18 @@
 
             <div>
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Refrescar"
                     class="btn btn-secondary"         
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
                     disabled="@(Model.propiedad != null)"/>     
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
@@ -234,7 +237,7 @@
                                 @elemento.Disponible
                             </th>
                             <th>
-                                @elemento._Cliente!.PrimerNombre
+                                @elemento._Cliente!.Nombre
                             </th>
                             <th>
                                 @elemento.ValorArriendo

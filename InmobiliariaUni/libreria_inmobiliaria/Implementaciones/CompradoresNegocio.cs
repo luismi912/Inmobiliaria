@@ -44,46 +44,28 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public Compradores Guardar(CrearUsuariosCompradoresDtos dto)
+        public Compradores Guardar(CompradoresDtos dto)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
-
-            if (usuario != null)
-                return null!;
-
-            usuario = new UsuarioRoles()
-            {
-                Correo = dto.Correo,
-                Contraseña = dto.Contraseña,
-                Rol = dto.Rol
-            };
-
-            this.conexion!.UsuariosRoles.Add(usuario);
-            this.conexion.SaveChanges();
 
             var Comprador = new Compradores()
             {
-                Cedula = dto.Comprador.Cedula,
-                PrimerNombre = dto.Comprador.PrimerNombre,
-                PrimerApellido = dto.Comprador.PrimerApellido,
-                FechaNacimiento = dto.Comprador.FechaNacimiento,
-                FechaRegistro = dto.Comprador.FechaRegistro,
-                Estado = dto.Comprador.Estado,
-                PresupuestoMaximo = dto.Comprador.PresupuestoMaximo,
-                Nacionalidad = dto.Comprador.Nacionalidad,
-                UsuarioRol = usuario.Id,
+                Cedula = dto.Cedula,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                FechaNacimiento = dto.FechaNacimiento,
+                FechaRegistro = dto.FechaRegistro,
+                Estado = dto.Estado,
+                PresupuestoMaximo = dto.PresupuestoMaximo,
+                Nacionalidad = dto.Nacionalidad,
             };
-
-            this.conexion!.Compradores.Add(Comprador);
-            this.conexion.SaveChanges();   //Guardamos cambios para generar el id y utilizarlo en las otras entidades
 
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
-                TipoVia = dto.Comprador.Direccion.TipoVia,
-                NumeroVia = dto.Comprador.Direccion.NumeroVia,
-                Complemento = dto.Comprador.Direccion.Complemento,
-                Ciudad = dto.Comprador.Direccion.Ciudad,
+                TipoVia = dto.Direccion.TipoVia,
+                Numero = dto.Direccion.Numero,
+                Complemento = dto.Direccion.Complemento,
+                Ciudad = dto.Direccion.Ciudad,
                 Persona = Comprador.Id
             };
 
@@ -92,8 +74,8 @@ namespace libreria_inmobiliaria.Implementaciones
             //TELÉFONOS
             var telefono = new Telefonos
             {
-                Numero = dto.Comprador.Telefono.Numero,
-                Prefijo = dto.Comprador.Telefono.Prefijo,
+                Numero = dto.Telefono.Numero,
+                Prefijo = dto.Telefono.Prefijo,
                 Persona = Comprador.Id
             };
 
@@ -112,11 +94,11 @@ namespace libreria_inmobiliaria.Implementaciones
             //BIENES
             var bien = new Bienes()
             {
-                Nombre = dto.Comprador.RespaldoComprador.Bien.Nombre,
-                Descripcion = dto.Comprador.RespaldoComprador.Bien.Descripcion,
-                FechaAdquisicion = dto.Comprador.RespaldoComprador.Bien.FechaAdquisicion,
-                ValorAdquisicion = dto.Comprador.RespaldoComprador.Bien.ValorAdquisicion,
-                ValorActual = dto.Comprador.RespaldoComprador.Bien.ValorActual,
+                Nombre = dto.RespaldoComprador.Bien.Nombre,
+                Descripcion = dto.RespaldoComprador.Bien.Descripcion,
+                FechaAdquisicion = dto.RespaldoComprador.Bien.FechaAdquisicion,
+                ValorAdquisicion = dto.RespaldoComprador.Bien.ValorAdquisicion,
+                ValorActual = dto.RespaldoComprador.Bien.ValorActual,
                 RespaldoFinanciero = respaldo.Id,
             };
             this.conexion.Bienes!.Add(bien);
@@ -124,10 +106,10 @@ namespace libreria_inmobiliaria.Implementaciones
             //ACTIVOFINANCIERO
             var Activo = new ActivosFinancieros()
             {
-                Nombre = dto.Comprador.RespaldoComprador.ActivoFinanciero.Nombre,
-                Descripcion = dto.Comprador.RespaldoComprador.ActivoFinanciero.Descripcion,
-                FechaAdquisicion = dto.Comprador.RespaldoComprador.ActivoFinanciero.FechaAdquisicion,
-                Valor = dto.Comprador.RespaldoComprador.ActivoFinanciero.Valor,
+                Nombre = dto.RespaldoComprador.ActivoFinanciero.Nombre,
+                Descripcion = dto.RespaldoComprador.ActivoFinanciero.Descripcion,
+                FechaAdquisicion = dto.RespaldoComprador.ActivoFinanciero.FechaAdquisicion,
+                Valor = dto.RespaldoComprador.ActivoFinanciero.Valor,
                 RespaldoFinanciero = respaldo.Id,
             };
 
@@ -136,10 +118,10 @@ namespace libreria_inmobiliaria.Implementaciones
             //EXPEDIENTE
             var expediente = new ExpedientesLaborales()
             {
-                FechaIngreso = dto.Comprador.Expediente.FechaIngreso,
-                Cargo = dto.Comprador.Expediente.Cargo,
-                Antiguedad = dto.Comprador.Expediente.Antiguedad,
-                EstadoLaboral = dto.Comprador.Expediente.EstadoLaboral,
+                FechaIngreso = dto.Expediente.FechaIngreso,
+                Cargo = dto.Expediente.Cargo,
+                Antiguedad = dto.Expediente.Antiguedad,
+                EstadoLaboral = dto.Expediente.EstadoLaboral,
                 Persona = Comprador.Id
             };
 

@@ -1,8 +1,8 @@
 ﻿@page
 @using presentacion_aspnetcore.Pages
-@model TiposPropiedadesModel
+@model DepartamentosModel
 @{
-    ViewData["Title"] = "TiposPropiedades";
+    ViewData["Title"] = "Departamentoes";
 }
 <center>
     <div>
@@ -11,30 +11,33 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>TiposPropiedades</h3>
+                <h3>Departamentos</h3>
             </div>
 
-            <div>
+            <div style="margin-right: 30px">
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Refrescar"
                     class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
-                       disabled="@(Model.TipoPropiedad != null)" />     @*Hace que el boton quede deshabilitado segun la condicion*@
+                    disabled="@(Model.Departamento != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
                 <input type="submit"
+                    style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
-                       disabled="@(Model.TipoPropiedad == null)" />
+                    disabled="@(Model.Departamento == null)"/>
             </div>
 
-            @if (Model.TipoPropiedad != null)
+            @if (Model.Departamento != null)
             {
                 <input type="hidden" 
-                       asp-for="@Model.TipoPropiedad!.Id" />     @*Sirve para guardar datos sin que el usuario lo vea*@
+                    asp-for="@Model.Departamento!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
 
                 <div>
                     <div class="form-group">
@@ -44,7 +47,16 @@
                         <div class="col-6">
                             <input id="inNombre"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.TipoPropiedad!.Nombre" />
+                                   asp-for="@Model.Departamento!.Nombre" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Estado
+                        </label>
+                        <div class="col-6">
+                            <input id="inEstado"
+                                   asp-for="@Model.Departamento!.Estado" />
                         </div>
                     </div>
                 </div>
@@ -55,7 +67,7 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.TipoPropiedad != null && Model.Borrando)
+            @if (Model.Departamento != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -65,10 +77,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el TiposPropiedads?
+                                Desea borrar el Departamentos?
                             </h6>
                             <h6 align="left">
-                                @Model.TipoPropiedad!.Nombre
+                                @Model.Departamento!.Nombre
                             </h6>
                             <input type="submit"
                                    value="Cerrar"
