@@ -1,0 +1,316 @@
+﻿@page
+@model CrearAdministradorModel
+@{
+    ViewData["Title"] = "Crear Comprador";
+}
+
+<form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()  
+
+    @if (ViewData.ContainsKey("Mensaje"))
+    {
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");        
+    }
+
+    @*LOGIN*@
+    <div>
+        <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px; text-align:center">Login</h1>
+        <div>
+            <div class="form-group" style="margin-bottom: 10px"></div>
+            <label>
+                Correo
+            </label>
+            <div>
+                <input id="inCorreo"
+                       class="cts_forms form-control"
+                       asp-for="@Model.AdminDto!.Correo" />
+            </div>
+        </div>
+        <div>
+            <div class="form-group" style="margin-bottom: 10px"></div>
+            <label>
+                Contraseña
+            </label>
+            <div>
+                <input id="inContraseña"
+                       class="cts_forms form-control"
+                       asp-for="@Model.AdminDto!.Contraseña" />
+            </div>
+        </div>
+    </div>
+        
+    <div>
+        <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px; text-align:center">Registrar Comprador</h1>
+
+        @*INFORMACION PERSONAL*@
+        <div>
+            <h1 class ="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Informacion Personal</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Nombres
+                </label>
+                <div>
+                    <input id="inNombre"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Nombre" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Apellidos
+                </label>
+                <div>
+                    <input id="inApellido"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Apellido" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Cedula
+                </label>
+                <div>
+                    <input id="inCedula"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Cedula" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Nacimiento
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.FechaNacimiento" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Registro
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.FechaRegistro" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado
+                </label>
+                <div>
+                    <input id="inEstado"
+                           asp-for="@Model.AdminDto!.Administrador.Estado" />
+                </div>
+            </div>   
+            <div class="form-group">
+                <label>
+                    Nacionalidad
+                </label>
+                <div class="col-6">
+                    @if (Model.Nacionalidades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.AdminDto!.Administrador.Nacionalidad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Presupuesto de departamento
+                </label>
+                <div>
+                    <input id="inPresupuestoDepartamento"
+                           asp-for="@Model.AdminDto!.Administrador.PresupuestoDepartamento" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Horario de Trabajo
+                </label>
+                <select asp-for="@Model.AdminDto!.Administrador!.HorarioTrabajo">
+                    <option value="">Seleccione horario laboral</option>
+                    <option value="6am a 2pm">6am a 2pm</option>
+                    <option value="2pm a 10pm">2pm a 10pm</option>
+                    <option value="10pm a 6am">10pm a 6am</option>
+                </select>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Sueldo
+                </label>
+                <div>
+                    <input id="inSueldo"
+                           asp-for="@Model.AdminDto!.Administrador.Sueldo" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Departamento Asignado
+                </label>
+                <div class="col-6">
+                    @if (Model.Departamentos != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.AdminDto!.Administrador.Departamento" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Departamentos, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @*DIRECCION*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Direccion</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Tipo via
+                </label>
+                <div>
+                    <input id="inTipoVia"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Direccion.TipoVia" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Direccion.Numero" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Ciudad
+                </label>
+                <div class="col-6">
+                    @if (Model.Ciudades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.AdminDto!.Administrador.Direccion.Ciudad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Complemento
+                </label>
+                <div>
+                    <input id="inComplemento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Direccion.Complemento" />
+                </div>
+            </div>
+        </div>
+
+        @*TELEFONOS*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Contacto</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Prefijo
+                </label>
+                <div>
+                    <input id="inPrefijo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Telefono.Prefijo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Telefono.Numero" />
+                </div>
+            </div>        
+        </div>
+
+        @*Expediente Laboral*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Expediente Laboral</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Ingreso
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Expediente.FechaIngreso" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                     Cargo ejercido
+                </label>
+                <div>
+                    <input id="inCargo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Expediente.Cargo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Años de antiguedad
+                </label>
+                <div>
+                    <input id="inAntiguedad"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Expediente.Antiguedad" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado Laboral
+                </label>
+                <div>
+                    <input id="inEstadoLaboral"
+                           class="cts_forms form-control"
+                           asp-for="@Model.AdminDto!.Administrador.Expediente.EstadoLaboral" />
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 10px">
+            <input type="submit"
+                   value="Enviar"
+                   asp-page-handler="BtEnviar" />
+                   class="btn btn-secondary"          
+        </div>  
+    </div>
+</form>

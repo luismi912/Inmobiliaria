@@ -42,7 +42,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public Codeudores Guardar(CrearUsuariosCodeudoresDtos dto)
+        public Codeudores Guardar(CodeudorDto dto)
         {
             if (this.ICodeudoresnegocio == null)
                 throw new Exception("No implementado");

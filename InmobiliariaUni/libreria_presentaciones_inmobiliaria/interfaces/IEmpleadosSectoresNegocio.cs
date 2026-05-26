@@ -9,5 +9,6 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
         EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos empleadoDto);
         string Eliminar(EmpleadosSectores entidad);
         EmpleadosSectores Modificar(EmpleadosSectores entidad);
+        int ConsultarPorCedula(string cedula);
     }
 }

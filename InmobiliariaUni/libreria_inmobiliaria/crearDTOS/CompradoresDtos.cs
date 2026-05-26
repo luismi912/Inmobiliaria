@@ -12,7 +12,6 @@ namespace libreria_inmobiliaria.crearDTOS
         public DateTime FechaRegistro { get; set; }
         public bool Estado { get; set; }
         public decimal PresupuestoMaximo { get; set; }
-        public int UsuarioRol { get; set; }
         public int Nacionalidad { get; set; }
 
         public DireccionesDtos Direccion { get; set; } = new();

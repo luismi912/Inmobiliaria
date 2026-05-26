@@ -1,0 +1,396 @@
+﻿@page
+@model CrearCodeudorModel
+@{
+    ViewData["Title"] = "Crear Comprador";
+}
+
+<form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()  
+
+    @if (ViewData.ContainsKey("Mensaje"))
+    {
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");        
+    }
+
+    <div>
+        <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px; text-align:center">Registrar Comprador</h1>
+
+        @*INFORMACION PERSONAL*@
+        <div>
+            <h1 class ="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Informacion Personal</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Nombres
+                </label>
+                <div>
+                    <input id="inNombre"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Nombre" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Apellidos
+                </label>
+                <div>
+                    <input id="inApellido"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Apellido" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Cedula
+                </label>
+                <div>
+                    <input id="inCedula"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Cedula" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Nacimiento
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.FechaNacimiento" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Registro
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.FechaRegistro" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado
+                </label>
+                <div>
+                    <input id="inEstado"
+                           asp-for="@Model.CodeudorDto!.Estado" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Cedula Comprador
+                </label>
+                <div>
+                    <input id="inCedulaRelacionComprador"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.CedulaRelacionComprador" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Nacionalidad
+                </label>
+                <div class="col-6">
+                    @if (Model.Nacionalidades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.CodeudorDto!.Nacionalidad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @*DIRECCION*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Direccion</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Tipo via
+                </label>
+                <div>
+                    <input id="inTipoVia"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Direccion.TipoVia" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Direccion.Numero" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Ciudad
+                </label>
+                <div class="col-6">
+                    @if (Model.Ciudades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.CodeudorDto!.Direccion.Ciudad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Complemento
+                </label>
+                <div>
+                    <input id="inComplemento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Direccion.Complemento" />
+                </div>
+            </div>
+        </div>
+
+        @*TELEFONOS*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Contacto</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Prefijo
+                </label>
+                <div>
+                    <input id="inPrefijo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Telefono.Prefijo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Telefono.Numero" />
+                </div>
+            </div>        
+        </div>
+
+        @*Expediente Laboral*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Expediente Laboral</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Ingreso
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Expediente.FechaIngreso" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                     Cargo ejercido
+                </label>
+                <div>
+                    <input id="inCargo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Expediente.Cargo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Años de antiguedad
+                </label>
+                <div>
+                    <input id="inAntiguedad"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Expediente.Antiguedad" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado Laboral
+                </label>
+                <div>
+                    <input id="inEstadoLaboral"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.Expediente.EstadoLaboral" />
+                </div>
+            </div>
+        </div>
+
+        @*RespaldosCompradores*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Deudas Totales
+                </label>
+                <div>
+                    <input id="inDeudasTotales"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.DeudasTotales" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Ingresos Mensuales
+                </label>
+                <div>
+                    <input id="inIngresosMensuales"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.IngresosMensuales" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Observaciones
+                </label>
+                <div>
+                    <input id="inObservaciones"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Observaciones" />
+                </div>
+            </div>
+        </div>
+
+        @*RespaldosCompradores-Bien*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros (Bien)</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Bien
+                </label>
+                <div>
+                    <input id="inNombre"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Bien.Nombre" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha adquisicion
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Bien.FechaAdquisicion" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Valor adquisicion
+                </label>
+                <div>
+                    <input id="inValorAdquisicion"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Bien.ValorAdquisicion" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Valor Actual
+                </label>
+                <div>
+                    <input id="inValorActual"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Bien.ValorActual" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Descripcion
+                </label>
+                <div>
+                    <input id="inDescripcion"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.Bien.Descripcion" />
+                </div>
+            </div>
+        </div>
+
+        @*RespaldosCompradores-ActivoFinanciero*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros (Activo Financiero)</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Tipo de activo
+                </label>
+                <div>
+                    <input id="inNombre"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.ActivoFinanciero.Nombre" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha adquisicion
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.ActivoFinanciero.FechaAdquisicion" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Valor
+                </label>
+                <div>
+                    <input id="inValor"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.ActivoFinanciero.Valor" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Descripcion
+                </label>
+                <div>
+                    <input id="inDescripcion"
+                           class="cts_forms form-control"
+                           asp-for="@Model.CodeudorDto!.RespaldoCodeudor.ActivoFinanciero.Descripcion" />
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 10px">
+            <input type="submit"
+                   value="Enviar"
+                   asp-page-handler="BtEnviar" />
+                   class="btn btn-secondary"          
+        </div>  
+    </div>
+</form>

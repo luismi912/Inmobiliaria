@@ -9,5 +9,6 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
         Compradores Guardar(CompradoresDtos compradorDto);
         string Eliminar(Compradores entidad);
         Compradores Modificar(Compradores entidad);
+        int ConsultarPorCedula(string cedula);
     }
 }

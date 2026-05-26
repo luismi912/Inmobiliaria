@@ -23,7 +23,7 @@ namespace libreria_inmobiliaria.crearDTOS
         public String? HorarioTrabajo { get; set; }
         public decimal PresupuestoSector { get; set; }
         public int Sector { get; set; }
-        public int AdministradorSector { get; set; }
+        public int Administrador { get; set; }
         public int UsuarioRol { get; set; }
         public int Nacionalidad { get; set; }
 

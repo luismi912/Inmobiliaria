@@ -56,7 +56,7 @@ namespace libreria_inmobiliaria.Implementaciones
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
-                Rol = dto.Rol
+                Rol = "Administrador"
             };
 
             this.conexion!.UsuariosRoles.Add(usuario);

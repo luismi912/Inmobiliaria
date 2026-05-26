@@ -72,7 +72,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 HorarioTrabajo = dto.Jefe.HorarioTrabajo,
                 Sueldo = dto.Jefe.Sueldo,
                 Sector = dto.Jefe.Sector,
-                AdministradorSector = dto.Jefe.AdministradorSector,
+                AdministradorSector = dto.Jefe.Administrador,
                 Nacionalidad = dto.Jefe.Nacionalidad,
                 UsuarioRol = usuario.Id,
             };

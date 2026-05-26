@@ -42,11 +42,19 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpPost]
-        public Compradores Guardar(CompradoresDtos dto)
+        public Compradores Guardar([FromBody] CompradoresDtos dto)
         {
             if (this.ICompradoresnegocio == null)
                 throw new Exception("No implementado");
             return this.ICompradoresnegocio!.Guardar(dto);
+        }
+
+        [HttpGet("{cedula}")]
+        public int ConsultarPorCedula(string cedula)
+        {
+            if (this.ICompradoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.ICompradoresnegocio!.ConsultarPorCedula(cedula);
         }
     }
 }

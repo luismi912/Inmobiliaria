@@ -1,0 +1,271 @@
+﻿@page
+@model CrearClienteModel
+@{
+    ViewData["Title"] = "Crear Comprador";
+}
+
+<form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()  
+
+    @if (ViewData.ContainsKey("Mensaje"))
+    {
+            @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");        
+    }
+
+    <div>
+        <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px; text-align:center">Registrar Comprador</h1>
+
+        @*INFORMACION PERSONAL*@
+        <div>
+            <h1 class ="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Informacion Personal</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Nombres
+                </label>
+                <div>
+                    <input id="inNombre"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Nombre" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Apellidos
+                </label>
+                <div>
+                    <input id="inApellido"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Apellido" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Cedula
+                </label>
+                <div>
+                    <input id="inCedula"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Cedula" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Nacimiento
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.FechaNacimiento" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Registro
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.FechaRegistro" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado
+                </label>
+                <div>
+                    <input id="inEstado"
+                           asp-for="@Model.ClienteDto!.Estado" />
+                </div>
+            </div>   
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    PorcentajeComision
+                </label>
+                <div>
+                    <input id="inPorcentajeComision"
+                           asp-for="@Model.ClienteDto!.PorcentajeComision" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Calificacion
+                </label>
+                <div>
+                    <input id="inCalificacion"
+                           asp-for="@Model.ClienteDto!.Calificacion" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Nacionalidad
+                </label>
+                <div class="col-6">
+                    @if (Model.Nacionalidades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.ClienteDto!.Nacionalidad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Cedula del asesor
+                </label>
+                <div>
+                    <input id="inCedulaAsesor"
+                           asp-for="@Model.ClienteDto!.CedulaRelacionEmpleado" />
+                </div>
+            </div>
+        </div>
+
+        @*DIRECCION*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Direccion</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Tipo via
+                </label>
+                <div>
+                    <input id="inTipoVia"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Direccion.TipoVia" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Direccion.Numero" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>
+                    Ciudad
+                </label>
+                <div class="col-6">
+                    @if (Model.Ciudades != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.ClienteDto!.Direccion.Ciudad" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Complemento
+                </label>
+                <div>
+                    <input id="inComplemento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Direccion.Complemento" />
+                </div>
+            </div>
+        </div>
+
+        @*TELEFONOS*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Contacto</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Prefijo
+                </label>
+                <div>
+                    <input id="inPrefijo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Telefono.Prefijo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Numero
+                </label>
+                <div>
+                    <input id="inNumero"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Telefono.Numero" />
+                </div>
+            </div>        
+        </div>
+
+        @*Expediente Laboral*@
+        <div>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Expediente Laboral</h1>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Fecha Ingreso
+                </label>
+                <div>
+                    <input id="inFechaNacimiento"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Expediente.FechaIngreso" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                     Cargo ejercido
+                </label>
+                <div>
+                    <input id="inCargo"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Expediente.Cargo" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Años de antiguedad
+                </label>
+                <div>
+                    <input id="inAntiguedad"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Expediente.Antiguedad" />
+                </div>
+            </div>
+            <div>
+                <div class="form-group" style="margin-bottom: 10px"></div>
+                <label>
+                    Estado Laboral
+                </label>
+                <div>
+                    <input id="inEstadoLaboral"
+                           class="cts_forms form-control"
+                           asp-for="@Model.ClienteDto!.Expediente.EstadoLaboral" />
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 10px">
+            <input type="submit"
+                   value="Enviar"
+                   asp-page-handler="BtEnviar" />
+                   class="btn btn-secondary"          
+        </div>  
+    </div>
+</form>

@@ -5,7 +5,7 @@ using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
 using Microsoft.Win32.SafeHandles;
 
-namespace presentacion_aspnetcore.Pages
+namespace inmobiliaria_front.Pages.Empleados
 {
     public class PropiedadesModel : PageModel
     {

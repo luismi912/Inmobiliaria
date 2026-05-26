@@ -11,7 +11,7 @@ namespace Inmobiliaria_Servicios.Controllers
     {
         private IUsuariosRolesNegocio IUsuariosRolesnegocio { get; set; }
 
-        public UsuarioRolesController ()
+        public UsuarioRolesController()
         {
             IUsuariosRolesnegocio = new UsuariosRolesNegocio();
         }
@@ -22,6 +22,14 @@ namespace Inmobiliaria_Servicios.Controllers
             if (this.IUsuariosRolesnegocio == null)
                 throw new Exception("No implementado");
             return this.IUsuariosRolesnegocio.Consultar();
+        }
+
+        [HttpGet("{cedula}")]
+        public string? ConsultarCorreo(string cedula)
+        {
+            if (this.IUsuariosRolesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IUsuariosRolesnegocio.ConsultarCorreo(cedula);
         }
 
         [HttpPut]

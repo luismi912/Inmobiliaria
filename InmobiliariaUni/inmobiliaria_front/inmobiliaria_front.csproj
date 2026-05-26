@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Empleados\" />
     <Folder Include="Pages\Jefes\" />
+    <Folder Include="Pages\Ventanas\" />
   </ItemGroup>
 
 </Project>

@@ -58,6 +58,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 Estado = dto.Estado,
                 PorcentajeComision = dto.PorcentajeComision,
                 Nacionalidad = dto.Nacionalidad,
+                EmpleadoSector = dto.Empleado
             };
 
             this.conexion!.Clientes.Add(cliente);
@@ -98,7 +99,6 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
 
-            
             return cliente;
         }
     }

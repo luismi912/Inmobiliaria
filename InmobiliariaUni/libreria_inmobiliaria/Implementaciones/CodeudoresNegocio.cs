@@ -45,7 +45,7 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public Codeudores Guardar(CrearUsuariosCodeudoresDtos dto)
+        public Codeudores Guardar(CodeudorDto dto)
         {
             var codeudor = new Codeudores()
             {

@@ -22,6 +22,16 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
+        public int ConsultarPorCedula(string cedula)
+        {
+            var comprador = this.conexion!.Compradores.FirstOrDefault(c => c.Cedula == cedula);
+
+            if (comprador == null)
+                throw new Exception("No se encontro ninguna persona con esa cedula");
+
+            return comprador.Id;
+        }
+
         public string Eliminar(EmpleadosSectores entidad)
         {
             if (entidad.Id == 0)

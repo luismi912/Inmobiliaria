@@ -43,7 +43,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             return respuesta["Valor"].ToString()!;
         }
 
-        public Codeudores Guardar(CrearUsuariosCodeudoresDtos codeudorDto)
+        public Codeudores Guardar(CodeudoresDtos codeudorDto)
         {
             if (codeudorDto == null)
                 throw new ArgumentNullException("La entidad no puede ser nula");

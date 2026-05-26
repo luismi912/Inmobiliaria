@@ -25,6 +25,22 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
+        public string? ConsultarCorreo(string correo)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/Compradores/ConsultarCorreo/{correo}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                throw new Exception("Hubo un error con el correo, reintente por favor");
+
+            return (respuesta["Valor"].ToString());
+        }
+
         public string Eliminar(UsuariosRoles entidad)
         {
             var datos = new Dictionary<string, object>();

@@ -99,7 +99,10 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             var message = await httpClient.PutAsync(Url, body);
 
             if (!message.IsSuccessStatusCode)
-                throw new Exception("Error Comunicacion");
+            {
+                var error = await message.Content.ReadAsStringAsync();
+                throw new Exception($"Error API: {error}");
+            }
 
             var resp = await message.Content.ReadAsStringAsync();
             httpClient.Dispose(); httpClient = null;

@@ -22,6 +22,16 @@ namespace libreria_inmobiliaria.Implementaciones
             return Lista;
         }
 
+        public int ConsultarPorCedula(string cedula)
+        {
+            var comprador = this.conexion!.Compradores.FirstOrDefault(c => c.Cedula == cedula);
+
+            if (comprador == null)
+                throw new Exception("No se encontro ninguna persona con esa cedula");
+
+            return comprador.Id;
+        }
+
         public string Eliminar(Compradores entidad)
         {
             if (entidad.Id == 0)
@@ -59,6 +69,9 @@ namespace libreria_inmobiliaria.Implementaciones
                 Nacionalidad = dto.Nacionalidad,
             };
 
+            this.conexion!.Compradores.Add(Comprador);
+            this.conexion!.SaveChanges();
+
             // DIRECCIÓNES
             var direccion = new Direcciones
             {
@@ -80,12 +93,14 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.Telefonos.Add(telefono);
-            this.conexion.SaveChanges();
 
             //RESPALDO COMPRADORES
             var respaldo = new RespaldosCompradores()
             {
-                Comprador = Comprador.Id
+                Comprador = Comprador.Id,
+                DeudasTotales = dto.RespaldoComprador.DeudasTotales,
+                IngresosMensuales = dto.RespaldoComprador.IngresosMensuales,
+                Observaciones = dto.RespaldoComprador.Observaciones          
             };
 
             this.conexion.RespaldosCompradores.Add(respaldo);
