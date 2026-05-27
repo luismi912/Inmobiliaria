@@ -22,6 +22,20 @@ namespace libreria_inmobiliaria.Implementaciones
 
             this.conexion!.Nacionalidades!.Add(entidad);
             this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "Nacionalidades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se guardo un registro de nacionalidades con id {entidad.Id}" +
+                              $"\nA la nacionalidad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -39,6 +53,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Nacionalidades.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Nacionalidades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elmino un registro de nacionalidades con id {entidad.Id}" +
+                              $"\nA la nacionalidad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -48,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Nacionalidades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de nacionalidades con id {entidad.Id}" +
+                              $"\nA la nacionalidad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;

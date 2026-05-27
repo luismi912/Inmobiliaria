@@ -9,39 +9,23 @@ namespace inmobiliaria_front.Pages
 {
     public class IndexModel : PageModel
     {
-        private IAdministradoresDepartamentosNegocio? IAdministradoresDepartamentosnegocio { get; set; } 
-        private IDepartamentosNegocio? IDepartamentosnegocio { get; set; }
-        private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
-
-        [BindProperty] public CrearUsuariosAdministradoresDtos? AdminDto { get; set; } = new CrearUsuariosAdministradoresDtos();
-        [BindProperty] public UsuariosRoles? UsuarioRol { get; set; } = new UsuariosRoles();
-        [BindProperty] public ExpedientesLaborales? ExpedienteLaboral { get; set; } = new ExpedientesLaborales();
-        [BindProperty] public Telefonos? Telefono { get; set; } = new Telefonos();
-        [BindProperty] public Direcciones? Direccion { get; set; } = new Direcciones();
-
-
-        //LISTAS QUE SE LLAMAN PARA PODER QUE EL USUARIO SELECCIONE SU A LA QUE PERTENECE 
-        [BindProperty] public List<Departamentos>? Departamentos { get; set; }
-        [BindProperty] public List<Nacionalidades>? Nacionalidades { get; set; }
-        [BindProperty] public List<AdministradoresDepartamentos>? Administradores { get; set; }
+        private IUsuarioRolesNegocio? IUsuariosRolesnegocio { get; set; }
+        [BindProperty] public UsuariosRoles? UsuarioRol { get; set; }
 
         public IndexModel()
         {
-            IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
-            IDepartamentosnegocio = new DepartamentosNegocio();
-            INacionalidadesnegocio = new NacionalidadesNegocio();
+            IUsuariosRolesnegocio = new UsuariosRolesNegocio();
         }
 
         public void OnGet()
         {
-            Nacionalidades = INacionalidadesnegocio!.Consultar();
-            Departamentos = IDepartamentosnegocio!.Consultar();
-            Administradores = IAdministradoresDepartamentosnegocio!.Consultar();
+
         }
 
         public void OnPostIngresar()
         {
-
+            if (UsuarioRol!.Rol == "")
+                throw new Exception("No se a seleccionado ningun rol");
             if (UsuarioRol == null)
             {
                 ViewData["Mensaje"] = "Correo o contraseña incorrectos, reintente por favor";

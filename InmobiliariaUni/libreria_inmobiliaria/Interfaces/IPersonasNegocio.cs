@@ -5,5 +5,6 @@ namespace libreria_inmobiliaria.Interfaces
     public interface IPersonasNegocio
     {
         List<Personas> Consultar();
+        int ConsultarPorCedula(string cedula);
     }
 }

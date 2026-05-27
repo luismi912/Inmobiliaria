@@ -30,6 +30,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.AdministradoresDepartamentos.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Administrador",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de administradores con id {entidad.Id}" +
+                              $"\nIdentificado con cedula {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "Se elimino la Administrador correctamente";
         }
 
@@ -39,6 +52,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Administrador",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de administradores con id {entidad.Id}" +
+                              $"\nIdentificado con cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;
@@ -116,7 +142,23 @@ namespace libreria_inmobiliaria.Implementaciones
 
             this.conexion.ExpedientesLaborales!.Add(expediente);
             this.conexion.SaveChanges();
-           
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "CrearAdministradorDto",
+                IdEntidad = admin.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"id en el Usuario de {usuario.Id}" + 
+                              $"\nSe creo al administrador con id {admin.Id}" +
+                              $"\nCon id en el telefono de {telefono.Id}" +
+                              $"\nCon id en la direccion de {direccion.Id}" +
+                              $"\nCon id en el expediente de {expediente.Id}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return admin;
         }
     }

@@ -29,6 +29,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Entry(entidad).State = EntityState.Modified;
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Ciudades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de ciudades con id {entidad.Id}" +
+                              $"\nA la ciudad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -40,6 +53,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Ciudades.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Ciudades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de ciudades con id {entidad.Id}" +
+                              $"\nA la ciudad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -49,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede crear este registro");
 
             this.conexion!.Ciudades.Add(entidad);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "Ciudades",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se guardo un registro de ciudades con id {entidad.Id}" +
+                              $"\nA la ciudad con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;

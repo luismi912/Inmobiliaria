@@ -30,6 +30,16 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Clientes.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Clientes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de cliente con id {entidad.Id}" +
+                              $"\nAl cliente con cedula {entidad.Cedula}"
+            };
+
             return "La eliminacion se logro con exito";
         }
 
@@ -39,6 +49,20 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Clientes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de cliente con id {entidad.Id}" +
+                              $"\nAl cliente con cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;
@@ -57,6 +81,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 FechaRegistro = dto.FechaRegistro,
                 Estado = dto.Estado,
                 PorcentajeComision = dto.PorcentajeComision,
+                Calificacion = dto.Calificacion,
                 Nacionalidad = dto.Nacionalidad,
                 EmpleadoSector = dto.Empleado
             };
@@ -97,6 +122,21 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.ExpedientesLaborales!.Add(expediente);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "ClienteDto",
+                IdEntidad = cliente.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se creo al cliente con id {cliente.Id}" +
+                              $"\nCon id en el telefono de {telefono.Id}" +
+                              $"\nCon id en la direccion de {direccion.Id}" +
+                              $"\nCon id en el expediente de {expediente.Id}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return cliente;

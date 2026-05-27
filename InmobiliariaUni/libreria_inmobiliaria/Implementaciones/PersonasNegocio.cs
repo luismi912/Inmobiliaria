@@ -20,5 +20,28 @@ namespace libreria_inmobiliaria.Implementaciones
             var lista = this.conexion!.Personas.ToList();
             return lista;
         }
+
+        public int ConsultarPorCedula(string cedula)
+        {
+            var persona = this.conexion!.Personas.FirstOrDefault(p => p.Cedula == cedula);
+
+            if (persona == null)
+                throw new Exception("No se encontro ninguna persona con esa cedula");
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "Consulta por cedula",
+                Entidad = "Personas",
+                IdEntidad = persona.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se consulto un registro de nacionalidades con id {persona.Id}" +
+                              $"\nCon cedula {persona.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
+            return persona.Id;
+        }
     }
 }

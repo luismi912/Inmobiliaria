@@ -8,6 +8,6 @@ namespace libreria_inmobiliaria.Interfaces
         List<Codeudores> Consultar();
         string Eliminar(Codeudores entidad);
         Codeudores Modificar(Codeudores entidad);
-        Codeudores Guardar(CodeudorDto dto);
+        Codeudores Guardar(CodeudoresDtos dto);
     }
 }

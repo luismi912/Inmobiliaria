@@ -1,4 +1,4 @@
- CREATE DATABASE inmobiliariaUni;
+CREATE DATABASE inmobiliariaUni;
 GO
 
 USE inmobiliariaUni;
@@ -13,7 +13,7 @@ CREATE TABLE Auditorias (
 	Entidad NVARCHAR(40) NOT NULL,
 	IdEntidad INT NOT NULL,
 	Fecha DATETIME NOT NULL,
-	Descripcion NVARCHAR(100) NOT NULL
+	Descripcion NVARCHAR(600) NOT NULL
 );
 
 CREATE TABLE Nacionalidades (

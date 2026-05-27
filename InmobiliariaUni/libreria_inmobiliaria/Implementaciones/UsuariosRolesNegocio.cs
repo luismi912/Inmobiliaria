@@ -39,6 +39,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Entry(entidad).State = EntityState.Modified;
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "UsuarioRoles",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de usuario roles con id {entidad.Id}" +
+                              $"\nCon correo {entidad.Correo}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -48,6 +61,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.UsuariosRoles.Remove(entidad);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "UsuarioRoles",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de usuario roles con id {entidad.Id}" +
+                              $"\nCon correo {entidad.Correo}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return "La eliminacion se logro con exito";

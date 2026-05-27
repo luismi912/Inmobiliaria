@@ -22,6 +22,20 @@ namespace libreria_inmobiliaria.Implementaciones
 
             this.conexion!.RespaldosCompradores!.Add(entidad);
             this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "RespaldosCompradores",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se guardo un registro de RespaldosCompradores con id {entidad.Id}" +
+                              $"\nDel codeudor con id {entidad.Comprador}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -39,6 +53,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.RespaldosCompradores.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "RespaldosCompradores",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de RespaldosCompradores con id {entidad.Id}" +
+                              $"\nDel codeudor con id {entidad.Comprador}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -48,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "RespaldosCompradores",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de RespaldosCompradores con id {entidad.Id}" +
+                              $"\nDel codeudor con id {entidad.Comprador}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;

@@ -24,12 +24,25 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public int ConsultarPorCedula(string cedula)
         {
-            var comprador = this.conexion!.Compradores.FirstOrDefault(c => c.Cedula == cedula);
+            var empleado = this.conexion!.EmpleadosSectores.FirstOrDefault(c => c.Cedula == cedula);
 
-            if (comprador == null)
+            if (empleado == null)
                 throw new Exception("No se encontro ninguna persona con esa cedula");
 
-            return comprador.Id;
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "Consultar por cedula",
+                Entidad = "Empleados",
+                IdEntidad = empleado.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se consulto un registro de empleados con id {empleado.Id}" +
+                              $"\nCon cedula {empleado.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
+            return empleado.Id;
         }
 
         public string Eliminar(EmpleadosSectores entidad)
@@ -38,6 +51,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.EmpleadosSectores.Remove(entidad);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Empleados",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de empleados con id {entidad.Id}" +
+                              $"\nCon cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return "La eliminacion se logro con exito";
@@ -49,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Empleados",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de empleados con id {entidad.Id}" +
+                              $"\nCon cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;
@@ -125,6 +164,22 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.ExpedientesLaborales.Add(expediente);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "CrearEmpleadoDto",
+                IdEntidad = empleado.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"id en el Usuario de {usuario.Id}" +
+                              $"\nSe creo al administrador con id {empleado.Id}" +
+                              $"\nCon id en el telefono de {telefono.Id}" +
+                              $"\nCon id en la direccion de {direccion.Id}" +
+                              $"\nCon id en el expediente de {expediente.Id}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return empleado;

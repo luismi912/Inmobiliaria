@@ -22,6 +22,23 @@ namespace libreria_inmobiliaria.Implementaciones
 
             this.conexion!.ContratosCuotas!.Add(entidad);
             this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "Contratos cuotas",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se guardo un registro de contratos cuotas con id {entidad.Id}" +
+                              $"\nAl cliente con la propiedad {entidad.Propiedad}" +
+                              $"\nAl comprado con id {entidad.Comprador}" +
+                              $"\nCon la asesoria de {entidad.EmpleadoSector}" +
+                              $"\nComo contrato cuotas"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -39,6 +56,22 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.ContratosCuotas.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Contratos cuotas",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de contratos cuotas con id {entidad.Id}" +
+                              $"\nAl cliente con la propiedad {entidad.Propiedad}" +
+                              $"\nAl comprado con id {entidad.Comprador}" +
+                              $"\nCon la asesoria de {entidad.EmpleadoSector}" +
+                              $"\nComo contrato cuotas"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -48,6 +81,22 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Contratos cuotas",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de contratos cuotas con id {entidad.Id}" +
+                              $"\nAl cliente con la propiedad {entidad.Propiedad}" +
+                              $"\nAl comprador con id {entidad.Comprador}" +
+                              $"\nCon la asesoria de {entidad.EmpleadoSector}" +
+                              $"\nComo contrato cuotas"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;

@@ -11,9 +11,4 @@
     <ProjectReference Include="..\libreria_presentaciones_inmobiliaria\libreria_presentaciones_inmobiliaria.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Jefes\" />
-    <Folder Include="Pages\Ventanas\" />
-  </ItemGroup>
-
 </Project>

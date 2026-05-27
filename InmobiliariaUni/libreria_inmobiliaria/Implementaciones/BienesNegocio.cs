@@ -29,6 +29,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Entry(entidad).State = EntityState.Modified;
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Bienes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de bienes con id {entidad.Id}" +
+                              $"\nA el bien con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -40,6 +53,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Bienes.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Bienes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de Bienes con id {entidad.Id}" +
+                              $"\nA el bien con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -49,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede crear este registro");
 
             this.conexion!.Bienes.Add(entidad);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "Bienes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se guardo un registro de Bienes con id {entidad.Id}" +
+                              $"\nA el bien con nombre {entidad.Nombre}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;

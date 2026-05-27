@@ -29,6 +29,19 @@ namespace libreria_inmobiliaria.Implementaciones
             if (comprador == null)
                 throw new Exception("No se encontro ninguna persona con esa cedula");
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "Consulta por cedula",
+                Entidad = "Compradores",
+                IdEntidad = comprador.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se consulto un registro de compradores con id {comprador.Id}" +
+                              $"\nAl comprador con cedula {comprador.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return comprador.Id;
         }
 
@@ -40,6 +53,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Compradores.Remove(entidad);
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Compradores",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de compradores con id {entidad.Id}" +
+                              $"\nAl comprador con cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return "La eliminacion se logro con exito";
         }
 
@@ -49,6 +75,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se puede modificar");
 
             this.conexion!.Entry(entidad).State = EntityState.Modified;
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Compradores",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de compradores con id {entidad.Id}" +
+                              $"\nAl comprador con cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return entidad;
@@ -119,7 +158,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.Bienes!.Add(bien);
 
             //ACTIVOFINANCIERO
-            var Activo = new ActivosFinancieros()
+            var activo = new ActivosFinancieros()
             {
                 Nombre = dto.RespaldoComprador.ActivoFinanciero.Nombre,
                 Descripcion = dto.RespaldoComprador.ActivoFinanciero.Descripcion,
@@ -128,7 +167,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 RespaldoFinanciero = respaldo.Id,
             };
 
-            this.conexion.ActivosFinancieros!.Add(Activo);
+            this.conexion.ActivosFinancieros!.Add(activo);
 
             //EXPEDIENTE
             var expediente = new ExpedientesLaborales()
@@ -141,6 +180,24 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.ExpedientesLaborales!.Add(expediente);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "CompradorDto",
+                IdEntidad = Comprador.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se creo al codeudor con id {Comprador.Id}" +
+                              $"\nCon id en el telefono de {telefono.Id}" +
+                              $"\nCon id en la direccion de {direccion.Id}" +
+                              $"\nCon id en el respaldo de {respaldo.Id}" +
+                              $"\nCon id en la bien de {bien.Id}" +
+                              $"\nCon id en el activo de {activo.Id}" +
+                              $"\nCon id en el expediente de {expediente.Id}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return Comprador;

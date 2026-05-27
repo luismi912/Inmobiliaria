@@ -30,6 +30,19 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion!.Entry(entidad).State = EntityState.Modified;
             this.conexion.SaveChanges();
 
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "MODIFICAR",
+                Entidad = "Jefes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se modifico un registro de jefes con id {entidad.Id}" +
+                              $"\nCon la cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
             return entidad;
         }
 
@@ -39,6 +52,19 @@ namespace libreria_inmobiliaria.Implementaciones
                 throw new Exception("No se encontro ningun registro a eliminar");
 
             this.conexion!.JefesSectores.Remove(entidad);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "DELETE",
+                Entidad = "Jefes",
+                IdEntidad = entidad.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se elimino un registro de jefes con id {entidad.Id}" +
+                              $"\nCon la cedula {entidad.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return "La eliminacion se logro con exito";
@@ -111,6 +137,22 @@ namespace libreria_inmobiliaria.Implementaciones
             };
 
             this.conexion.ExpedientesLaborales.Add(expediente);
+            this.conexion.SaveChanges();
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "INSERT",
+                Entidad = "CrearJefeDto",
+                IdEntidad = jefe.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"id en el Usuario de {usuario.Id}" +
+                              $"\nSe creo al administrador con id {jefe.Id}" +
+                              $"\nCon id en el telefono de {telefono.Id}" +
+                              $"\nCon id en la direccion de {direccion.Id}" +
+                              $"\nCon id en el expediente de {expediente.Id}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
             this.conexion.SaveChanges();
 
             return jefe;

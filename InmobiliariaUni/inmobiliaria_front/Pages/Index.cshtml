@@ -7,7 +7,7 @@
 <form method="POST"  @*Indica como se enviaran los datos*@
             enctype="multipart/form-data">
             @Html.AntiForgeryToken()  
-    <div>
+    <div style="border-radius: 10px; border: 6px solid aliceblue; margin: auto; margin-top: 50px; padding: 10px">
         <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px">Login</h1>
         <div>
             <div class="form-group">
@@ -15,9 +15,9 @@
                     Correo
                 </label>
                 <div class="col-6">
-                    <input id="inNombre"
+                    <input id="inCorreo"
                            class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Correo" />
+                           asp-for="@Model.UsuarioRol!.Correo" />
                 </div>
             </div>
         </div>
@@ -27,9 +27,22 @@
                     Contraseña
                 </label>
                 <div class="col-6">
-                    <input id="inNombre"
+                    <input id="inContrasena"
+                           type="password"
                            class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Contraseña" />
+                           asp-for="@Model.UsuarioRol!.Contraseña" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="form-group" style="margin-bottom: 10px">
+                <label>
+                    Verificar contraseña
+                </label>
+                <div class="col-6">
+                    <input id="inVerificarContrasena"
+                           type="password"
+                           class="cts_forms form-control"/>
                 </div>
             </div>
         </div>
@@ -44,282 +57,28 @@
                 <option value="Administrador">Administrador</option>
             </select>
         </div>
-
-        @*INFORMACION PERSONAL*@
-        <div>
-            <h1 class ="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Informacion Personal</h1>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Primer Nombre
-                </label>
-                <div>
-                    <input id="inPrimerNombre"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.Nombre" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Primer Apellido
-                </label>
-                <div>
-                    <input id="inPrimerApellido"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.Apellido" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Nacimiento
-                </label>
-                <div>
-                    <input id="inFechaNacimiento"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaNacimiento" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Registro
-                </label>
-                <div>
-                    <input id="inFechaRegistro"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaRegistro" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Registro
-                </label>
-                <div>
-                    <input id="inFechaRegistro"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaRegistro" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Estado
-                </label>
-                <div>
-                    <input id="inEstado"
-                           asp-for="@Model.AdminDto!.Administrador.Estado" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Presupuesto Departamental
-                </label>
-                <div>
-                    <input id="inPresupuestoDepartamento"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.PresupuestoDepartamento" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Horario De Trabajo
-                </label>
-                <div>
-                    <input id="inHorarioTrabajo"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.HorarioTrabajo" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Sueldo
-                </label>
-                <div>
-                    <input id="inSueldo"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.Sueldo" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label>
-                    Departamento
-                </label>
-                <div class="col-6">
-                    @if (Model.Departamentos != null)
-                    {
-                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                asp-for="@Model.AdminDto!.Administrador.Departamento" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Departamentos, "Id", "Nombre"))">
-                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                        </select>
-                    }
-                </div>
-            </div>
-            <div class="form-group">
-                <label>
-                    Nacionalidad
-                </label>
-                <div class="col-6">
-                    @if (Model.Nacionalidades != null)
-                    {
-                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                asp-for="@Model.AdminDto!.Administrador.Nacionalidad" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
-                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                        </select>
-                    }
-                </div>
-            </div>
-        </div>
-
-        @*DIRECCION*@
-        <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Direccion</h1>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Tipo Via
-                </label>
-                    <select class="form-control" asp-for="@Model.UsuarioRol!.Rol">
-                        <option value="">-- Seleccione un tipo --</option>
-                        <option value="Empleado">Empleado</option>
-                        <option value="Jefe">Jefe</option>
-                        <option value="Administrador">Administrador</option>
-                    </select>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Primer Apellido
-                </label>
-                <div>
-                    <input id="inPrimerApellido"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.Apellido" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Nacimiento
-                </label>
-                <div>
-                    <input id="inFechaNacimiento"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaNacimiento" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Registro
-                </label>
-                <div>
-                    <input id="inFechaRegistro"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaRegistro" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Fecha Registro
-                </label>
-                <div>
-                    <input id="inFechaRegistro"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.FechaRegistro" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Estado
-                </label>
-                <div>
-                    <input id="inEstado"
-                           asp-for="@Model.AdminDto!.Administrador.Estado" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Presupuesto Departamental
-                </label>
-                <div>
-                    <input id="inPresupuestoDepartamento"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.PresupuestoDepartamento" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Horario De Trabajo
-                </label>
-                <div>
-                    <input id="inHorarioTrabajo"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.HorarioTrabajo" />
-                </div>
-            </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
-                <label>
-                    Sueldo
-                </label>
-                <div>
-                    <input id="inSueldo"
-                           class="cts_forms form-control"
-                           asp-for="@Model.AdminDto!.Administrador.Sueldo" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label>
-                    Departamento
-                </label>
-                <div class="col-6">
-                    @if (Model.Departamentos != null)
-                    {
-                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                asp-for="@Model.AdminDto!.Administrador.Departamento" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Departamentos, "Id", "Nombre"))">
-                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                        </select>
-                    }
-                </div>
-            </div>
-            <div class="form-group">
-                <label>
-                    Nacionalidad
-                </label>
-                <div class="col-6">
-                    @if (Model.Nacionalidades != null)
-                    {
-                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                asp-for="@Model.AdminDto!.Administrador.Nacionalidad" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
-                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                        </select>
-                    }
-                </div>
-            </div>
-        </div>
         <div style="margin-top: 10px">
             <input type="submit"
                    value="Ingresar"
                    class="btn btn-secondary"
-                   asp-page-handler="BtIngresar"/>
+                   id = "btnIngresar"
+                   asp-page-handler="BtIngresar"
+                   disabled />
         </div>   
     </div>
 </form>
+
+<script>
+    const correo = document.getElementById('inCorreo');
+    const contrasena = document.getElementById('inContrasena');
+    const btn = document.getElementById('btnIngresar');
+    const verificarcontrasena = document.getElementById('inVerificarContrasena')
+
+    function validarCampos() {
+        btn.disabled = correo.value.trim() === '' || contrasena.value.trim() === '' || verificarcontrasena.value.trim() != contrasena.value.trim();
+    }
+
+    correo.addEventListener('input', validarCampos);
+    contrasena.addEventListener('input', validarCampos);
+    verificarcontrasena.addEventListener('input', validarCampos);
+</script>
