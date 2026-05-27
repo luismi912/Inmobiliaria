@@ -25,7 +25,7 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpGet("{cedula}")]
-        public string? ConsultarCorreo(string cedula)
+        public UsuariosRoles? ConsultarCorreo(string cedula)
         {
             if (this.IUsuariosRolesnegocio == null)
                 throw new Exception("No implementado");

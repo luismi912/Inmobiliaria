@@ -1,35 +1,24 @@
 using libreria_inmobiliaria.Entidades;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
-using Microsoft.Win32.SafeHandles;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace inmobiliaria_front.Pages.Empleados
+namespace presentacion_aspnetcore.Pages
 {
-    public class PropiedadesModel : PageModel
+    [Authorize(Roles = "Administrador")]
+    public class TiposPropiedadesModel : PageModel
     {
-        private IPropiedadesNegocio? IPropiedadesnegocio;
         private ITiposPropiedadesNegocio? ITiposPropiedadesnegocio;
-        private ISectoresNegocio? ISectoresnegocio;
 
-        [BindProperty] public List<Propiedades>? Lista { get; set; }
-        [BindProperty] public Propiedades? propiedad { get; set; }
-        [BindProperty] public List<TiposPropiedades>? listaTiposPropiedades { get; set; }
-        [BindProperty] public List<Sectores>? listaSectores { get; set; }
+        [BindProperty] public List<TiposPropiedades>? Lista { get; set; }
+        [BindProperty] public TiposPropiedades? TipoPropiedad { get; set; }
         [BindProperty] public bool Borrando { get; set; }
 
-        public PropiedadesModel()
+        public TiposPropiedadesModel()
         {
-            IPropiedadesnegocio = new PropiedadesNegocio();
             ITiposPropiedadesnegocio = new TiposPropiedadesNegocio();
-            ISectoresnegocio = new SectoresNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            listaTiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
-            listaSectores = ISectoresnegocio!.Consultar();
         }
 
         public void OnGet()
@@ -41,11 +30,10 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (IPropiedadesnegocio == null)
+                if (ITiposPropiedadesnegocio == null)
                     return;
-                Lista = IPropiedadesnegocio.Consultar();
-                cargarlistas();
-                propiedad = null;
+                Lista = ITiposPropiedadesnegocio.Consultar();
+                TipoPropiedad = null;
             }
             catch (Exception ex)
             {
@@ -55,10 +43,9 @@ namespace inmobiliaria_front.Pages.Empleados
 
         public void OnPostBtNuevo()
         {
-            cargarlistas();
-            propiedad = new Propiedades()
+            TipoPropiedad = new TiposPropiedades()
             {
-
+                Estado = true
             };
             Borrando = false;
         }
@@ -68,8 +55,7 @@ namespace inmobiliaria_front.Pages.Empleados
             try
             {
                 OnPostBtRefrescar();
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
+                TipoPropiedad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = false;
             }
@@ -83,13 +69,13 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (propiedad == null)
+                if (TipoPropiedad == null)
                     return;
-                if (propiedad.Id == 0)
-                    propiedad = IPropiedadesnegocio!.Guardar(propiedad!);
+                if (TipoPropiedad.Id == 0)
+                    TipoPropiedad = ITiposPropiedadesnegocio!.Guardar(TipoPropiedad!);
                 else
-                    propiedad = IPropiedadesnegocio!.Modificar(propiedad!);
-                if (propiedad.Id == 0)
+                    TipoPropiedad = ITiposPropiedadesnegocio!.Modificar(TipoPropiedad!);
+                if (TipoPropiedad.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -103,10 +89,10 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (propiedad == null)
+                if (TipoPropiedad == null)
                     return;
-                ViewData["Mensaje"] = IPropiedadesnegocio!.Eliminar(propiedad!);
-                propiedad = null;
+                ViewData["Mensaje"] = ITiposPropiedadesnegocio!.Eliminar(TipoPropiedad!);
+                TipoPropiedad = null;
             }
             catch (Exception ex)
             {
@@ -119,7 +105,7 @@ namespace inmobiliaria_front.Pages.Empleados
             OnPostBtRefrescar();
             try
             {
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
+                TipoPropiedad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

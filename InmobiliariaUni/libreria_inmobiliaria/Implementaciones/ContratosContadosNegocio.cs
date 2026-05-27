@@ -90,7 +90,7 @@ namespace libreria_inmobiliaria.Implementaciones
                 IdEntidad = entidad.Id,
                 Fecha = DateTime.Now,
                 Descripcion = $"Se modifico un registro de contratos contados con id {entidad.Id}" +
-                              $"\nAl cliente con la propiedad {entidad.Id}" +
+                              $"\nAl cliente con la propiedad {entidad.Propiedad}" +
                               $"\nAl comprado con id {entidad.Comprador}" +
                               $"\nCon la asesoria de {entidad.EmpleadoSector}" +
                               $"\nComo contrato contado"

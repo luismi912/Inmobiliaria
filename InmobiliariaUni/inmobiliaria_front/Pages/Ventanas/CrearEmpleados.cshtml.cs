@@ -5,10 +5,11 @@ using libreria_presentaciones_inmobiliaria.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace inmobiliaria_front.Pages
+namespace inmobiliaria_front.Pages.Ventanas
 {
-    public class CrearJefeModel : PageModel
+    public class CrearEmpleadoModel : PageModel
     {
+        private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocio { get; set; }
         private IJefesSectoresNegocio? IJefesSectoresnegocio { get; set; }
         private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
         private ICiudadesNegocio? ICiudadesnegocio { get; set; }
@@ -16,19 +17,20 @@ namespace inmobiliaria_front.Pages
         private IUsuarioRolesNegocio? IUsuarioRolesnegocio { get; set; }
 
         //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
-        [BindProperty] public CrearUsuariosJefesDtos? JefeDto { get; set; }
+        [BindProperty] public CrearUsuariosEmpleadosDtos? EmpleadoDto { get; set; }
         public List<AdministradoresDepartamentos>? Administradores { get; set; }
         public List<Nacionalidades>? Nacionalidades { get; set; }
         public List<Ciudades>? Ciudades { get; set; }
         public List<Sectores>? Sectores { get; set; }
 
-        public CrearJefeModel()
+        public CrearEmpleadoModel()
         {
             INacionalidadesnegocio = new NacionalidadesNegocio();
             ICiudadesnegocio = new CiudadesNegocio();
             IUsuarioRolesnegocio = new UsuariosRolesNegocio();
             IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
             IJefesSectoresnegocio = new JefesSectoresNegocio();
+            IEmpleadosSectoresnegocio = new EmpleadosSectoresNegocio();
         }
 
         public void OnGet()
@@ -41,9 +43,9 @@ namespace inmobiliaria_front.Pages
             Administradores = IAdministradoresDepartamentosnegocio!.Consultar();
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
-            JefeDto = new CrearUsuariosJefesDtos()
+            EmpleadoDto = new CrearUsuariosEmpleadosDtos()
             {
-                Jefe = new JefesDtos()
+                Empleado = new EmpleadosDtos()
                 {
                    Estado = true,
                    FechaNacimiento = DateTime.Now,
@@ -57,10 +59,12 @@ namespace inmobiliaria_front.Pages
         {
             try
             {
-                var correo = IUsuarioRolesnegocio!.ConsultarCorreo(JefeDto!.Correo!);
-                if (correo == JefeDto!.Correo)
+                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(EmpleadoDto!.Correo!);
+                if (usuario == null)
+                    throw new Exception("Correo o contraseña incorrectos, reintente por favor");
+                if (usuario.Correo == EmpleadoDto!.Correo)
                     throw new Exception("El correo que intentas crear ya existe");
-                IJefesSectoresnegocio!.Guardar(JefeDto!);
+                IEmpleadosSectoresnegocio!.Guardar(EmpleadoDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();
             }

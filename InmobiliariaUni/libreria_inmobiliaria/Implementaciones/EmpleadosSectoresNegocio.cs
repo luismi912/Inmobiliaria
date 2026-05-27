@@ -184,5 +184,17 @@ namespace libreria_inmobiliaria.Implementaciones
 
             return empleado;
         }
+
+        public EmpleadosSectores ConsultarUsuario(int Id)
+        {
+            var empleado = this.conexion!.EmpleadosSectores
+                .Include(a => a._UsuarioRol)
+                .FirstOrDefault(a => a._UsuarioRol!.Id == Id);
+
+            if (empleado == null)
+                throw new Exception("Hubo un error con su usuario, reintente de nuevo");
+
+            return empleado!;
+        }
     }
 }

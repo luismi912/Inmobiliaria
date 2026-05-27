@@ -7,6 +7,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         List<EmpleadosSectores> Consultar();
         int ConsultarPorCedula(string cedula);
+        EmpleadosSectores ConsultarUsuario(int Id);
         string Eliminar(EmpleadosSectores entidad);
         EmpleadosSectores Modificar(EmpleadosSectores entidad);
         EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos dto);

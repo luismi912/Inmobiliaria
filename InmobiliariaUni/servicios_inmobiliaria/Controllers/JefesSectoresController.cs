@@ -48,5 +48,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IJefesSectoresnegocio!.Modificar(entidad);
         }
+
+        [HttpGet("{Id}")]
+        public JefesSectores ConsultarUsuario(int Id)
+        {
+            if (this.IJefesSectoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.IJefesSectoresnegocio!.ConsultarUsuario(Id);
+        }
     }
 }

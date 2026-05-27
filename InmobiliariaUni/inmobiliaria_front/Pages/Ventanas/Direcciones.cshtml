@@ -1,8 +1,7 @@
 ﻿@page
-@using presentacion_aspnetcore.Pages
-@model TelefonosModel
+@model DireccionesModel
 @{
-    ViewData["Title"] = "Telefonoes";
+    ViewData["Title"] = "Direcciones";
 }
 <center>
     <div>
@@ -11,7 +10,7 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Telefonoes</h3>
+                <h3>Direccionees</h3>
             </div>
 
             <div>
@@ -25,21 +24,31 @@
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
-                    disabled="@(Model.Telefono != null)"/>     
+                    disabled="@(Model.Direccion != null)"/>     
                 <input type="submit"
                     style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
-                    disabled="@(Model.Telefono == null)"/>
+                    disabled="@(Model.Direccion == null)"/>
             </div>
 
-            @if (Model.Telefono != null)
+            @if (Model.Direccion != null)
             {
                 <div>
                     <input type="hidden"
-                           asp-for="@Model.Telefono!.Id" />
+                           asp-for="@Model.Direccion!.Id" />
 
+                    <div class="form-group">
+                        <label>
+                            Tipo de via
+                        </label>
+                        <div class="col-6">
+                            <input id="inTipoVia"
+                                    class="cts_forms form-control"
+                                    asp-for="@Model.Direccion!.TipoVia" />
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>
                             Numero
@@ -47,20 +56,45 @@
                         <div class="col-6">
                             <input id="inNumero"
                                     class="cts_forms form-control"
-                                    asp-for="@Model.Telefono!.Numero" />
+                                    asp-for="@Model.Direccion!.Numero" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Prefijo
+                            Complemento
                         </label>
                         <div class="col-6">
-                            <input id="inPrefijo"
-                                    class="cts_forms form-control"
-                                    asp-for="@Model.Telefono!.Prefijo" />
+                            <input id="inComplemento"
+                                    asp-for="@Model.Direccion!.Complemento" />
                         </div>
                     </div>
-                </div>   
+                    <div class="form-group">
+                        <label>
+                            Ciudades
+                        </label>
+                        <div class="col-6">
+                            @if (Model.Ciudades != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Direccion!.Ciudad" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Cedula Persona
+                        </label>
+                        <div class="col-6">
+                            <input id="inCedulaPersona"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.CedulaPersona" />
+                        </div>
+                    </div>
+                 </div>   
                  
             }
             
@@ -69,7 +103,7 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.Telefono != null && Model.Borrando)
+            @if (Model.Direccion != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -79,7 +113,7 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Telefonoes?
+                                Desea borrar el Direccionees?
                             </h6>
                             <input type="submit"
                                    value="Cerrar"
@@ -95,16 +129,19 @@
             }
 
             @if (Model != null &&
-                 Model.telefonos != null &&
-                 Model.telefonos.Count > 0)
+                 Model.Direcciones != null &&
+                 Model.Direcciones.Count > 0)
             {
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
+                            TipoVia
+                        </th>
+                        <th>
                             Numero
                         </th>
                         <th>
-                            Prefijo
+                            Complemento
                         </th>
                         <th>
                             Persona
@@ -116,21 +153,27 @@
                             Ciudad
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.telefonos)
+                    @foreach (var elemento in Model.Direcciones)
                     {
                         <tr>
                             <th>
-                                @elemento.Numero
+                                @elemento.TipoVia
                             </th>
                             <th>
-                                @elemento.Prefijo
+                                @elemento.Numero!
                             </th>
                             <th>
+                                @elemento.Complemento
+                            </th>
+                            <th class="cl_hidden">
                                 @(Model.Personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
                                 Model.CedulaPersona
-                            </th>                                                                     
+                            </th>                           
+                            <th class="cl_hidden">
+                                @(Model.Ciudades?.FirstOrDefault(c => c.Id == elemento.Ciudad)?.Nombre ?? "Sin tipo")
+                            </th>                  
                             <th>
                                 <input type="submit"
                                     value="Modificar"

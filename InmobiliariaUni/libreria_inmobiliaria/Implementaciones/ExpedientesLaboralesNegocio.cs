@@ -31,7 +31,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
             var auditoria = new Auditorias()
             {
-                TipoAccion = "MODIFICO",
+                TipoAccion = "MODIFICAR",
                 Entidad = "Expediente",
                 IdEntidad = entidad.Id,
                 Fecha = DateTime.Now,

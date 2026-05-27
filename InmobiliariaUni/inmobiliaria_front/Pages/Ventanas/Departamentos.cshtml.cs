@@ -1,27 +1,24 @@
 using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Win32.SafeHandles;
 
-namespace inmobiliaria_front.Pages.Empleados
+namespace inmobiliaria_front.Pages.Ventanas
 {
-    public class TelefonosModel : PageModel
+    [Authorize(Roles = "Administrador")]
+    public class DepartamentosModel : PageModel
     {
-        private ITelefonosNegocio? ITelefonosnegocio { get; set; }
-        private IPersonasNegocio? IPersonasnegocio { get; set; }
+        private IDepartamentosNegocio? IDepartamentoesnegocio;
 
-        [BindProperty] public Telefonos? Telefono { get; set; }
-        public List<Telefonos>? telefonos { get; set; }
-        public List<Personas>? Personas { get; set; }
+        public List<Departamentos>? Lista { get; set; }
+        [BindProperty] public Departamentos? Departamento { get; set; }
         public bool Borrando { get; set; }
-        [BindProperty] public string? CedulaPersona { get; set; } = "0";
 
-        public TelefonosModel()
+        public DepartamentosModel()
         {
-            ITelefonosnegocio = new TelefonosNegocio();
-            IPersonasnegocio = new PersonasNegocio();
+            IDepartamentoesnegocio = new DepartamentosNegocio();
         }
 
         public void OnGet()
@@ -29,20 +26,14 @@ namespace inmobiliaria_front.Pages.Empleados
             OnPostBtRefrescar();
         }
 
-        private void cargarlistas()
-        {
-            Personas = IPersonasnegocio!.Consultar();
-        }
-
         public void OnPostBtRefrescar()
         {
             try
             {
-                cargarlistas();
-                if (ITelefonosnegocio == null)
+                if (IDepartamentoesnegocio == null)
                     return;
-                telefonos = ITelefonosnegocio.Consultar();
-                Telefono = null;
+                Lista = IDepartamentoesnegocio.Consultar();
+                Departamento = null;
             }
             catch (Exception ex)
             {
@@ -52,9 +43,9 @@ namespace inmobiliaria_front.Pages.Empleados
 
         public void OnPostBtNuevo()
         {
-            Telefono = new Telefonos()
+            Departamento = new Departamentos()
             {
-                Persona = 0
+                Estado = true
             };
             Borrando = false;
         }
@@ -64,8 +55,8 @@ namespace inmobiliaria_front.Pages.Empleados
             try
             {
                 OnPostBtRefrescar();
-                Telefono = telefonos!.FirstOrDefault(x => x.Id == data);
-                telefonos = null;
+                Departamento = Lista!.FirstOrDefault(x => x.Id == data);
+                Lista = null;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -78,22 +69,14 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                cargarlistas();
-                if (Telefono == null)        
+                if (Departamento == null)
                     return;
-
-                Telefono!.Persona = IPersonasnegocio!.ConsultarPorCedula(CedulaPersona!);
-
-                if (Telefono.Persona == 0)
-                    throw new Exception("No se pudo encontrar la cedula, reintente porfavor");
-                if (Telefono.Id == 0)
-                    Telefono = ITelefonosnegocio!.Guardar(Telefono!);
+                if (Departamento.Id == 0)
+                    Departamento = IDepartamentoesnegocio!.Guardar(Departamento!);
                 else
-                    Telefono = ITelefonosnegocio!.Modificar(Telefono!);
-
-                if (Telefono.Id == 0)
+                    Departamento = IDepartamentoesnegocio!.Modificar(Departamento!);
+                if (Departamento.Id == 0)
                     return;
-
                 OnPostBtRefrescar();
             }
             catch (Exception ex)
@@ -106,10 +89,10 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (Telefono == null)
+                if (Departamento == null)
                     return;
-                ViewData["Mensaje"] = ITelefonosnegocio!.Eliminar(Telefono!);
-                Telefono = null;
+                ViewData["Mensaje"] = IDepartamentoesnegocio!.Eliminar(Departamento!);
+                Departamento = null;
             }
             catch (Exception ex)
             {
@@ -122,8 +105,8 @@ namespace inmobiliaria_front.Pages.Empleados
             OnPostBtRefrescar();
             try
             {
-                Telefono = telefonos!.FirstOrDefault(x => x.Id == data);
-                telefonos = null;
+                Departamento = Lista!.FirstOrDefault(x => x.Id == data);
+                Lista = null;
                 Borrando = true;
             }
             catch (Exception ex)

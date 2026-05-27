@@ -21,14 +21,14 @@ namespace libreria_inmobiliaria.Implementaciones
             return lista;
         }
 
-        public string? ConsultarCorreo(string correo)
+        public UsuariosRoles? ConsultarCorreo(string correo)
         {
             var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == correo);
             
             if (usuario == null)
                 return null;
 
-            return correo;
+            return usuario;
         }
 
         public UsuariosRoles Modificar(UsuariosRoles entidad)

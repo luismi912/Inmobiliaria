@@ -26,6 +26,23 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
+        public EmpleadosSectores ConsultarUsuario(int Id)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/EmpleadosSectores/ConsultarUsuario{Id}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new EmpleadosSectores();
+
+            return JsonConvert.DeserializeObject<EmpleadosSectores>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
         public int ConsultarPorCedula(string cedula)
         {
             var datos = new Dictionary<string, object>();

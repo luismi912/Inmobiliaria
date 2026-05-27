@@ -25,7 +25,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public string? ConsultarCorreo(string correo)
+        public UsuariosRoles? ConsultarCorreo(string correo)
         {
             var datos = new Dictionary<string, object>();
             datos["Url"] = $"https://localhost:7165/Compradores/ConsultarCorreo/{correo}";
@@ -38,7 +38,8 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             if (!respuesta.ContainsKey("Valor"))
                 throw new Exception("Hubo un error con el correo, reintente por favor");
 
-            return (respuesta["Valor"].ToString());
+            return JsonConvert.DeserializeObject<UsuariosRoles>(
+                respuesta["Valor"].ToString()!)!;
         }
 
         public string Eliminar(UsuariosRoles entidad)

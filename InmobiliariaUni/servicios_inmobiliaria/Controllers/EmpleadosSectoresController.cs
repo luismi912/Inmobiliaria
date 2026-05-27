@@ -56,5 +56,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IEmpleadosSectoresnegocio!.ConsultarPorCedula(cedula);
         }
+
+        [HttpGet("{Id}")]
+        public EmpleadosSectores ConsultarUsuario(int Id)
+        {
+            if (this.IEmpleadosSectoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.IEmpleadosSectoresnegocio!.ConsultarUsuario(Id);
+        }
     }
 }

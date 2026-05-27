@@ -2,32 +2,32 @@ using libreria_inmobiliaria.crearDTOS;
 using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace inmobiliaria_front.Pages
 {
-    public class CrearAdministradorModel : PageModel
+    [Authorize(Roles = "Empleado")]
+    public class CrearCodeudorModel : PageModel
     {
+        private IDepartamentosNegocio? IDepartamentosnegocio { get; set; }
         private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
         private ICiudadesNegocio? ICiudadesnegocio { get; set; }
-        private IDepartamentosNegocio? IDepartamentosnegocio { get; set; }
-        private IAdministradoresDepartamentosNegocio? IAdministradoresDepartamentosnegocio { get; set; }
-        private IUsuarioRolesNegocio? IUsuarioRolesnegocio { get; set; }
+        private ICodeudoresNegocio? ICodeudoresnegocio { get; set; }
+        private ICompradoresNegocio? ICompradoresnegocio { get; set; }
 
         //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
-        [BindProperty] public CrearUsuariosAdministradoresDtos? AdminDto { get; set; }
+        [BindProperty] public CodeudoresDtos? CodeudorDto { get; set; }
         public List<Nacionalidades>? Nacionalidades { get; set; }
         public List<Ciudades>? Ciudades { get; set; }
-        public List<Departamentos>? Departamentos { get; set; }
 
-        public CrearAdministradorModel()
+        public CrearCodeudorModel()
         {
             INacionalidadesnegocio = new NacionalidadesNegocio();
             ICiudadesnegocio = new CiudadesNegocio();
-            IDepartamentosnegocio = new DepartamentosNegocio();
-            IUsuarioRolesnegocio = new UsuariosRolesNegocio();
-            IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
+            ICodeudoresnegocio = new CodeudoresNegocio();
+            ICompradoresnegocio = new CompradoresNegocio(); 
         }
 
         public void OnGet()
@@ -39,15 +39,16 @@ namespace inmobiliaria_front.Pages
         {
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
-            Departamentos = IDepartamentosnegocio!.Consultar();
-            AdminDto = new CrearUsuariosAdministradoresDtos()
+            CodeudorDto = new CodeudoresDtos()
             {
-                Administrador = new AdministradoresDtos()
+                Estado = true,
+                FechaNacimiento = DateTime.Now,
+                FechaRegistro = DateTime.Now,
+                Expediente = new ExpedientesLaborales() { FechaIngreso = DateTime.Now },
+                RespaldoCodeudor = new RespaldosCodeudoresDtos()
                 {
-                    Estado = true,
-                    FechaNacimiento = DateTime.Now,
-                    FechaRegistro = DateTime.Now,
-                    Expediente = new ExpedientesLaborales() { FechaIngreso = DateTime.Now },
+                    Bien = new BienesDtos() { FechaAdquisicion = DateTime.Now },
+                    ActivoFinanciero = new ActivosFinancierosDtos() { FechaAdquisicion = DateTime.Now }
                 }
             };
         }
@@ -56,10 +57,9 @@ namespace inmobiliaria_front.Pages
         {
             try
             {
-                var correo = IUsuarioRolesnegocio!.ConsultarCorreo(AdminDto!.Correo!);
-                if (correo == AdminDto.Correo)
-                    throw new Exception("El correo que intentas crear ya existe");
-                IAdministradoresDepartamentosnegocio!.Guardar(AdminDto!);
+                var id = ICompradoresnegocio!.ConsultarPorCedula(CodeudorDto!.CedulaRelacionComprador!);
+                CodeudorDto.Comprador = id;
+                ICodeudoresnegocio!.Guardar(CodeudorDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();
             }

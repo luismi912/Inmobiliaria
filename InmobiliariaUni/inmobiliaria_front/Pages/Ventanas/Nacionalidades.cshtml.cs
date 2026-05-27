@@ -1,25 +1,24 @@
 using libreria_inmobiliaria.Entidades;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class CiudadesModel : PageModel
+    [Authorize(Roles = "Administrador")]
+    public class NacionalidadesModel : PageModel
     {
-        private ICiudadesNegocio? ICiudadesnegocio;
-        private IDepartamentosNegocio? IDepartamentosnegocio;
+        private INacionalidadesNegocio? INacionalidadesnegocio;
 
-        [BindProperty] public List<Ciudades>? Lista { get; set; }
-        [BindProperty] public Ciudades? Ciudad { get; set; }
-        [BindProperty] public bool Borrando { get; set; }
-        [BindProperty] public List<Departamentos>? ListaDepartamento { get; set; }
+        public List<Nacionalidades>? Lista { get; set; }
+        [BindProperty] public Nacionalidades? Nacionalidad { get; set; }
+        public bool Borrando { get; set; }
 
-        public CiudadesModel()
+        public NacionalidadesModel()
         {
-            ICiudadesnegocio = new CiudadesNegocio();
-            IDepartamentosnegocio = new DepartamentosNegocio();
+            INacionalidadesnegocio = new NacionalidadesNegocio();
         }
 
         public void OnGet()
@@ -27,20 +26,15 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
         }
 
-        public void CargarListaDepartamento()
-        {
-            ListaDepartamento = IDepartamentosnegocio!.Consultar();
-        }
-
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (ICiudadesnegocio == null)
+                if (INacionalidadesnegocio == null)
                     return;
-                Lista = ICiudadesnegocio!.Consultar();
-                CargarListaDepartamento();
-                Ciudad = null;
+                Lista = INacionalidadesnegocio.Consultar();
+                Nacionalidad = null;
+                Borrando = false; 
             }
             catch (Exception ex)
             {
@@ -50,11 +44,9 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            CargarListaDepartamento();
-            Ciudad = new Ciudades()
+            Nacionalidad = new Nacionalidades()
             {
-                Estado = true,
-                FechaCreacion = DateTime.Now
+                Estado = true
             };
             Borrando = false;
         }
@@ -64,9 +56,8 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
+                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
-                CargarListaDepartamento();
                 Borrando = false;
             }
             catch (Exception ex)
@@ -79,13 +70,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Ciudad == null)
+                if (Nacionalidad == null)
                     return;
-                if (Ciudad.Id == 0)
-                    Ciudad = ICiudadesnegocio!.Guardar(Ciudad!);
+                if (Nacionalidad.Id == 0)
+                    Nacionalidad = INacionalidadesnegocio!.Guardar(Nacionalidad!);
                 else
-                    Ciudad = ICiudadesnegocio!.Modificar(Ciudad!);
-                if (Ciudad.Id == 0)
+                    Nacionalidad = INacionalidadesnegocio!.Modificar(Nacionalidad!);
+                if (Nacionalidad.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -99,10 +90,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Ciudad == null)
+                if (Nacionalidad == null)
                     return;
-                ViewData["Mensaje"] = ICiudadesnegocio!.Eliminar(Ciudad!);
-                Ciudad = null;
+                ViewData["Mensaje"] = INacionalidadesnegocio!.Eliminar(Nacionalidad!);
+                Nacionalidad = null;
             }
             catch (Exception ex)
             {
@@ -115,7 +106,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
+                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

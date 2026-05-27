@@ -6,6 +6,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     public interface IAdministradoresDepartamentosNegocio
     {
         List<AdministradoresDepartamentos> Consultar();
+        AdministradoresDepartamentos ConsultarUsuario(int Id);
         AdministradoresDepartamentos Guardar(CrearUsuariosAdministradoresDtos adminDto);
         string Eliminar(AdministradoresDepartamentos entidad);
         AdministradoresDepartamentos Modificar(AdministradoresDepartamentos entidad);

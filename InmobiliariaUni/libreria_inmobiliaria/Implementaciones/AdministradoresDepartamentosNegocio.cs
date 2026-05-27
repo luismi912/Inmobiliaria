@@ -89,7 +89,7 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.SaveChanges();
 
             //CREAMOS AL ADMIN ENTIDAD PRINCIPAL 
-            var admin = new AdministradoresDepartamentos ()
+            var admin = new AdministradoresDepartamentos()
             {
                 Cedula = dto.Administrador.Cedula,
                 Nombre = dto.Administrador.Nombre,
@@ -160,6 +160,18 @@ namespace libreria_inmobiliaria.Implementaciones
             this.conexion.SaveChanges();
 
             return admin;
+        }
+
+        public AdministradoresDepartamentos ConsultarUsuario(int Id)
+        {
+            var admin = this.conexion!.AdministradoresDepartamentos
+                .Include(a => a._UsuarioRol)
+                .FirstOrDefault(a => a._UsuarioRol!.Id == Id);
+
+            if (admin == null)
+                throw new Exception("Hubo un error con su usuario, reintente de nuevo");
+
+            return admin!;
         }
     }
 }

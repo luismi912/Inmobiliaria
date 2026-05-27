@@ -6,6 +6,7 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
     public interface IEmpleadosSectoresNegocio
     {
         List<EmpleadosSectores> Consultar();
+        EmpleadosSectores ConsultarUsuario(int Id);
         EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos empleadoDto);
         string Eliminar(EmpleadosSectores entidad);
         EmpleadosSectores Modificar(EmpleadosSectores entidad);

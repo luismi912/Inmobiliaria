@@ -7,6 +7,7 @@ namespace libreria_inmobiliaria.Interfaces
     {
         List<JefesSectores> Consultar();
         string Eliminar(JefesSectores entidad);
+        JefesSectores ConsultarUsuario(int Id);
         JefesSectores Modificar(JefesSectores entidad);
         JefesSectores Guardar(CrearUsuariosJefesDtos dto);
     }

@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
 
 namespace presentacion_aspnetcore.Pages
 {
+    [Authorize(Roles = "Administrador")]
     public class AuditoriasModel : PageModel
     {
-        private IAuditoriasNegocio? iAuditoriasNegocio;
+        private IAuditoriasNegocio? IAuditoriasnegocio;
         [BindProperty] public List<Auditorias>? Lista { get; set; }
 
         public void OnGet()
@@ -19,19 +21,12 @@ namespace presentacion_aspnetcore.Pages
 
         public AuditoriasModel()
         {
-            iAuditoriasNegocio = new AuditoriasNegocio();
+            IAuditoriasnegocio = new AuditoriasNegocio();
         }
 
         public void OnPostBtRefrescar()
         {
-            try
-            {
-                Lista = iAuditoriasNegocio!.Consultar();
-            }
-            catch (Exception ex)
-            {
-                ViewData["Mensaje"] = ex.Message;
-            }
+            Lista = IAuditoriasnegocio!.Consultar();
         }
     }
 }

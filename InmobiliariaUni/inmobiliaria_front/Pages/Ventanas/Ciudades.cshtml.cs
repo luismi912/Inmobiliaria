@@ -1,25 +1,27 @@
 using libreria_inmobiliaria.Entidades;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class SectoresModel : PageModel
+    [Authorize(Roles = "Administrador")]
+    public class CiudadesModel : PageModel
     {
-        private ISectoresNegocio? ISectoresnegocio;
         private ICiudadesNegocio? ICiudadesnegocio;
+        private IDepartamentosNegocio? IDepartamentosnegocio;
 
-        [BindProperty] public List<Sectores>? Lista { get; set; }
-        [BindProperty] public Sectores? Sector { get; set; }
+        [BindProperty] public List<Ciudades>? Lista { get; set; }
+        [BindProperty] public Ciudades? Ciudad { get; set; }
         [BindProperty] public bool Borrando { get; set; }
-        [BindProperty] public List<Ciudades>? ListaCiudad { get; set; }
+        [BindProperty] public List<Departamentos>? ListaDepartamento { get; set; }
 
-        public SectoresModel()
+        public CiudadesModel()
         {
-            ISectoresnegocio = new SectoresNegocio();
             ICiudadesnegocio = new CiudadesNegocio();
+            IDepartamentosnegocio = new DepartamentosNegocio();
         }
 
         public void OnGet()
@@ -27,20 +29,20 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
         }
 
-        public void CargarListaCiudad()
+        public void CargarListaDepartamento()
         {
-            ListaCiudad = ICiudadesnegocio!.Consultar();
+            ListaDepartamento = IDepartamentosnegocio!.Consultar();
         }
 
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (ISectoresnegocio == null)
+                if (ICiudadesnegocio == null)
                     return;
-                Lista = ISectoresnegocio!.Consultar();
-                CargarListaCiudad();
-                Sector = null;
+                Lista = ICiudadesnegocio!.Consultar();
+                CargarListaDepartamento();
+                Ciudad = null;
             }
             catch (Exception ex)
             {
@@ -50,10 +52,11 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            CargarListaCiudad();
-            Sector = new Sectores()
+            CargarListaDepartamento();
+            Ciudad = new Ciudades()
             {
-                Estado = true
+                Estado = true,
+                FechaCreacion = DateTime.Now
             };
             Borrando = false;
         }
@@ -63,9 +66,9 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                Sector = Lista!.FirstOrDefault(x => x.Id == data);
+                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
-                CargarListaCiudad();
+                CargarListaDepartamento();
                 Borrando = false;
             }
             catch (Exception ex)
@@ -78,13 +81,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Sector == null)
+                if (Ciudad == null)
                     return;
-                if (Sector.Id == 0)
-                    Sector = ISectoresnegocio!.Guardar(Sector!);
+                if (Ciudad.Id == 0)
+                    Ciudad = ICiudadesnegocio!.Guardar(Ciudad!);
                 else
-                    Sector = ISectoresnegocio!.Modificar(Sector!);
-                if (Sector.Id == 0)
+                    Ciudad = ICiudadesnegocio!.Modificar(Ciudad!);
+                if (Ciudad.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -98,10 +101,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Sector == null)
+                if (Ciudad == null)
                     return;
-                ViewData["Mensaje"] = ISectoresnegocio!.Eliminar(Sector!);
-                Sector = null;
+                ViewData["Mensaje"] = ICiudadesnegocio!.Eliminar(Ciudad!);
+                Ciudad = null;
             }
             catch (Exception ex)
             {
@@ -114,7 +117,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                Sector = Lista!.FirstOrDefault(x => x.Id == data);
+                Ciudad = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

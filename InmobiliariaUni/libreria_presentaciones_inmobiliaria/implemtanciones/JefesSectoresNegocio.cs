@@ -26,6 +26,23 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
+        public JefesSectores ConsultarUsuario(int Id)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/JefesSectores/ConsultarUsuario/{Id}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new JefesSectores();
+
+            return JsonConvert.DeserializeObject<JefesSectores>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
         public string Eliminar(JefesSectores entidad)
         {
             var datos = new Dictionary<string, object>();

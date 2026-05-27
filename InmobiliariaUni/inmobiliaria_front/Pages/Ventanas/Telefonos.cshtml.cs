@@ -1,36 +1,29 @@
 using libreria_inmobiliaria.Entidades;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Win32.SafeHandles;
 
-namespace inmobiliaria_front.Pages.Empleados
+namespace inmobiliaria_front.Pages.Ventanas
 {
-    public class DireccionesModel : PageModel
+    [Authorize(Roles = "Empleado")]
+    public class TelefonosModel : PageModel
     {
-        private IDireccionesNegocio? IDireccioesnegocio { get; set; }
+        private ITelefonosNegocio? ITelefonosnegocio { get; set; }
         private IPersonasNegocio? IPersonasnegocio { get; set; }
-        private ICiudadesNegocio? ICiudadesnegocio { get; set; }
 
-        [BindProperty] public Direcciones? Direccion { get; set; }
-        public List<Direcciones>? Direcciones { get; set; }
-        public List<Ciudades>? Ciudades { get; set; }
+        [BindProperty] public Telefonos? Telefono { get; set; }
+        public List<Telefonos>? telefonos { get; set; }
         public List<Personas>? Personas { get; set; }
         public bool Borrando { get; set; }
         [BindProperty] public string? CedulaPersona { get; set; } = "0";
 
-        public DireccionesModel()
+        public TelefonosModel()
         {
-            IDireccioesnegocio = new DireccionesNegocio();
+            ITelefonosnegocio = new TelefonosNegocio();
             IPersonasnegocio = new PersonasNegocio();
-            ICiudadesnegocio = new CiudadesNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            Ciudades = ICiudadesnegocio!.Consultar();
-            Personas = IPersonasnegocio!.Consultar();
         }
 
         public void OnGet()
@@ -38,15 +31,20 @@ namespace inmobiliaria_front.Pages.Empleados
             OnPostBtRefrescar();
         }
 
+        private void cargarlistas()
+        {
+            Personas = IPersonasnegocio!.Consultar();
+        }
+
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (IDireccioesnegocio == null)
-                    return;
-                Direcciones = IDireccioesnegocio.Consultar();
                 cargarlistas();
-                Direccion = null;
+                if (ITelefonosnegocio == null)
+                    return;
+                telefonos = ITelefonosnegocio.Consultar();
+                Telefono = null;
             }
             catch (Exception ex)
             {
@@ -56,8 +54,7 @@ namespace inmobiliaria_front.Pages.Empleados
 
         public void OnPostBtNuevo()
         {
-            cargarlistas();
-            Direccion = new Direcciones()
+            Telefono = new Telefonos()
             {
                 Persona = 0
             };
@@ -69,9 +66,8 @@ namespace inmobiliaria_front.Pages.Empleados
             try
             {
                 OnPostBtRefrescar();
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
-                Direcciones = null;
+                Telefono = telefonos!.FirstOrDefault(x => x.Id == data);
+                telefonos = null;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -84,19 +80,20 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (Direccion == null)        
+                cargarlistas();
+                if (Telefono == null)        
                     return;
 
-                Direccion!.Persona = IPersonasnegocio!.ConsultarPorCedula(CedulaPersona!);
+                Telefono!.Persona = IPersonasnegocio!.ConsultarPorCedula(CedulaPersona!);
 
-                if (Direccion.Persona == 0)
+                if (Telefono.Persona == 0)
                     throw new Exception("No se pudo encontrar la cedula, reintente porfavor");
-                if (Direccion.Id == 0)
-                    Direccion = IDireccioesnegocio!.Guardar(Direccion!);
+                if (Telefono.Id == 0)
+                    Telefono = ITelefonosnegocio!.Guardar(Telefono!);
                 else
-                    Direccion = IDireccioesnegocio!.Modificar(Direccion!);
+                    Telefono = ITelefonosnegocio!.Modificar(Telefono!);
 
-                if (Direccion.Id == 0)
+                if (Telefono.Id == 0)
                     return;
 
                 OnPostBtRefrescar();
@@ -111,10 +108,10 @@ namespace inmobiliaria_front.Pages.Empleados
         {
             try
             {
-                if (Direccion == null)
+                if (Telefono == null)
                     return;
-                ViewData["Mensaje"] = IDireccioesnegocio!.Eliminar(Direccion!);
-                Direccion = null;
+                ViewData["Mensaje"] = ITelefonosnegocio!.Eliminar(Telefono!);
+                Telefono = null;
             }
             catch (Exception ex)
             {
@@ -127,8 +124,8 @@ namespace inmobiliaria_front.Pages.Empleados
             OnPostBtRefrescar();
             try
             {
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                Direcciones = null;
+                Telefono = telefonos!.FirstOrDefault(x => x.Id == data);
+                telefonos = null;
                 Borrando = true;
             }
             catch (Exception ex)

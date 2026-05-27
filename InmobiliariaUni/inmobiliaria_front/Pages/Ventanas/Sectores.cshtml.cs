@@ -1,22 +1,27 @@
 using libreria_inmobiliaria.Entidades;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace presentacion_aspnetcore.Pages
 {
-    public class NacionalidadesModel : PageModel
+    [Authorize(Roles = "Administrador")]
+    public class SectoresModel : PageModel
     {
-        private INacionalidadesNegocio? INacionalidadesnegocio;
+        private ISectoresNegocio? ISectoresnegocio;
+        private ICiudadesNegocio? ICiudadesnegocio;
 
-        [BindProperty] public List<Nacionalidades>? Lista { get; set; }
-        [BindProperty] public Nacionalidades? Nacionalidad { get; set; }
+        [BindProperty] public List<Sectores>? Lista { get; set; }
+        [BindProperty] public Sectores? Sector { get; set; }
         [BindProperty] public bool Borrando { get; set; }
+        [BindProperty] public List<Ciudades>? ListaCiudad { get; set; }
 
-        public NacionalidadesModel()
+        public SectoresModel()
         {
-            INacionalidadesnegocio = new NacionalidadesNegocio();
+            ISectoresnegocio = new SectoresNegocio();
+            ICiudadesnegocio = new CiudadesNegocio();
         }
 
         public void OnGet()
@@ -24,15 +29,20 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
         }
 
+        public void CargarListaCiudad()
+        {
+            ListaCiudad = ICiudadesnegocio!.Consultar();
+        }
+
         public void OnPostBtRefrescar()
         {
             try
             {
-                if (INacionalidadesnegocio == null)
+                if (ISectoresnegocio == null)
                     return;
-                Lista = INacionalidadesnegocio.Consultar();
-                Nacionalidad = null;
-                Borrando = false; 
+                Lista = ISectoresnegocio!.Consultar();
+                CargarListaCiudad();
+                Sector = null;
             }
             catch (Exception ex)
             {
@@ -42,7 +52,8 @@ namespace presentacion_aspnetcore.Pages
 
         public void OnPostBtNuevo()
         {
-            Nacionalidad = new Nacionalidades()
+            CargarListaCiudad();
+            Sector = new Sectores()
             {
                 Estado = true
             };
@@ -54,8 +65,9 @@ namespace presentacion_aspnetcore.Pages
             try
             {
                 OnPostBtRefrescar();
-                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
+                Sector = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
+                CargarListaCiudad();
                 Borrando = false;
             }
             catch (Exception ex)
@@ -68,13 +80,13 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Nacionalidad == null)
+                if (Sector == null)
                     return;
-                if (Nacionalidad.Id == 0)
-                    Nacionalidad = INacionalidadesnegocio!.Guardar(Nacionalidad!);
+                if (Sector.Id == 0)
+                    Sector = ISectoresnegocio!.Guardar(Sector!);
                 else
-                    Nacionalidad = INacionalidadesnegocio!.Modificar(Nacionalidad!);
-                if (Nacionalidad.Id == 0)
+                    Sector = ISectoresnegocio!.Modificar(Sector!);
+                if (Sector.Id == 0)
                     return;
                 OnPostBtRefrescar();
             }
@@ -88,10 +100,10 @@ namespace presentacion_aspnetcore.Pages
         {
             try
             {
-                if (Nacionalidad == null)
+                if (Sector == null)
                     return;
-                ViewData["Mensaje"] = INacionalidadesnegocio!.Eliminar(Nacionalidad!);
-                Nacionalidad = null;
+                ViewData["Mensaje"] = ISectoresnegocio!.Eliminar(Sector!);
+                Sector = null;
             }
             catch (Exception ex)
             {
@@ -104,7 +116,7 @@ namespace presentacion_aspnetcore.Pages
             OnPostBtRefrescar();
             try
             {
-                Nacionalidad = Lista!.FirstOrDefault(x => x.Id == data);
+                Sector = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
                 Borrando = true;
             }

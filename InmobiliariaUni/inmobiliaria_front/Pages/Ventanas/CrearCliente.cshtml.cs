@@ -2,26 +2,31 @@ using libreria_inmobiliaria.crearDTOS;
 using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace inmobiliaria_front.Pages
+namespace inmobiliaria_front.Pages.Ventanas
 {
-    public class CrearCompradorModel : PageModel
+    [Authorize(Roles = "Empleado")]
+    public class CrearClienteModel : PageModel
     {
         private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
         private ICiudadesNegocio? ICiudadesnegocio { get; set; }
-        private ICompradoresNegocio? ICompradoresnegocio { get; set; }
+        private IClientesNegocio? IClientesnegocio { get; set; }
+        private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocio { get; set; }
 
-        [BindProperty] public CompradoresDtos? CompradorDto { get; set; }
+        //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
+        [BindProperty] public ClientesDtos? ClienteDto { get; set; }
         public List<Nacionalidades>? Nacionalidades { get; set; }
         public List<Ciudades>? Ciudades { get; set; }
 
-        public CrearCompradorModel()
+        public CrearClienteModel()
         {
             INacionalidadesnegocio = new NacionalidadesNegocio();
             ICiudadesnegocio = new CiudadesNegocio();
-            ICompradoresnegocio = new CompradoresNegocio();
+            IClientesnegocio = new ClientesNegocio();
+            IEmpleadosSectoresnegocio = new EmpleadosSectoresNegocio();
         }
 
         public void OnGet()
@@ -33,17 +38,12 @@ namespace inmobiliaria_front.Pages
         {
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
-            CompradorDto = new CompradoresDtos()
+            ClienteDto = new ClientesDtos()
             {
                 Estado = true,
                 FechaNacimiento = DateTime.Now,
                 FechaRegistro = DateTime.Now,
                 Expediente = new ExpedientesLaborales() { FechaIngreso = DateTime.Now },
-                RespaldoComprador = new RespaldosCompradoresDtos()
-                {
-                    Bien = new BienesDtos() { FechaAdquisicion = DateTime.Now },
-                    ActivoFinanciero = new ActivosFinancierosDtos() { FechaAdquisicion = DateTime.Now }
-                }
             };
         }
 
@@ -51,7 +51,9 @@ namespace inmobiliaria_front.Pages
         {
             try
             {
-                ICompradoresnegocio!.Guardar(CompradorDto!);
+                var id = IEmpleadosSectoresnegocio!.ConsultarPorCedula(ClienteDto!.CedulaRelacionEmpleado!);
+                ClienteDto.Empleado = id;
+                IClientesnegocio!.Guardar(ClienteDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();
             }
