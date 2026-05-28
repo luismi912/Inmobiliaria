@@ -9,5 +9,6 @@ namespace libreria_presentaciones_inmobiliaria.interfaces
         Codeudores Guardar(CodeudoresDtos codeudorDto);
         string Eliminar(Codeudores entidad);
         Codeudores Modificar(Codeudores entidad);
+        int ConsultarPorCedula(string cedula);
     }
 }

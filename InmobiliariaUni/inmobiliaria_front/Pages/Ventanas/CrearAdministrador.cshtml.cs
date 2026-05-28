@@ -54,13 +54,15 @@ namespace inmobiliaria_front.Pages
             };
         }
 
-        public void OnPostBtEnviar()
+        public async Task OnPostBtEnviar()
         {
             try
             {
-                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(AdminDto!.Correo!);
+                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(AdminDto!.Correo!)!;
+
                 if (usuario == null)
                     throw new Exception("Error o contraseña incorrecta, reintenta por favor");
+
                 if (usuario!.Correo == AdminDto.Correo)
                     throw new Exception("El correo que intentas crear ya existe");
 

@@ -25,6 +25,40 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
+        public List<Propiedades> ConsultarSectorEmpleado(int Id)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/Propiedades/ConsultarSectorEmpleado/{Id}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new List<Propiedades>();
+
+            return JsonConvert.DeserializeObject<List<Propiedades>>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
+        public List<Propiedades> ConsultarSectorJefe(int Id)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/Propiedades/ConsultarSectorJefe/{Id}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new List<Propiedades>();
+
+            return JsonConvert.DeserializeObject<List<Propiedades>>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
         public string Eliminar(Propiedades entidad)
         {
             var datos = new Dictionary<string, object>();
@@ -83,6 +117,24 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
 
             if (!respuesta.ContainsKey("Valor"))
                 return new Propiedades();
+
+            return JsonConvert.DeserializeObject<Propiedades>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
+        public Propiedades ConsultarConContrato(Contratos contrato)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = "https://localhost:7165/Propiedades/ConsultarConContrato";
+            datos["Entidad"] = contrato;
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultarEntidad(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                throw new Exception("Error con contratos, reintente por favor");
 
             return JsonConvert.DeserializeObject<Propiedades>(
                 respuesta["Valor"].ToString()!)!;

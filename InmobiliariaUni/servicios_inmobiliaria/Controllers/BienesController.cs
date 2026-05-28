@@ -39,5 +39,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IBienesnegocio!.Modificar(entidad);
         }
+
+        [HttpGet("{cedula}")]
+        public RespaldosFinancieros ConsultarRespaldoCedular(string cedula)
+        {
+            if (this.IBienesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IBienesnegocio!.ConsultarRespaldoCedula(cedula);
+        }
     }
 }

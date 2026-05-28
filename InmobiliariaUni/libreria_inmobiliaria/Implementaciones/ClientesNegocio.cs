@@ -141,5 +141,28 @@ namespace libreria_inmobiliaria.Implementaciones
 
             return cliente;
         }
+
+        public int ConsultarPorCedula(string cedula)
+        {
+            var cliente = this.conexion!.Clientes.FirstOrDefault(c => c.Cedula == cedula);
+
+            if (cliente == null)
+                return 0;
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "Consulta por cedula",
+                Entidad = "Compradores",
+                IdEntidad = cliente.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se consulto un registro de compradores con id {cliente.Id}" +
+                              $"\nAl comprador con cedula {cliente.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
+            return cliente.Id;
+        }
     }
 }

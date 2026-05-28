@@ -92,5 +92,26 @@ namespace libreria_inmobiliaria.Implementaciones
 
             return entidad;
         }
+
+        public RespaldosFinancieros ConsultarRespaldoCedula(string cedula)
+        {
+            var comprador = this.conexion!.Compradores.FirstOrDefault(c => c.Cedula == cedula);
+
+            if (comprador == null)
+            {
+                var codeudor = this.conexion!.Codeudores.FirstOrDefault(c => c.Cedula == cedula);
+
+                if (codeudor == null)
+                    throw new Exception("No hay ninguna persona con esta cedula, reintente por favor");
+
+                var respaldocodeudor = this.conexion!.RespaldosCodeudores.FirstOrDefault(r => r.Codeudor == codeudor.Id);
+
+                return respaldocodeudor!;
+            }
+
+            var respaldocomprador = this.conexion!.RespaldosCompradores.FirstOrDefault(r => r.Comprador == comprador.Id);
+
+            return respaldocomprador!;
+        }
     }
 }

@@ -43,6 +43,22 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             return respuesta["Valor"].ToString()!;
         }
 
+        public int ConsultarPorCedula(string cedula)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/Codeudores/ConsultarPorCedula/{cedula}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                throw new Exception("Hubo un error con la cedula, reintente por favor");
+
+            return Convert.ToInt32(respuesta["Valor"]);
+        }
+
         public Codeudores Guardar(CodeudoresDtos codeudorDto)
         {
             if (codeudorDto == null)

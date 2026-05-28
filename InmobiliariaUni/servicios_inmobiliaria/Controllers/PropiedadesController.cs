@@ -39,5 +39,29 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IPropiedadesnegocio!.Modificar(entidad);
         }
+
+        [HttpGet]
+        public Propiedades ConsultarConContrato(Contratos contrato)
+        {
+            if (this.IPropiedadesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IPropiedadesnegocio!.ConsultarConContrato(contrato);
+        }
+
+        [HttpGet("{Id}")]
+        public List<Propiedades> ConsultarSectorEmpleado(int Id)
+        {
+            if (this.IPropiedadesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IPropiedadesnegocio!.ConsultarSectorEmpleado(Id);
+        }
+
+        [HttpGet("{Id}")]
+        public List<Propiedades> ConsultarSectorJefe(int Id)
+        {
+            if (this.IPropiedadesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IPropiedadesnegocio!.ConsultarSectorJefe(Id);
+        }
     }
 }

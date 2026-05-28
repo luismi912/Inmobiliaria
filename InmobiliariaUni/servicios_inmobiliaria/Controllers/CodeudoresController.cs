@@ -48,5 +48,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.ICodeudoresnegocio!.Guardar(dto);
         }
+
+        [HttpGet("{cedula}")]
+        public int ConsultarPorCedula(string cedula)
+        {
+            if (this.ICodeudoresnegocio == null)
+                throw new Exception("No implementado");
+            return this.ICodeudoresnegocio!.ConsultarPorCedula(cedula);
+        }
     }
 }

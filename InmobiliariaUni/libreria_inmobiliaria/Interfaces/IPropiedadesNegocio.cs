@@ -8,5 +8,8 @@ namespace libreria_inmobiliaria.Interfaces
         string Eliminar(Propiedades entidad);
         Propiedades Modificar(Propiedades entidad);
         Propiedades Guardar(Propiedades entidad);
+        Propiedades ConsultarConContrato(Contratos contrato);
+        List<Propiedades> ConsultarSectorEmpleado(int Id);
+        List<Propiedades> ConsultarSectorJefe(int Id);
     }
 }

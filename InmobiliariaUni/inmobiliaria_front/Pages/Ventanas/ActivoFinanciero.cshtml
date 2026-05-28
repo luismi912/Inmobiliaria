@@ -1,68 +1,91 @@
 ﻿@page
-@using inmobiliaria_front.Pages.Ventanas
-@using presentacion_aspnetcore.Pages
-@model TelefonosModel
+@model ActivoFinancieroModel
 @{
-    ViewData["Title"] = "Telefonoes";
+    ViewData["Title"] = "Activos Financieros";
 }
 <center>
     <div>
-        <form method="POST"
+        <form method="POST"  @*Indica como se enviaran los datos*@
             enctype="multipart/form-data">
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Telefonos</h3>
+                <h3>Activos Financieros</h3>
             </div>
 
-            <div>
+            <div style="margin-right: 30px">
                 <input type="submit"
                     style="margin-bottom: 15px"
                     value="Refrescar"
-                    class="btn btn-secondary"         
+                    class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
                     style="margin-bottom: 15px"
                     value="Nuevo"
                     class="btn btn-secondary"
                     asp-page-handler="BtNuevo"
-                    disabled="@(Model.Telefono != null)"/>     
+                    disabled="@(Model.Activo != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
                 <input type="submit"
                     style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
-                    disabled="@(Model.Telefono == null)"/>
+                    disabled="@(Model.Activo == null)"/>
             </div>
 
-            @if (Model.Telefono != null)
+            @if (Model.Activo != null)
             {
-                <div>
-                    <input type="hidden"
-                           asp-for="@Model.Telefono!.Id" />
+                <input type="hidden" 
+                    asp-for="@Model.Activo!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
 
+                <div>
                     <div class="form-group">
                         <label>
-                            Numero
+                            Nombre
                         </label>
                         <div class="col-6">
-                            <input id="inNumero"
-                                    class="cts_forms form-control"
-                                    asp-for="@Model.Telefono!.Numero" />
+                            <input id="inNombre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Activo!.Nombre" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Prefijo
+                            Descripcion
                         </label>
                         <div class="col-6">
-                            <input id="inPrefijo"
-                                    class="cts_forms form-control"
-                                    asp-for="@Model.Telefono!.Prefijo" />
+                            <input id="inDescripcion"
+                                   asp-for="@Model.Activo!.Descripcion" />
                         </div>
                     </div>
-                </div>   
-                 
+                    <div class="form-group">
+                        <label>
+                            Fecha adquisicion
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaAdquisicion"
+                                   asp-for="@Model.Activo!.FechaAdquisicion" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Valor
+                        </label>
+                        <div class="col-6">
+                            <input id="inValor"
+                                   asp-for="@Model.Activo!.Valor" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Cedula del propietario
+                        </label>
+                        <div class="col-6">
+                            <input id="inCedulaDelPropietario"
+                                   asp-for="@Model.CedulaDelPropietario" />
+                        </div>
+                    </div>
+                </div>
             }
             
             @if (ViewData.ContainsKey("Mensaje"))
@@ -70,7 +93,7 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.Telefono != null && Model.Borrando)
+            @if (Model.Activo != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -80,7 +103,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Telefonos?
+                                Desea borrar el Activo seleccionado?
+                            </h6>
+                            <h6 align="left">
+                                @Model.Activo!.Nombre
                             </h6>
                             <input type="submit"
                                    value="Cerrar"
@@ -96,42 +122,45 @@
             }
 
             @if (Model != null &&
-                 Model.telefonos != null &&
-                 Model.telefonos.Count > 0)
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
             {
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
-                            Numero
+                            Nombre
                         </th>
                         <th>
-                            Prefijo
+                            Descripcion
                         </th>
                         <th>
-                            Persona
+                            Fecha de adquisicion
                         </th>
                         <th>
-                            Cedula Persona
+                            Valor
                         </th>
-                        <th class="cl_hidden">
-                            Ciudad
+                        <th>
+                            Observacion respaldo
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.telefonos)
+                    @foreach (var elemento in Model.Lista)
                     {
                         <tr>
                             <th>
-                                @elemento.Numero
+                                @elemento.Nombre
                             </th>
                             <th>
-                                @elemento.Prefijo
+                                @elemento.Descripcion
                             </th>
                             <th>
-                                @(Model.Personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Nombre ?? "Sin tipo")
+                                @elemento.FechaAdquisicion
                             </th>
                             <th>
-                                Model.CedulaPersona
-                            </th>                                                                     
+                                @elemento.Valor
+                            </th>
+                            <th>
+                                @(Model.ListaRespaldos!.FirstOrDefault(d => d.Id == elemento.RespaldoFinanciero)?.Observaciones ?? "Sin tipo")
+                            </th>
                             <th>
                                 <input type="submit"
                                     value="Modificar"

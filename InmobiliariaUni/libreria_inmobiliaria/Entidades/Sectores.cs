@@ -10,7 +10,7 @@ namespace libreria_inmobiliaria.Entidades
         public int Ciudad { get; set; }
 
         [ForeignKey("Ciudad")] public Ciudades? _Ciudad { get; set; }
-        public List<JefesSectores>? JefesSectores { get; set; }
-        public List<EmpleadosSectores>? EmpleadosSectores { get; set; }
+        public JefesSectores? JefeSector { get; set; }
+        [NotMapped] public List<EmpleadosSectores>? EmpleadosSectores { get; set; }
     }
 }

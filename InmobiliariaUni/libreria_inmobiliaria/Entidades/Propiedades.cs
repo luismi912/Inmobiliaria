@@ -5,6 +5,7 @@ namespace libreria_inmobiliaria.Entidades
     public class Propiedades
     {
         public int Id { get; set; }
+        public string? Codigo { get; set; }
         public int NumeroHabitaciones { get; set; }
         public int NumeroBaños { get; set; }
         public bool Patio { get; set; }

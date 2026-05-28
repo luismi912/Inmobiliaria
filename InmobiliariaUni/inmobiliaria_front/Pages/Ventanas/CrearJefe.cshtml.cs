@@ -55,11 +55,11 @@ namespace inmobiliaria_front.Pages
             };
         }
 
-        public void OnPostBtEnviar()
+        public async Task OnPostBtEnviar()
         {
             try
             {
-                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(JefeDto!.Correo!);
+                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(JefeDto!.Correo!)!;
 
                 if (usuario == null)
                     throw new Exception("Correo o contraseña incorrectos, reintente por favor");

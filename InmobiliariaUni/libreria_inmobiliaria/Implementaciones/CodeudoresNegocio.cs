@@ -181,5 +181,28 @@ namespace libreria_inmobiliaria.Implementaciones
 
             return codeudor;
         }
+
+        public int ConsultarPorCedula(string cedula)
+        {
+            var codeudor = this.conexion!.Codeudores.FirstOrDefault(c => c.Cedula == cedula);
+
+            if (codeudor == null)
+                return 0;
+
+            var auditoria = new Auditorias()
+            {
+                TipoAccion = "Consulta por cedula",
+                Entidad = "Compradores",
+                IdEntidad = codeudor.Id,
+                Fecha = DateTime.Now,
+                Descripcion = $"Se consulto un registro de compradores con id {codeudor.Id}" +
+                              $"\nAl comprador con cedula {codeudor.Cedula}"
+            };
+
+            this.conexion.Auditorias!.Add(auditoria);
+            this.conexion.SaveChanges();
+
+            return codeudor.Id;
+        }
     }
 }

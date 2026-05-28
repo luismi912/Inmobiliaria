@@ -6,5 +6,6 @@
         Task<Dictionary<string, object>> EjecutarEliminar(Dictionary<string, object> datos);
         Task<Dictionary<string, object>> EjecutarModificar(Dictionary<string, object> datos);
         Task<Dictionary<string, object>> EjecutarConsultar(Dictionary<string, object> datos);
+        Task<Dictionary<string, object>> EjecutarConsultarEntidad(Dictionary<string, object> datos);
     }
 }

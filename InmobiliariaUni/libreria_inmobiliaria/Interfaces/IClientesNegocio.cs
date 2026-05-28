@@ -9,5 +9,6 @@ namespace libreria_inmobiliaria.Interfaces
         string Eliminar(Clientes entidad);
         Clientes Modificar(Clientes entidad);
         Clientes Guardar(ClientesDtos dto);
+        int ConsultarPorCedula(string cedula);
     }
 }

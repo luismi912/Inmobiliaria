@@ -1,0 +1,197 @@
+﻿@page
+@model BienesModel
+@{
+    ViewData["Title"] = "Bienes";
+}
+<center>
+    <div>
+        <form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
+
+            <div align="left">
+                <h3>Bienes</h3>
+            </div>
+
+            <div style="margin-right: 30px">
+                <input type="submit"
+                    style="margin-bottom: 15px"
+                    value="Refrescar"
+                    class="btn btn-secondary"         @*Crear botones para la utilizacion de paginas""*@
+                    asp-page-handler="BtRefrescar" />
+                <input type="submit"
+                    style="margin-bottom: 15px"
+                    value="Nuevo"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtNuevo"
+                    disabled="@(Model.Bien != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
+                <input type="submit"
+                    style="margin-bottom: 15px"
+                    value="Guardar"
+                    class="btn btn-secondary"
+                    asp-page-handler="BtGuardar"
+                    disabled="@(Model.Bien == null)"/>
+            </div>
+
+            @if (Model.Bien != null)
+            {
+                <input type="hidden" 
+                    asp-for="@Model.Bien!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
+
+                <div>
+                    <div class="form-group">
+                        <label>
+                            Nombre
+                        </label>
+                        <div class="col-6">
+                            <input id="inNombre"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Bien!.Nombre" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Descripcion
+                        </label>
+                        <div class="col-6">
+                            <input id="inDescripcion"
+                                   asp-for="@Model.Bien!.Descripcion" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Fecha adquisicion
+                        </label>
+                        <div class="col-6">
+                            <input id="inFechaAdquisicion"
+                                   asp-for="@Model.Bien!.FechaAdquisicion" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Valor adquisicion
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorAdquisicion"
+                                   asp-for="@Model.Bien!.ValorAdquisicion" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Valor Actual
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorActual"
+                                   asp-for="@Model.Bien!.ValorActual" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Cedula del propietario
+                        </label>
+                        <div class="col-6">
+                            <input id="inCedulaDelPropietario"
+                                   asp-for="@Model.CedulaDelPropietario" />
+                        </div>
+                    </div>
+                </div>
+            }
+            
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+            }
+
+            @if (Model.Bien != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Desea borrar el Bien seleccionado?
+                            </h6>
+                            <h6 align="left">
+                                @Model.Bien!.Nombre
+                            </h6>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model != null &&
+                 Model.Lista != null &&
+                 Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Descripcion
+                        </th>
+                        <th>
+                            Fecha de adquisicion
+                        </th>
+                        <th>
+                            Valor de adquisicion
+                        </th>
+                        <th>
+                            Valor actual
+                        </th>
+                        <th>
+                            Observacio respaldo 
+                        </th>
+                    </tr>
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <th>
+                                @elemento.Nombre
+                            </th>
+                            <th>
+                                @elemento.Descripcion
+                            </th>
+                            <th>
+                                @elemento.FechaAdquisicion
+                            </th>
+                            <th>
+                                @elemento.ValorAdquisicion
+                            </th>
+                            <th>
+                                @elemento.ValorActual
+                            </th>
+                            <th>
+                                @(Model.ListaRespaldos!.FirstOrDefault(d => d.Id == elemento.RespaldoFinanciero)?.Observaciones ?? "Sin tipo")
+                            </th>
+                            <th>
+                                <input type="submit"
+                                    value="Modificar"
+                                    asp-page-handler="BtModificar"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                                <input type="submit"
+                                    value="Borrar"
+                                    asp-page-handler="BtBorrarVal"
+                                    class="btn btn-secondary"
+                                    asp-route-data="@elemento.Id" />
+                            </th>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

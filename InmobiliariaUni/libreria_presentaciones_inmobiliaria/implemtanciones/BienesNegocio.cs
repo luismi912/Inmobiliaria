@@ -25,6 +25,23 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
+        public RespaldosFinancieros ConsultarRespaldoCedula(string cedula)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/Bienes/Consultar/{cedula}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                throw new Exception("No se logro concretar el respaldo, reintente por favor");
+
+            return JsonConvert.DeserializeObject<RespaldosFinancieros>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
         public string Eliminar(Bienes entidad)
         {
             var datos = new Dictionary<string, object>();

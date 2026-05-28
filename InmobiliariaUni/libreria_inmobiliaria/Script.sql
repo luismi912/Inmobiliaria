@@ -227,6 +227,7 @@ CREATE TABLE ExpedientesLaborales (
 
 CREATE TABLE Propiedades (
     Id INT IDENTITY(1,1) PRIMARY KEY,
+    Codigo VARCHAR(60) NOT NULL,
     NumeroHabitaciones INT,
     NumeroBaños INT,
     Patio BIT,
@@ -250,6 +251,7 @@ CREATE TABLE Contratos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     FechaContrato DATETIME,
     FechaFinalizacion DATETIME,
+    Estado VARCHAR(40) NOT NULL,
     Codeudor INT NOT NULL,
     Cliente INT NOT NULL,
     Comprador INT NOT NULL,
@@ -289,3 +291,39 @@ CREATE TABLE ContratosContado (
     FOREIGN KEY (Id) REFERENCES Contratos(Id)
 );
 
+-- Usuarios para pruebas
+INSERT INTO UsuariosRoles (Correo, Contraseña, Rol) VALUES
+('admin@inmobiliaria.com', 'Admin123', 'Administrador'),
+('jefe@inmobiliaria.com', 'Jefe123', 'Jefe'),
+('empleado@inmobiliaria.com', 'Empleado123', 'Empleado');
+
+-- Nacionalidad base para pruebas
+INSERT INTO Nacionalidades (Nombre, Estado) VALUES ('Colombiana', 1);
+
+-- Departamento base para pruebas
+INSERT INTO Departamentos (Nombre, Estado) VALUES ('Departamento Principal', 1);
+
+-- Ciudad base para pruebas
+INSERT INTO Ciudades (Nombre, Poblacion, FechaCreacion, CodigoPostal, Estado, Departamento) 
+VALUES ('Medellin', 2500000, GETDATE(), '050001', 1, 1);
+
+-- Sector base para pruebas
+INSERT INTO Sectores (Nombre, Estado, Ciudad) VALUES ('Sector Principal', 1, 1);
+
+-- Personas para pruebas
+INSERT INTO Personas (Cedula, Nombre, Apellido, FechaNacimiento, FechaRegistro, Estado, Nacionalidad) VALUES
+('1000000001', 'Carlos', 'Garcia', '1985-03-15', GETDATE(), 1, 1),  -- Admin
+('1000000002', 'Maria', 'Lopez', '1990-07-22', GETDATE(), 1, 1),    -- Jefe
+('1000000003', 'Juan', 'Martinez', '1995-11-10', GETDATE(), 1, 1);  -- Empleado
+
+-- Administrador Id = 1 de Personas, UsuarioRol = 1 para pruebas
+INSERT INTO AdministradoresDepartamentos (Id, PresupuestoDepartamento, HorarioTrabajo, Sueldo, Departamento, UsuarioRol)
+VALUES (1, 50000000.00, 'Lunes-Viernes 8am-5pm', 8000000.00, 1, 1);
+
+-- Jefe Id = 2 de Personas, UsuarioRol = 2 para pruebas
+INSERT INTO JefesSectores (Id, PresupuestoSector, HorarioTrabajo, Sueldo, Sector, AdministradorSector, UsuarioRol)
+VALUES (2, 20000000.00, 'Lunes-Viernes 8am-5pm', 5000000.00, 1, 1, 2);
+
+-- Empleado Id = 3 de Personas, UsuarioRol = 3 para pruebas
+INSERT INTO EmpleadosSectores (Id, HorarioTrabajo, Sueldo, Sector, JefeSector, UsuarioRol)
+VALUES (3, 'Lunes-Viernes 8am-5pm', 3000000.00, 1, 2, 3);

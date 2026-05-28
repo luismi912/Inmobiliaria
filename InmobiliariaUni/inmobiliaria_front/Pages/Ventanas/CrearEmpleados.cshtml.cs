@@ -2,11 +2,13 @@ using libreria_inmobiliaria.crearDTOS;
 using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace inmobiliaria_front.Pages.Ventanas
 {
+    [Authorize(Roles = "Jefe")]
     public class CrearEmpleadoModel : PageModel
     {
         private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocio { get; set; }
@@ -55,11 +57,11 @@ namespace inmobiliaria_front.Pages.Ventanas
             };
         }
 
-        public void OnPostBtEnviar()
+        public async Task OnPostBtEnviar()
         {
             try
             {
-                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(EmpleadoDto!.Correo!);
+                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(EmpleadoDto!.Correo!)!;
                 if (usuario == null)
                     throw new Exception("Correo o contraseña incorrectos, reintente por favor");
                 if (usuario.Correo == EmpleadoDto!.Correo)

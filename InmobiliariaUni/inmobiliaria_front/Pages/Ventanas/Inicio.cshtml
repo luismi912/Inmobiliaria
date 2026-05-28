@@ -1,0 +1,23 @@
+﻿@page
+@using presentacion_aspnetcore.Pages
+@model InicioModel
+@{
+    ViewData["Title"] = "Inicio";
+}
+<center>
+    <div>
+        <form method="POST"  @*Indica como se enviaran los datos*@
+            enctype="multipart/form-data">
+            @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
+
+            <div align="left" style="margin: auto; margin-top: 20px">
+                <h3 style="color: red; background-color: indianred; border-radius: 5px">BIENVENIDO</h3>
+                <p style="text-align: center; font-size: 20px; line-height:1.6">
+                    Bienvenido de nuevo a la pagina principal esperamos que se encuentre bien <br/>
+                    y que su estadia el dia de hoy sea excelente y recuerda <br/>
+                    <i>"Enfócate en el reconocimiento del esfuerzo, el valor del trabajo en equipo y el crecimiento"</i>  
+                </p>
+            </div>
+        </form>
+    </div>
+</center>

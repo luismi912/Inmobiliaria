@@ -42,6 +42,16 @@
                 <div>
                     <div class="form-group">
                         <label>
+                            Codigo
+                        </label>
+                        <div class="col-6">
+                            <input id="inCodigo"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.propiedad!.Codigo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
                             NumeroHabitaciones
                         </label>
                         <div class="col-6">
@@ -194,6 +204,9 @@
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
+                            Codigo
+                        </th>
+                        <th>
                             Disponible
                         </th>
                         <th>
@@ -233,6 +246,9 @@
                     @foreach (var elemento in Model.Lista)
                     {
                         <tr>
+                            <th>
+                                @elemento.Codigo
+                            </th>
                             <th>
                                 @elemento.Disponible
                             </th>

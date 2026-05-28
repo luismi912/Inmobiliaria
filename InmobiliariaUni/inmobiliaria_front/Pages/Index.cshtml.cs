@@ -21,6 +21,9 @@ namespace inmobiliaria_front.Pages
         public IndexModel()
         {
             IUsuariosRolesnegocio = new UsuariosRolesNegocio();
+            IJefesSectoresnegocio = new JefesSectoresNegocio();
+            IEmpleadosSectoresnegocio = new EmpleadosSectoresNegocio();
+            IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
         }
 
         public void OnGet()
@@ -28,7 +31,7 @@ namespace inmobiliaria_front.Pages
             
         }
 
-        public async Task OnPostIngresar()
+        public async Task OnPostBtIngresar()
         {
             //Verificamos que el usuario no se haya mandado null
             if (UsuarioRol == null)
@@ -41,7 +44,7 @@ namespace inmobiliaria_front.Pages
                 throw new Exception("No se a seleccionado ningun rol");
 
             //Se realiza una busqueda si si existe el correo y que retorne la entidad relacionada al mismo
-            var usuario = IUsuariosRolesnegocio!.ConsultarCorreo(UsuarioRol.Correo!);
+            var usuario = await IUsuariosRolesnegocio!.ConsultarCorreo(UsuarioRol.Correo!)!;
 
             if (usuario == null)
                 throw new Exception("La contraseña o el correo son incorrectos, reintete por favor");
@@ -57,6 +60,7 @@ namespace inmobiliaria_front.Pages
                 new Claim(ClaimTypes.Role, UsuarioRol.Rol!),
             };
 
+            //Añadimos el id en caso de que queramos utilizarlo en otras paginas
             if (usuario.Rol == "Administrador")
             {
                 var admin = IAdministradoresDepartamentosnegocio!.ConsultarUsuario(usuario.Id);
@@ -82,11 +86,11 @@ namespace inmobiliaria_front.Pages
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             if (usuario.Rol == "Administrador")
-                Response.Redirect("/Administradores/Inicio");
+                Response.Redirect("/Ventanas/Inicio");
             else if (usuario.Rol == "Jefe")
-                Response.Redirect("/Jefes/Inicio");
+                Response.Redirect("/Ventanas/Inicio");
             else
-                Response.Redirect("/Empleados/Inicio");
+                Response.Redirect("/Ventanas/Inicio");
         }
     }
 }

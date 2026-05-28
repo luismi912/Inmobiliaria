@@ -27,7 +27,7 @@ namespace libreria_inmobiliaria.Implementaciones
             var comprador = this.conexion!.Compradores.FirstOrDefault(c => c.Cedula == cedula);
 
             if (comprador == null)
-                throw new Exception("No se encontro ninguna persona con esa cedula");
+                return 0;
 
             var auditoria = new Auditorias()
             {

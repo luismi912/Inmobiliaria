@@ -95,5 +95,37 @@ namespace libreria_inmobiliaria.Implementaciones
 
             return entidad;
         }
+
+        public Propiedades ConsultarConContrato(Contratos contrato)
+        {
+            var propiedad = this.conexion!.Propiedades.FirstOrDefault(c => c.Id == contrato.Propiedad);
+
+            if (propiedad == null)
+                throw new Exception("Hubo un fallo con el contrato, reintente por favor");
+
+            return propiedad;
+        }
+
+        public List<Propiedades> ConsultarSectorEmpleado(int Id)
+        {
+            var empleado = this.conexion!.EmpleadosSectores.Include(e => e._Sector).FirstOrDefault(e => e.Id == Id);
+
+            if (empleado == null)
+                throw new Exception("El empleado no fue encontrado, reintente por favor");
+
+            var sector = empleado!._Sector;
+
+            return this.conexion!.Propiedades.Where(p => p.Sector == sector!.Id).ToList();
+        }
+
+        public List<Propiedades> ConsultarSectorJefe(int Id)
+        {
+            var sector = this.conexion!.Sectores.Include(e => e.JefeSector).FirstOrDefault(e => e.JefeSector!.Id == Id);
+
+            if (sector == null)
+                throw new Exception("Error con el sector, reintente por favor");
+
+            return this.conexion!.Propiedades.Where(p => p.Sector == sector.Id).ToList();
+        }
     }
 }
