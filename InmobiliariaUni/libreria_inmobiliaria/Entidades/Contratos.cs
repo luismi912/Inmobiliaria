@@ -7,6 +7,7 @@ namespace libreria_inmobiliaria.Entidades
         public int Id { get; set; }
         public DateTime FechaContrato { get; set; }
         public DateTime FechaFinalizacion { get; set; }
+        public decimal PrecioAcordado { get; set; }
         public string? Estado { get; set; }
         public int Codeudor { get; set; }
         public int Cliente { get; set; }

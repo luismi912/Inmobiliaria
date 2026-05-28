@@ -1,7 +1,7 @@
 ﻿@page
 @using inmobiliaria_front.Pages.Ventanas
 @using presentacion_aspnetcore.Pages
-@model ContratosArriendosModel
+@model ContratosContadosModel
 @{
     ViewData["Title"] = "Contratos";
 }
@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Contratos arriendos</h3>
+                <h3>Contratos Contados</h3>
             </div>
 
             <div>
@@ -76,6 +76,7 @@
                         </label>
                         <div class="col-6">
                             <input id="inFechaContrato"
+                                    class="cts_forms form-control"
                                     asp-for="@Model.Contrato!.FechaContrato" />
                         </div>
                     </div>
@@ -85,17 +86,8 @@
                         </label>
                         <div class="col-6">
                             <input id="inFechaFinalizacion"
+                                    class="cts_forms form-control"
                                     asp-for="@Model.Contrato!.FechaFinalizacion" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Precio Acordado
-                        </label>
-                        <div class="col-6">
-                            <input id="inEstado"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Contrato!.PrecioAcordado" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -136,35 +128,6 @@
                             <input id="inEstado"
                                    class="cts_forms form-control"
                                    asp-for="@Model.CedulaComprador" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Valor mensual
-                        </label>
-                        <div class="col-6">
-                            <input id="inValorMensual"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Contrato!.ValorMensual" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Dia de pago
-                        </label>
-                        <div class="col-6">
-                            <input id="inDiaPago"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Contrato!.DiaPago" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Renovable
-                        </label>
-                        <div class="col-6">
-                            <input id="inEstado"
-                                   asp-for="@Model.Contrato!.Renovable" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -283,15 +246,6 @@
                             </th>
                             <th>
                                 @Model.Propiedad!.Codigo
-                            </th>
-                            <th>
-                                @elemento!.ValorMensual
-                            </th>
-                            <th>
-                                @elemento!.DiaPago
-                            </th>
-                            <th>
-                                @elemento!.Renovable
                             </th>
                             <th>
                                 @if (elemento.Estado != "Aceptado")

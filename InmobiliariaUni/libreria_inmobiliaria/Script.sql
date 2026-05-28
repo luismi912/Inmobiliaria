@@ -251,6 +251,7 @@ CREATE TABLE Contratos (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     FechaContrato DATETIME,
     FechaFinalizacion DATETIME,
+    PrecioAcordado DECIMAL(18,2) NOT NULL,
     Estado VARCHAR(40) NOT NULL,
     Codeudor INT NOT NULL,
     Cliente INT NOT NULL,
