@@ -40,9 +40,9 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public List<Direcciones> Consultar(int Id)
+        public List<Direcciones> Consultar()
         {
-            var Lista = this.conexion!.Direcciones!.Where(p => p.Persona == Id).ToList();   //Buscamos las direcciones segun la persona
+            var Lista = this.conexion!.Direcciones!.ToList();   
 
             return Lista;
         }

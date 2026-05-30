@@ -20,7 +20,7 @@ namespace inmobiliaria_front.Pages.Ventanas
         private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocios { get; set; }
 
         [BindProperty] public ContratosCuotas? Contrato { get; set; }
-        [BindProperty] public Propiedades? Propiedad { get; set; }
+        public Propiedades? Propiedad { get; set; }
 
         public List<Propiedades>? propiedades { get; set; }
         public List<ContratosCuotas>? contratos { get; set; }
@@ -29,15 +29,11 @@ namespace inmobiliaria_front.Pages.Ventanas
         public List<Codeudores>? codeudores { get; set; }
         public List<Compradores>? compradores { get; set; }
         public List<EmpleadosSectores>? empleados { get; set; }
-        
+
         public bool Borrando { get; set; }
         public bool Aceptar { get; set; }
         public int empleado { get; set; }
         public int jefe { get; set; }
-
-        [BindProperty] public string? CedulaCliente { get; set; } = "0";
-        [BindProperty] public string? CedulaComprador { get; set; } = "0";
-        [BindProperty] public string? CedulaCodeudor { get; set; } = "0";
 
         public ContratosCuotasModel()
         {
@@ -56,21 +52,27 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         private void cargarlistas()
         {
-            //Sacamos el id del usuario que esta utilizando en el momento la aplicacion
-            empleado = int.Parse(User.FindFirstValue("IdPersona")!);
-
             //Buscamos las propiedades relacionadas con el sector en el que se encuentra el empleado
-            propiedades = IPropiedadesnegocio!.ConsultarSectorEmpleado(empleado);
+            propiedades = IPropiedadesnegocio!.Consultar();
             compradores = ICompradoresnegocio!.Consultar();
             codeudores = ICodeudoresnegocio!.Consultar();
+            contratos = IContratosCuotasnegocio!.Consultar();
+            contratosAceptados = IContratosCuotasnegocio.Consultar().Where(c => c.Estado == "Aceptado").ToList();
             clientes = IClientesnegocio!.Consultar();
             empleados = IEmpleadosSectoresnegocios!.Consultar();
+        }
+
+        public void cargarIdEmpleado()
+        {
+            //Sacamos el id del usuario que esta utilizando en el momento la aplicacion
+            empleado = int.Parse(User.FindFirstValue("IdPersona")!);
         }
 
         public void OnPostBtRefrescar()
         {
             try
             {
+                cargarlistas();
                 if (IContratosCuotasnegocio == null)
                     return;
                 contratos = IContratosCuotasnegocio.Consultar();
@@ -88,9 +90,9 @@ namespace inmobiliaria_front.Pages.Ventanas
             cargarlistas();
             Contrato = new ContratosCuotas()
             {
-               FechaContrato = DateTime.Now,
-               FechaFinalizacion = DateTime.Now,
-               Estado = "Pendiente"
+                FechaContrato = DateTime.Now,
+                FechaFinalizacion = DateTime.Now,
+                Estado = "Pendiente"
             };
             Borrando = false;
             Aceptar = false;
@@ -104,6 +106,7 @@ namespace inmobiliaria_front.Pages.Ventanas
                 cargarlistas();
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
                 contratos = null;
+                contratosAceptados = null;
             }
             catch (Exception ex)
             {
@@ -115,17 +118,19 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
+                cargarIdEmpleado();
                 cargarlistas();
-                if (Contrato == null)        
+                if (Contrato == null)
                     return;
 
-                Contrato!.Cliente = IClientesnegocio!.ConsultarPorCedula(CedulaCliente!);
-                Contrato!.Codeudor = ICodeudoresnegocio!.ConsultarPorCedula(CedulaCodeudor!);
-                Contrato!.Comprador = ICompradoresnegocio!.ConsultarPorCedula(CedulaComprador!);
-                Contrato!.EmpleadoSector = empleado;
+                var pro = propiedades!.FirstOrDefault(x => x.Id == Contrato.Propiedad);
 
-                if (Contrato.Cliente == 0 || Contrato.Codeudor == 0 || Contrato.Comprador == 0)
-                    throw new Exception("No se pudo encontrar la cedula, reintente porfavor");
+                if (pro == null)
+                    throw new Exception("La propiedad seleccionada no existe");
+
+                Contrato!.Cliente = pro.Cliente;
+
+                Contrato!.EmpleadoSector = empleado;
 
                 if (Contrato.Id == 0)
                     Contrato = IContratosCuotasnegocio!.Guardar(Contrato!);
@@ -165,6 +170,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             {
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
                 contratos = null;
+                contratosAceptados = null;
                 Borrando = true;
             }
             catch (Exception ex)
@@ -180,8 +186,29 @@ namespace inmobiliaria_front.Pages.Ventanas
                 OnPostBtRefrescar();
                 cargarlistas();
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
-                Propiedad = IPropiedadesnegocio!.ConsultarConContrato(Contrato!);
+                Contrato!.Estado = "Solicitud";
+                Contrato = IContratosCuotasnegocio!.Modificar(Contrato!);
                 contratos = null;
+                contratosAceptados = null;
+                Borrando = false;
+                OnPostBtRefrescar();
+            }
+            catch (Exception ex)
+            {
+                ViewData["Mensaje"] = ex.Message;
+            }
+        }
+
+        public void OnPostBtVerSolicitud(int data)
+        {
+            try
+            {
+                OnPostBtRefrescar();
+                cargarlistas();
+                Contrato = contratos!.FirstOrDefault(x => x.Id == data);
+                contratos = null;
+                contratosAceptados = null;
+                Aceptar = true;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -194,8 +221,14 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                Contrato!.Estado = "Aceptado";
-                Contrato = IContratosCuotasnegocio!.Modificar(Contrato!);
+                cargarlistas();
+                var contra = contratos!.FirstOrDefault(c => c.Id == Contrato!.Id);
+
+                if (contra == null)
+                    throw new Exception("Contrato no encontrado");
+
+                contra!.Estado = "Aceptado";
+                Contrato = IContratosCuotasnegocio!.Modificar(contra!);
                 OnPostBtCerrar();
             }
             catch (Exception ex)
@@ -204,10 +237,12 @@ namespace inmobiliaria_front.Pages.Ventanas
             }
         }
 
+
         public void OnPostBtCerrar()
         {
             OnPostBtRefrescar();
             Borrando = false;
+            Aceptar = false;
         }
     }
 }

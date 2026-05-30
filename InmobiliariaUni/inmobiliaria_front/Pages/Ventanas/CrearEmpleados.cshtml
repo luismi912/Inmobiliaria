@@ -1,8 +1,8 @@
 ﻿@page
 @using inmobiliaria_front.Pages.Ventanas
-@model CrearEmpleadoModel
+@model CrearEmpleadosModel
 @{
-    ViewData["Title"] = "Crear Comprador";
+    ViewData["Title"] = "CrearEmpleados";
 }
 
 <form method="POST"  @*Indica como se enviaran los datos*@
@@ -171,11 +171,11 @@
                     Jefes
                 </label>
                 <div class="col-6">
-                    @if (Model.Administradores != null)
+                    @if (Model.jefes!= null)
                     {
                         <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
                                 asp-for="@Model.EmpleadoDto!.Empleado.JefeSector" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Administradores, "Id", "Nombre"))">
+                                asp-items="@(new SelectList(Model.jefes, "Id", "Nombre"))">
                             @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
                             <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
                         </select>

@@ -3,40 +3,40 @@
 @using presentacion_aspnetcore.Pages
 @model ContratosCuotasModel
 @{
-    ViewData["Title"] = "Contratos";
+    ViewData["Title"] = "ContratosCuotas";
 }
 <center>
     <div>
         <form method="POST"
-            enctype="multipart/form-data">
+              enctype="multipart/form-data">
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Contratos cuotas</h3>
+                <h3>Contratos Cuotas</h3>
             </div>
 
             <div>
 
-            @if (User.IsInRole("Empleado"))
-            {
-                <input type="submit"
-                    style="margin-bottom: 15px"
-                    value="Refrescar"
-                    class="btn btn-secondary"         
-                    asp-page-handler="BtRefrescar" />
-                <input type="submit"
-                    style="margin-bottom: 15px"
-                    value="Nuevo"
-                    class="btn btn-secondary"
-                    asp-page-handler="BtNuevo"
-                    disabled="@(Model.Contrato != null)"/>     
-                <input type="submit"
-                    style="margin-bottom: 15px"
-                    value="Guardar"
-                    class="btn btn-secondary"
-                    asp-page-handler="BtGuardar"
-                    disabled="@(Model.Contrato == null)"/>  
-            }
+                @if (User.IsInRole("Empleado"))
+                {
+                    <input type="submit"
+                           style="margin-bottom: 15px"
+                           value="Refrescar"
+                           class="btn btn-secondary"
+                           asp-page-handler="BtRefrescar" />
+                    <input type="submit"
+                           style="margin-bottom: 15px"
+                           value="Nuevo"
+                           class="btn btn-secondary"
+                           asp-page-handler="BtNuevo"
+                           disabled="@(Model.Contrato != null)" />
+                    <input type="submit"
+                           style="margin-bottom: 15px"
+                           value="Guardar"
+                           class="btn btn-secondary"
+                           asp-page-handler="BtGuardar"
+                           disabled="@(Model.Contrato == null)" />
+                }
             </div>
 
             @if (Model.Aceptar && Model.Contrato != null)
@@ -76,8 +76,8 @@
                         </label>
                         <div class="col-6">
                             <input id="inFechaContrato"
-                                    class="cts_forms form-control"
-                                    asp-for="@Model.Contrato!.FechaContrato" />
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.FechaContrato" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -86,8 +86,8 @@
                         </label>
                         <div class="col-6">
                             <input id="inFechaFinalizacion"
-                                    class="cts_forms form-control"
-                                    asp-for="@Model.Contrato!.FechaFinalizacion" />
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.FechaFinalizacion" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -102,32 +102,34 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Cedula Codeudor
+                            Codeudor
                         </label>
                         <div class="col-6">
-                            <input id="inCedulaCodeudor"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.CedulaCodeudor" />
+                            @if (Model.codeudores != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Contrato!.Codeudor" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.codeudores, "Id", "Cedula"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Cedula Cliente
+                            Comprador
                         </label>
                         <div class="col-6">
-                            <input id="inCedulaCodeudor"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.CedulaCliente" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Cedula Comprador
-                        </label>
-                        <div class="col-6">
-                            <input id="inEstado"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.CedulaComprador" />
+                            @if (Model.compradores != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Contrato!.Comprador" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.compradores, "Id", "Cedula"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,13 +148,54 @@
                             }
                         </div>
                     </div>
-                </div>   
+                    <div class="form-group">
+                        <label>
+                            Precio acordado
+                        </label>
+                        <div class="col-6">
+                            <input id="inPrecioAcordado"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.PrecioAcordado" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Numero de cuotas
+                        </label>
+                        <div class="col-6">
+                            <input id="inNumeroCuotas"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.NumeroCuotas" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Valor cuota
+                        </label>
+                        <div class="col-6">
+                            <input id="inValorCuota"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.ValorCuota" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Pago inicial
+                        </label>
+                        <div class="col-6">
+                            <input id="inPagoInicial"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.PagoInicial" />
+                        </div>
+                    </div>
+                </div>
                  
             }
             
             @if (ViewData.ContainsKey("Mensaje"))
             {
-                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
             }
 
             @if (Model.Contrato != null && Model.Borrando)
@@ -181,8 +224,8 @@
             }
 
             @if (Model != null &&
-                 Model.contratos != null &&
-                 Model.contratos.Count > 0)
+                             Model.contratos != null &&
+                             Model.contratos.Count > 0)
             {
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
@@ -211,17 +254,21 @@
                             Propiedad
                         </th>
                         <th class="cl_hidden">
-                            Valor mensual
+                            Precio acordado
                         </th>
                         <th class="cl_hidden">
-                            Dia pago
+                            Numero de cuotas
                         </th>
                         <th class="cl_hidden">
-                            Renovable
+                            Valor de la cuota
+                        </th>
+                        <th class="cl_hidden">
+                            Pago inicial
                         </th>
                     </tr>
                     @foreach (var elemento in Model.contratos!)
                     {
+                        
                         <tr>
                             <th>
                                 @elemento.FechaContrato
@@ -234,7 +281,7 @@
                             </th>
                             <th>
                                 @(Model.codeudores?.FirstOrDefault(x => x.Id == elemento.Codeudor)?.Cedula ?? "Sin tipo")
-                            </th>   
+                            </th>
                             <th>
                                 @(Model.clientes?.FirstOrDefault(x => x.Id == elemento.Cliente)?.Cedula ?? "Sin tipo")
                             </th>
@@ -245,28 +292,135 @@
                                 @(Model.empleados?.FirstOrDefault(x => x.Id == elemento.EmpleadoSector)?.Cedula ?? "Sin tipo")
                             </th>
                             <th>
-                                @Model.Propiedad!.Codigo
+                                @(Model.propiedades?.FirstOrDefault(x => x.Id == elemento.Propiedad)?.Codigo ?? "Sin tipo")
                             </th>
                             <th>
-                                @if (elemento.Estado != "Aceptado")
+                                @elemento.PrecioAcordado
+                            </th>
+                            <th>
+                                @elemento.NumeroCuotas
+                            </th>
+                            <th>
+                                @elemento.ValorCuota
+                            </th>
+                            <th>
+                                @elemento.PagoInicial
+                            </th>
+                            <th>
+                                
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                                
+
+                                @if (User.IsInRole("Empleado"))
                                 {
-                                     <input type="submit"
-                                        value="Modificar"
-                                        asp-page-handler="BtModificar"
-                                        class="btn btn-secondary"
-                                        asp-route-data="@elemento.Id" />
                                     <input type="submit"
-                                        value="Borrar"
-                                        asp-page-handler="BtBorrarVal"
-                                        class="btn btn-secondary"
-                                        asp-route-data="@elemento.Id" />
+                                           value="Solicitud"
+                                           asp-page-handler="BtSolicitud"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id"
+                                           disabled="@(elemento.Estado == "Pendiente")" />
                                 }
 
-                                <input type="submit"
-                                        value="Solicitud"
-                                        asp-page-handler="BtSolicitud"
-                                        class="btn btn-secondary"
-                                        asp-route-data="@elemento.Id" />
+                                @if (User.IsInRole("Jefe"))
+                                {
+                                    <input type="submit"
+                                           value="VerSolicitud"
+                                           asp-page-handler="BtVerSolicitud"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id" />
+                                }
+                            </th>
+                        </tr>
+                    }
+                </table>
+            }
+
+            <h2>Contratos Aceptados</h2>
+            @if (Model != null &&
+                Model.contratosAceptados != null &&
+                Model.contratosAceptados.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Fecha Contrato
+                        </th>
+                        <th>
+                            Fecha Finalizacion
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                            Codeudor
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Comprador
+                        </th>
+                        <th class="cl_hidden">
+                            Empleado
+                        </th>
+                        <th class="cl_hidden">
+                            Propiedad
+                        </th>
+                        <th class="cl_hidden">
+                            Precio acordado
+                        </th>
+                        <th class="cl_hidden">
+                            Precio final
+                        </th>
+                    </tr>
+                    @foreach (var elemento in Model.contratos!)
+                    {
+                        
+                        <tr>
+                            <th>
+                                @elemento.FechaContrato
+                            </th>
+                            <th>
+                                @elemento.FechaFinalizacion
+                            </th>
+                            <th>
+                                @elemento.Estado
+                            </th>
+                            <th>
+                                @(Model.codeudores?.FirstOrDefault(x => x.Id == elemento.Codeudor)?.Cedula ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @(Model.clientes?.FirstOrDefault(x => x.Id == elemento.Cliente)?.Cedula ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @(Model.compradores?.FirstOrDefault(x => x.Id == elemento.Comprador)?.Cedula ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @(Model.empleados?.FirstOrDefault(x => x.Id == elemento.EmpleadoSector)?.Cedula ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @(Model.propiedades?.FirstOrDefault(x => x.Id == elemento.Propiedad)?.Codigo ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @elemento.PrecioAcordado
+                            </th>
+                            <th>
+                                @elemento.NumeroCuotas
+                            </th>
+                            <th>
+                                @elemento.ValorCuota
+                            </th>
+                            <th>
+                                @elemento.PagoInicial
                             </th>
                         </tr>
                     }

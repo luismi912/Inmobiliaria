@@ -95,17 +95,12 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public EmpleadosSectores Guardar(CrearUsuariosEmpleadosDtos dto)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
-
-            if (usuario != null)
-                return null!;
-
             //CREAMOS EL USUARIO DEL ADMIN
-            usuario = new UsuariosRoles()
+            var usuario = new UsuariosRoles()
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
-                Rol = dto.Rol
+                Rol = "Empleado"
             };
 
             this.conexion!.UsuariosRoles.Add(usuario);

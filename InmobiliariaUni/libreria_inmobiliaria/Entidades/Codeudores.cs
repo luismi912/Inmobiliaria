@@ -2,12 +2,12 @@
 
 namespace libreria_inmobiliaria.Entidades
 {
-    public class Codeudores : Personas    //RELACION 1 A 1 CON COMPRADORES CODEUDOR DEPENDE DE COMPRADOR
+    public class Codeudores : Personas    
     {
         public int Comprador { get; set; }
 
-        [ForeignKey("Comprador")] public Compradores? _Comprador { get; set; }   //UN CODEUDOR SOLO PUEDE TENER 1 COMPRADOR
-        [NotMapped] public List<Contratos>? Contratos { get; set; }   //PUEDE ESTAR EN MUCHO CONTRATOS POR PARTE DEL COMPRADOR
+        [ForeignKey("Comprador")] public Compradores? _Comprador { get; set; }   
+        [NotMapped] public List<Contratos>? Contratos { get; set; }   
         
     }
 }

@@ -1,0 +1,179 @@
+﻿@page
+@model CompradoresModel
+@{
+    ViewData["Title"] = "Compradores";
+}
+<center>
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div align="left">
+                <h3>Compradores</h3>
+            </div>
+
+            <div>
+                <input type="submit"
+                       style="margin-bottom: 15px"
+                       value="Refrescar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtRefrescar" />
+                <input type="submit"
+                       style="margin-bottom: 15px"
+                       value="Guardar"
+                       class="btn btn-secondary"
+                       asp-page-handler="BtGuardar"
+                       disabled="@(Model.Comprador == null)" />
+            </div>
+
+            @if (Model.Comprador != null)
+            {
+                <input type="hidden" asp-for="@Model.Comprador!.Id" />
+
+                <div>
+                    <div class="form-group">
+                        <label>Cedula</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Comprador!.Cedula" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Comprador!.Nombre" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Comprador!.Apellido" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Nacimiento</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Comprador!.FechaNacimiento" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <div class="col-6">
+                            <input asp-for="@Model.Comprador!.Estado" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nacionalidad</label>
+                        <div class="col-6">
+                            @if (Model.listaNacionalidades != null)
+                            {
+                                <select class="form-control"
+                                        asp-for="@Model.Comprador!.Nacionalidad"
+                                        asp-items="@(new SelectList(Model.listaNacionalidades, "Id", "Nombre"))">
+                                    <option value="">-- Seleccione --</option>
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Presupuesto Maximo</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Comprador!.PresupuestoMaximo" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (ViewData.ContainsKey("Mensaje"))
+            {
+                @await Html.PartialAsync("../Emergentes/Mensajes.cshtml")
+                ;
+            }
+
+            @if (Model.Comprador != null && Model.Borrando)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">Mensaje</h2>
+                            <h6 align="left">¿Desea borrar el comprador @Model.Comprador!.Nombre?</h6>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   value="Borrar"
+                                   asp-page-handler="BtBorrar"
+                                   class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Lista != null && Model.Lista.Count > 0)
+            {
+                <table class="tb_data table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>
+                            Cedula
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                            Nacionalidad
+                        </th>
+                        <th>
+                            Presupuesto Maximo
+                        </th>
+                    </tr>
+                    @foreach (var elemento in Model.Lista)
+                    {
+                        <tr>
+                            <td>
+                                @elemento.Cedula
+                            </td>
+                            <td>
+                                @elemento.Nombre
+                            </td>
+                            <td>
+                                @elemento.Apellido
+                            </td>
+                            <td>
+                                @elemento.Estado
+                            </td>
+                            <td>
+                                @(Model.listaNacionalidades?.FirstOrDefault(x => x.Id == elemento.Nacionalidad)?.Nombre ?? "Sin tipo")
+                            </td>
+                            <td>
+                                @elemento.PresupuestoMaximo
+                            </td>
+                            <td>
+                                <input type="submit"
+                                       value="Modificar"
+                                       asp-page-handler="BtModificar"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                                <input type="submit"
+                                       value="Borrar"
+                                       asp-page-handler="BtBorrarVal"
+                                       class="btn btn-secondary"
+                                       asp-route-data="@elemento.Id" />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </form>
+    </div>
+</center>

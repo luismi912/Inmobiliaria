@@ -109,25 +109,31 @@
                     Nacionalidad
                 </label>
                 <div class="col-6">
-                    @if (Model.Nacionalidades != null)
+                    @if (Model.nacionalidades != null)
                     {
                         <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
                                 asp-for="@Model.ClienteDto!.Nacionalidad" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Nacionalidades, "Id", "Nombre"))">
+                                asp-items="@(new SelectList(Model.nacionalidades, "Id", "Nombre"))">
                             @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
                             <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
                         </select>
                     }
                 </div>
             </div>
-            <div>
-                <div class="form-group" style="margin-bottom: 10px"></div>
+            <div class="form-group">
                 <label>
-                    Cedula del asesor
+                    Empleados
                 </label>
-                <div>
-                    <input id="inCedulaAsesor"
-                           asp-for="@Model.ClienteDto!.CedulaRelacionEmpleado" />
+                <div class="col-6">
+                    @if (Model.empleados != null)
+                    {
+                        <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                asp-for="@Model.ClienteDto!.Empleado" @*Lo guarda en TipoPropiedad*@
+                                asp-items="@(new SelectList(Model.empleados, "Id", "Nombre"))">
+                            @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                            <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                        </select>
+                    }
                 </div>
             </div>
         </div>
@@ -162,11 +168,11 @@
                     Ciudad
                 </label>
                 <div class="col-6">
-                    @if (Model.Ciudades != null)
+                    @if (Model.ciudades != null)
                     {
                         <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
                                 asp-for="@Model.ClienteDto!.Direccion.Ciudad" @*Lo guarda en TipoPropiedad*@
-                                asp-items="@(new SelectList(Model.Ciudades, "Id", "Nombre"))">
+                                asp-items="@(new SelectList(Model.ciudades, "Id", "Nombre"))">
                             @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
                             <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
                         </select>

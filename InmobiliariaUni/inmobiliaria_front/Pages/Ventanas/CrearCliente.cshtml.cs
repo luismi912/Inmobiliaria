@@ -18,8 +18,9 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
         [BindProperty] public ClientesDtos? ClienteDto { get; set; }
-        public List<Nacionalidades>? Nacionalidades { get; set; }
-        public List<Ciudades>? Ciudades { get; set; }
+        public List<Nacionalidades>? nacionalidades { get; set; }
+        public List<Ciudades>? ciudades { get; set; }
+        public List<EmpleadosSectores>? empleados { get; set; }
 
         public CrearClienteModel()
         {
@@ -36,8 +37,9 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void Refrescar()
         {
-            Nacionalidades = INacionalidadesnegocio!.Consultar();
-            Ciudades = ICiudadesnegocio!.Consultar();
+            empleados = IEmpleadosSectoresnegocio!.Consultar();
+            nacionalidades = INacionalidadesnegocio!.Consultar();
+            ciudades = ICiudadesnegocio!.Consultar();
             ClienteDto = new ClientesDtos()
             {
                 Estado = true,
@@ -51,8 +53,6 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                var id = IEmpleadosSectoresnegocio!.ConsultarPorCedula(ClienteDto!.CedulaRelacionEmpleado!);
-                ClienteDto.Empleado = id;
                 IClientesnegocio!.Guardar(ClienteDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();

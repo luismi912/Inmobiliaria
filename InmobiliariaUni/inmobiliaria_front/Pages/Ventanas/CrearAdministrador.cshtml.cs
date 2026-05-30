@@ -34,14 +34,21 @@ namespace inmobiliaria_front.Pages
 
         public void OnGet()
         {
-            Refrescar();
+            RefrescarListas();
+            RefrescarFormulario();
         }
 
-        public void Refrescar()
+        public void RefrescarListas()
         {
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
             Departamentos = IDepartamentosnegocio!.Consultar();
+        }
+
+        //Separados ya que al volver a llamar el formulario en el refrescar, se inicializan valores del dropdown en 0
+        //y no llega a mostrar la lista
+        public void RefrescarFormulario()
+        {
             AdminDto = new CrearUsuariosAdministradoresDtos()
             {
                 Administrador = new AdministradoresDtos()
@@ -54,16 +61,14 @@ namespace inmobiliaria_front.Pages
             };
         }
 
-        public async Task OnPostBtEnviar()
+        public void OnPostBtEnviar()
         {
             try
             {
-                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(AdminDto!.Correo!)!;
+                RefrescarListas();
+                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(AdminDto!.Correo!);
 
-                if (usuario == null)
-                    throw new Exception("Error o contraseña incorrecta, reintenta por favor");
-
-                if (usuario!.Correo == AdminDto.Correo)
+                if (usuario != null)
                     throw new Exception("El correo que intentas crear ya existe");
 
                 IAdministradoresDepartamentosnegocio!.Guardar(AdminDto!);
@@ -73,10 +78,11 @@ namespace inmobiliaria_front.Pages
             catch (Exception ex)
             {
                 ViewData["Mensaje"] = ex.Message;
+                ModelState.Clear();
             }
             finally
             {
-                Refrescar();
+                RefrescarListas();
             }
         }
     }

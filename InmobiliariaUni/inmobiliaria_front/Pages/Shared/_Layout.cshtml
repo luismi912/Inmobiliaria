@@ -28,10 +28,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio/">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Sectores">Sectores</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Nacionalidades">Nacionalidades</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Nacionalidades">Nacionalidades</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Departamentos">Departamentos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Ciudades">Ciudades</a>
@@ -40,8 +40,8 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/TiposPropiedades">Tipos Propiedades</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Departamentos">Departamentos</a>
-                            </li>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Sectores">Sectores</a>
+                            </li>                                                                  
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearJefe">Crear jefe</a>
                             </li>
@@ -56,42 +56,84 @@
                         @if (User.IsInRole("Jefe"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio/">Inicio</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearEmpleados/">CrearEmpleado</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearEmpleados">CrearEmpleado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosArriendos">ContratosArriendos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosContados">ContratosContados</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosCuotas">ContratosCuotas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/VerEmpleados">Empleados</a>
                             </li>
                         }
 
                         @if (User.IsInRole("Empleado"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio/">Inicio</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCliente/">Crear cliente</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCliente">Crear cliente</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCodeudor/">Crear codeudor</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCodeudor">Crear codeudor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearComprador/">Crear comprador</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearComprador">Crear comprador</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Bienes">Bienes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ActivoFinanciero">Actvios</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ActivoFinanciero">Actvos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Direcciones/">Direcciones</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosArriendos">ContratosArriendos</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Telefonos/">Telefonos</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosContados">ContratosContados</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Propiedades/">Propiedades</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosCuotas">ContratosCuotas</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Direcciones">Direcciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Telefonos">Telefonos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Propiedades">Propiedades</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Clientes">Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Codeudores">Codeudores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Compradores">Compradores</a>
+                            </li>
+                        }
+
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <form method="POST">
+                                @Html.AntiForgeryToken()
+                                <input type="submit"
+                                       value="Cerrar Sesion"
+                                       class="btn btn-secondary"
+                                       asp-page="/Index"
+                                       asp-page-handler="BtCerrarSesion" />
+                            </form>
                         }
                     </ul>
                 </div>

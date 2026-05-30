@@ -61,6 +61,22 @@
                                     asp-for="@Model.Telefono!.Prefijo" />
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>
+                            personas
+                        </label>
+                        <div class="col-6">
+                            @if (Model.personas != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Telefono.Persona!" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.personas, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
                 </div>   
                  
             }
@@ -110,9 +126,6 @@
                         <th>
                             Persona
                         </th>
-                        <th>
-                            Cedula Persona
-                        </th>
                         <th class="cl_hidden">
                             Ciudad
                         </th>
@@ -127,11 +140,8 @@
                                 @elemento.Prefijo
                             </th>
                             <th>
-                                @(Model.Personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Nombre ?? "Sin tipo")
-                            </th>
-                            <th>
-                                Model.CedulaPersona
-                            </th>                                                                     
+                                @(Model.personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Nombre ?? "Sin tipo")
+                            </th>                                                                  
                             <th>
                                 <input type="submit"
                                     value="Modificar"

@@ -2,6 +2,6 @@
 {
     public class ContratosContados : Contratos
     {
-        public decimal PrecioAcordado { get; set; }
+        public decimal PrecioFinal { get; set; }
     }
 }

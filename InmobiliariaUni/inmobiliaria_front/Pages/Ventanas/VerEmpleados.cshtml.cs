@@ -4,34 +4,31 @@ using libreria_presentaciones_inmobiliaria.interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Win32.SafeHandles;
 
 namespace inmobiliaria_front.Pages.Ventanas
 {
-    [Authorize(Roles = "Empleado")]
-    public class DireccionesModel : PageModel
+    [Authorize(Roles = "Jefe")]
+    public class EmpleadosModel : PageModel
     {
-        private IDireccionesNegocio? IDireccioesnegocio { get; set; }
-        private IPersonasNegocio? IPersonasnegocio { get; set; }
-        private ICiudadesNegocio? ICiudadesnegocio { get; set; }
+        private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocio { get; set; }
+        private ISectoresNegocio? ISectoresnegocio { get; set; }
+        private IJefesSectoresNegocio? IJefesSectoresnegocio { get; set; }
+        private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
 
-        [BindProperty] public Direcciones? Direccion { get; set; }
-        public List<Direcciones>? Direcciones { get; set; }
-        public List<Ciudades>? Ciudades { get; set; }
-        public List<Personas>? Personas { get; set; }
+        public List<EmpleadosSectores>? empleados { get; set; }
+        public List<JefesSectores>? jefes { get; set; }
+        public List<Sectores>? sectores { get; set; }
+        public List<Nacionalidades>? nacionalidades { get; set; }
+
+        [BindProperty] public EmpleadosSectores? empleado { get; set; }
         public bool Borrando { get; set; }
 
-        public DireccionesModel()
+        public EmpleadosModel()
         {
-            IDireccioesnegocio = new DireccionesNegocio();
-            IPersonasnegocio = new PersonasNegocio();
-            ICiudadesnegocio = new CiudadesNegocio();
-        }
-
-        private void cargarlistas()
-        {
-            Ciudades = ICiudadesnegocio!.Consultar();
-            Personas = IPersonasnegocio!.Consultar();
+            IEmpleadosSectoresnegocio = new EmpleadosSectoresNegocio();
+            ISectoresnegocio = new SectoresNegocio();
+            IJefesSectoresnegocio = new JefesSectoresNegocio();
+            INacionalidadesnegocio = new NacionalidadesNegocio();
         }
 
         public void OnGet()
@@ -43,11 +40,15 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (IDireccioesnegocio == null)
+                empleados = IEmpleadosSectoresnegocio!.Consultar();
+                sectores = ISectoresnegocio!.Consultar();
+                jefes = IJefesSectoresnegocio!.Consultar();
+                nacionalidades = INacionalidadesnegocio!.Consultar();
+
+                if (IEmpleadosSectoresnegocio == null)
                     return;
-                Direcciones = IDireccioesnegocio.Consultar();
-                cargarlistas();
-                Direccion = null;
+                empleado = null;
+                Borrando = false;
             }
             catch (Exception ex)
             {
@@ -55,24 +56,13 @@ namespace inmobiliaria_front.Pages.Ventanas
             }
         }
 
-        public void OnPostBtNuevo()
-        {
-            cargarlistas();
-            Direccion = new Direcciones()
-            {
-
-            };
-            Borrando = false;
-        }
-
         public void OnPostBtModificar(int data)
         {
             try
             {
                 OnPostBtRefrescar();
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
-                Direcciones = null;
+                empleado = empleados!.FirstOrDefault(x => x.Id == data);
+                empleados = null;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -85,14 +75,12 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (Direccion!.Id == 0)
-                    Direccion = IDireccioesnegocio!.Guardar(Direccion!);
-                else
-                    Direccion = IDireccioesnegocio!.Modificar(Direccion!);
-
-                if (Direccion.Id == 0)
+                if (empleado == null)
                     return;
-
+                else
+                    empleado = IEmpleadosSectoresnegocio!.Modificar(empleado!);
+                if (empleado.Id == 0)
+                    return;
                 OnPostBtRefrescar();
             }
             catch (Exception ex)
@@ -105,10 +93,10 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (Direccion == null)
+                if (empleado == null)
                     return;
-                ViewData["Mensaje"] = IDireccioesnegocio!.Eliminar(Direccion!);
-                Direccion = null;
+                ViewData["Mensaje"] = IEmpleadosSectoresnegocio!.Eliminar(empleado!);
+                empleado = null;
             }
             catch (Exception ex)
             {
@@ -121,8 +109,8 @@ namespace inmobiliaria_front.Pages.Ventanas
             OnPostBtRefrescar();
             try
             {
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                Direcciones = null;
+                empleado = empleados!.FirstOrDefault(x => x.Id == data);
+                empleados = null;
                 Borrando = true;
             }
             catch (Exception ex)

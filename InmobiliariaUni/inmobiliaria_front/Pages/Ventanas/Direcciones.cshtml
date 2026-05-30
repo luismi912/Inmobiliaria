@@ -86,12 +86,18 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Cedula Persona
+                            Personas
                         </label>
                         <div class="col-6">
-                            <input id="inCedulaPersona"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.CedulaPersona" />
+                            @if (Model.Personas != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.Direccion!.Persona" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.Personas, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
                         </div>
                     </div>
                  </div>   

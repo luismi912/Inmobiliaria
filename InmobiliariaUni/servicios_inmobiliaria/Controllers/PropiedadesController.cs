@@ -63,5 +63,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IPropiedadesnegocio!.ConsultarSectorJefe(Id);
         }
+
+        [HttpPost]
+        public Propiedades Guardar(Propiedades entidad)
+        {
+            if (this.IPropiedadesnegocio == null)
+                throw new Exception("No implementado");
+            return this.IPropiedadesnegocio!.Guardar(entidad);
+        }
     }
 }

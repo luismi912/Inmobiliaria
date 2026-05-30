@@ -4,34 +4,33 @@ using libreria_presentaciones_inmobiliaria.interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Win32.SafeHandles;
 
 namespace inmobiliaria_front.Pages.Ventanas
 {
     [Authorize(Roles = "Empleado")]
-    public class DireccionesModel : PageModel
+    public class CodeudoresModel : PageModel
     {
-        private IDireccionesNegocio? IDireccioesnegocio { get; set; }
-        private IPersonasNegocio? IPersonasnegocio { get; set; }
-        private ICiudadesNegocio? ICiudadesnegocio { get; set; }
+        private ICodeudoresNegocio? ICodeudoresnegocio;
+        private INacionalidadesNegocio? INacionalidadesnegocio;
+        private ICompradoresNegocio? ICompradoresnegocio;
 
-        [BindProperty] public Direcciones? Direccion { get; set; }
-        public List<Direcciones>? Direcciones { get; set; }
-        public List<Ciudades>? Ciudades { get; set; }
-        public List<Personas>? Personas { get; set; }
+        public List<Codeudores>? Lista { get; set; }
+        [BindProperty] public Codeudores? Codeudor { get; set; }
+        public List<Nacionalidades>? listaNacionalidades { get; set; }
+        public List<Compradores>? listaCompradores { get; set; }
         public bool Borrando { get; set; }
 
-        public DireccionesModel()
+        public CodeudoresModel()
         {
-            IDireccioesnegocio = new DireccionesNegocio();
-            IPersonasnegocio = new PersonasNegocio();
-            ICiudadesnegocio = new CiudadesNegocio();
+            ICodeudoresnegocio = new CodeudoresNegocio();
+            INacionalidadesnegocio = new NacionalidadesNegocio();
+            ICompradoresnegocio = new CompradoresNegocio();
         }
 
-        private void cargarlistas()
+        private void CargarListas()
         {
-            Ciudades = ICiudadesnegocio!.Consultar();
-            Personas = IPersonasnegocio!.Consultar();
+            listaNacionalidades = INacionalidadesnegocio!.Consultar();
+            listaCompradores = ICompradoresnegocio!.Consultar();
         }
 
         public void OnGet()
@@ -43,11 +42,9 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (IDireccioesnegocio == null)
-                    return;
-                Direcciones = IDireccioesnegocio.Consultar();
-                cargarlistas();
-                Direccion = null;
+                Lista = ICodeudoresnegocio!.Consultar();
+                CargarListas();
+                Codeudor = null;
             }
             catch (Exception ex)
             {
@@ -55,24 +52,14 @@ namespace inmobiliaria_front.Pages.Ventanas
             }
         }
 
-        public void OnPostBtNuevo()
-        {
-            cargarlistas();
-            Direccion = new Direcciones()
-            {
-
-            };
-            Borrando = false;
-        }
-
         public void OnPostBtModificar(int data)
         {
             try
             {
                 OnPostBtRefrescar();
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                cargarlistas();
-                Direcciones = null;
+                Codeudor = Lista!.FirstOrDefault(x => x.Id == data);
+                CargarListas();
+                Lista = null;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -85,14 +72,11 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (Direccion!.Id == 0)
-                    Direccion = IDireccioesnegocio!.Guardar(Direccion!);
-                else
-                    Direccion = IDireccioesnegocio!.Modificar(Direccion!);
-
-                if (Direccion.Id == 0)
+                if (Codeudor == null)
                     return;
-
+                Codeudor = ICodeudoresnegocio!.Modificar(Codeudor!);
+                if (Codeudor.Id == 0)
+                    return;
                 OnPostBtRefrescar();
             }
             catch (Exception ex)
@@ -105,10 +89,11 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                if (Direccion == null)
+                if (Codeudor == null)
                     return;
-                ViewData["Mensaje"] = IDireccioesnegocio!.Eliminar(Direccion!);
-                Direccion = null;
+                ViewData["Mensaje"] = ICodeudoresnegocio!.Eliminar(Codeudor!);
+                Codeudor = null;
+                OnPostBtRefrescar();
             }
             catch (Exception ex)
             {
@@ -121,8 +106,8 @@ namespace inmobiliaria_front.Pages.Ventanas
             OnPostBtRefrescar();
             try
             {
-                Direccion = Direcciones!.FirstOrDefault(x => x.Id == data);
-                Direcciones = null;
+                Codeudor = Lista!.FirstOrDefault(x => x.Id == data);
+                Lista = null;
                 Borrando = true;
             }
             catch (Exception ex)

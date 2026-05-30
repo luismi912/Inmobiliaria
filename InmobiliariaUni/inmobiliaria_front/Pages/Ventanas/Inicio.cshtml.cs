@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace inmobiliaria_front.Pages.Ventanas
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador,Jefe,Empleado")]
     public class InicioModel : PageModel
     {
        public void OnGet()

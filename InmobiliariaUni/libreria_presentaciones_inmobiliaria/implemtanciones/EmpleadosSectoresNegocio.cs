@@ -29,7 +29,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public EmpleadosSectores ConsultarUsuario(int Id)
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = $"https://localhost:7165/EmpleadosSectores/ConsultarUsuario{Id}";
+            datos["Url"] = $"https://localhost:7165/EmpleadosSectores/ConsultarUsuario/{Id}";
 
             this.iComunicaciones = new Comunicaciones();
             var task = this.iComunicaciones.EjecutarConsultar(datos)!;

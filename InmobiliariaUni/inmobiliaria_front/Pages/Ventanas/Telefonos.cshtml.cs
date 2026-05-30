@@ -13,12 +13,12 @@ namespace inmobiliaria_front.Pages.Ventanas
     {
         private ITelefonosNegocio? ITelefonosnegocio { get; set; }
         private IPersonasNegocio? IPersonasnegocio { get; set; }
+ 
 
         [BindProperty] public Telefonos? Telefono { get; set; }
         public List<Telefonos>? telefonos { get; set; }
-        public List<Personas>? Personas { get; set; }
+        public List<Personas>? personas { get; set; }
         public bool Borrando { get; set; }
-        [BindProperty] public string? CedulaPersona { get; set; } = "0";
 
         public TelefonosModel()
         {
@@ -33,7 +33,8 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         private void cargarlistas()
         {
-            Personas = IPersonasnegocio!.Consultar();
+            personas = IPersonasnegocio!.Consultar();
+            telefonos = ITelefonosnegocio!.Consultar();
         }
 
         public void OnPostBtRefrescar()
@@ -54,9 +55,10 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void OnPostBtNuevo()
         {
+            cargarlistas();
             Telefono = new Telefonos()
             {
-                Persona = 0
+
             };
             Borrando = false;
         }
@@ -83,8 +85,6 @@ namespace inmobiliaria_front.Pages.Ventanas
                 cargarlistas();
                 if (Telefono == null)        
                     return;
-
-                Telefono!.Persona = IPersonasnegocio!.ConsultarPorCedula(CedulaPersona!);
 
                 if (Telefono.Persona == 0)
                     throw new Exception("No se pudo encontrar la cedula, reintente porfavor");

@@ -12,12 +12,13 @@ namespace inmobiliaria_front.Pages.Ventanas
     {
         private IActivosFinancierosNegocio? IActivosFinancierosnegocio { get; set; }
         private IRespaldosFinancierosNegocio? IRespaldosFinancierosnegocio { get; set; }
+        private IPersonasNegocio? IPersonasnegocio { get; set; }
         private IBienesNegocio? IBienesnegocio { get; set; }
 
         public List<ActivosFinancieros>? Lista { get; set; }
-        public List<RespaldosFinancieros>? ListaRespaldos{ get; set; }
+        public List<Personas>? personas { get; set; }
+        public List<RespaldosFinancieros>? respaldos{ get; set; }
         [BindProperty] public ActivosFinancieros? Activo { get; set; }
-        [BindProperty] public string? CedulaDelPropietario { get; set; }
         public bool Borrando { get; set; }
 
         public ActivoFinancieroModel()
@@ -25,6 +26,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             IActivosFinancierosnegocio = new ActivosFinancierosNegocio();
             IRespaldosFinancierosnegocio = new RespaldosFinancierosNegocio();
             IBienesnegocio = new BienesNegocio();
+            IPersonasnegocio = new PersonasNegocio();
         }
 
         public void OnGet()
@@ -32,14 +34,21 @@ namespace inmobiliaria_front.Pages.Ventanas
             OnPostBtRefrescar();
         }
 
+        public void cargarListas()
+        {
+            respaldos = IRespaldosFinancierosnegocio!.Consultar();
+            Lista = IActivosFinancierosnegocio!.Consultar();
+            personas = IPersonasnegocio!.Consultar(); 
+        }
+
         public void OnPostBtRefrescar()
         {
+            cargarListas();
             try
             {
                 if (IActivosFinancierosnegocio == null)
                     return;
                 Lista = IActivosFinancierosnegocio.Consultar();
-                ListaRespaldos = IRespaldosFinancierosnegocio!.Consultar();
                 Activo = null;
             }
             catch (Exception ex)
@@ -50,6 +59,7 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void OnPostBtNuevo()
         {
+            cargarListas();
             Activo = new ActivosFinancieros()
             {
                 FechaAdquisicion = DateTime.Now
@@ -61,6 +71,7 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
+                cargarListas();
                 OnPostBtRefrescar();
                 Activo = Lista!.FirstOrDefault(x => x.Id == data);
                 Lista = null;
@@ -74,6 +85,7 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void OnPostBtGuardar()
         {
+            cargarListas();
             try
             {
                 //Validacion 
@@ -83,18 +95,6 @@ namespace inmobiliaria_front.Pages.Ventanas
                 //Guardamos bien sea la entidad o la modificamos
                 if (Activo.Id == 0)
                 {
-                    if (string.IsNullOrWhiteSpace(CedulaDelPropietario))
-                        throw new Exception("La cedula del propietario es requerida");
-
-                    //Mediante la cedula que pedimos buscamos el respaldo y le agregamos las observaciones ya añadidadas
-                    //Aunque el consultar este en bienesnegocio, este tambien sirve para activos financieros
-                    var respaldo = IBienesnegocio!.ConsultarRespaldoCedula(CedulaDelPropietario!);  
-
-                    if (respaldo == null)
-                        throw new Exception("No se encontro ningun respaldo para guardar la el bien, reintenta por favor");
-
-                    Activo!.RespaldoFinanciero = respaldo.Id;
-
                     Activo = IActivosFinancierosnegocio!.Guardar(Activo!);
                 }
                 else
@@ -126,6 +126,7 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void OnPostBtBorrarVal(int data)
         {
+            cargarListas();
             OnPostBtRefrescar();
             try
             {

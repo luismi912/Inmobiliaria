@@ -25,7 +25,24 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
                 respuesta["Valor"].ToString()!)!;
         }
 
-        public async Task<UsuariosRoles?> ConsultarCorreo(string correo)
+        public UsuariosRoles ConsultarCorreo(string correo)
+        {
+            var datos = new Dictionary<string, object>();
+            datos["Url"] = $"https://localhost:7165/UsuarioRoles/ConsultarCorreo/{correo}";
+
+            this.iComunicaciones = new Comunicaciones();
+            var task = this.iComunicaciones.EjecutarConsultar(datos)!;
+            task.Wait();
+            var respuesta = task.Result;
+
+            if (!respuesta.ContainsKey("Valor"))
+                return new UsuariosRoles();
+
+            return JsonConvert.DeserializeObject<UsuariosRoles>(
+                respuesta["Valor"].ToString()!)!;
+        }
+
+        public async Task<UsuariosRoles> ConsultarCorreoAsync(string correo)
         {
             var datos = new Dictionary<string, object>();
 
@@ -33,7 +50,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
 
             this.iComunicaciones = new Comunicaciones();
 
-            // 2. Usamos await en lugar de task.Wait() y task.Result
+            // 2. Usamos await en lugar de task wait y task.Result ya que al realizar una accion wait y await juntas estalla el programa
             var respuesta = await this.iComunicaciones.EjecutarConsultar(datos);
 
             if (respuesta == null || !respuesta.ContainsKey("Valor"))

@@ -72,16 +72,11 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public JefesSectores Guardar(CrearUsuariosJefesDtos dto)
         {
-            var usuario = this.conexion!.UsuariosRoles.FirstOrDefault(u => u.Correo == dto.Correo);
-
-            if (usuario != null)
-                return null!;
-
-            usuario = new UsuariosRoles()
+            var usuario = new UsuariosRoles()
             {
                 Correo = dto.Correo,
                 Contraseña = dto.Contraseña,
-                Rol = dto.Rol
+                Rol = "Jefe"
             };
 
             this.conexion!.UsuariosRoles.Add(usuario);

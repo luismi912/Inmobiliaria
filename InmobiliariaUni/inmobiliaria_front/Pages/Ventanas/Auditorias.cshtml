@@ -15,11 +15,20 @@
             </div>
 
             <div>
-                <input type="submit"
-                    style="margin-bottom: 15px"
-                    value="Refrescar"
-                    class="btn btn-secondary"
-                    asp-page-handler="BtRefrescar"/>                      
+                @if (Model.enviarReporte == false)
+                {
+                    <input type="submit"
+                           style="margin-bottom: 15px"
+                           value="Refrescar"
+                           class="btn btn-secondary"
+                           asp-page-handler="BtRefrescar"/>
+                    <input type="submit"
+                           style="margin-bottom: 15px"
+                           value="Reporte"
+                           class="btn btn-secondary"
+                           asp-page-handler="BtReporte"
+                           disabled="@(Model.Lista!.Count() == 0)" />
+                }
             </div>
 
              @if (ViewData.ContainsKey("Mensaje"))
@@ -27,7 +36,34 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.Lista != null)
+            @if (Model.enviarReporte)
+            {
+                <div class='popup'>
+                    <div class='pp_ms_inner'>
+                        <div style='width:95%'>
+                            <h2 align="left">
+                                Mensaje
+                            </h2>
+
+                            <h6 align="left">
+                                Deseas generar un informe sobre los movimientos actuales <br/>
+                                de la empresa?
+                            </h6>
+                            <input type="submit"
+                                   value="Cerrar"
+                                   asp-page-handler="BtCerrar"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   style="margin-bottom: 15px"
+                                   value="Exportar Excel"
+                                   class="btn btn-success"
+                                   asp-page-handler="BtExcel" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.Lista != null && Model.enviarReporte == false)
             {
                 <table class="tb_data table table-striped table-bordered table-hover"> 
                     <tr>

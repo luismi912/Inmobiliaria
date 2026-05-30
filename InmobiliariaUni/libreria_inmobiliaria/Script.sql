@@ -292,6 +292,10 @@ CREATE TABLE ContratosContado (
     FOREIGN KEY (Id) REFERENCES Contratos(Id)
 );
 
+ALTER TABLE Departamentos 
+ADD Latitud FLOAT NULL,
+    Longitud FLOAT NULL;
+
 -- Usuarios para pruebas
 INSERT INTO UsuariosRoles (Correo, Contraseña, Rol) VALUES
 ('admin@inmobiliaria.com', 'Admin123', 'Administrador'),
@@ -319,12 +323,71 @@ INSERT INTO Personas (Cedula, Nombre, Apellido, FechaNacimiento, FechaRegistro, 
 
 -- Administrador Id = 1 de Personas, UsuarioRol = 1 para pruebas
 INSERT INTO AdministradoresDepartamentos (Id, PresupuestoDepartamento, HorarioTrabajo, Sueldo, Departamento, UsuarioRol)
-VALUES (1, 50000000.00, 'Lunes-Viernes 8am-5pm', 8000000.00, 1, 1);
+VALUES (1, 50000000.00, '10pm a 6am', 8000000.00, 1, 1);
 
 -- Jefe Id = 2 de Personas, UsuarioRol = 2 para pruebas
 INSERT INTO JefesSectores (Id, PresupuestoSector, HorarioTrabajo, Sueldo, Sector, AdministradorSector, UsuarioRol)
-VALUES (2, 20000000.00, 'Lunes-Viernes 8am-5pm', 5000000.00, 1, 1, 2);
+VALUES (2, 20000000.00, '10pm a 6am', 5000000.00, 1, 1, 2);
 
 -- Empleado Id = 3 de Personas, UsuarioRol = 3 para pruebas
 INSERT INTO EmpleadosSectores (Id, HorarioTrabajo, Sueldo, Sector, JefeSector, UsuarioRol)
-VALUES (3, 'Lunes-Viernes 8am-5pm', 3000000.00, 1, 2, 3);
+VALUES (3, '10pm a 6am', 3000000.00, 1, 2, 3);
+
+
+-- Persona Comprador Id = 5
+INSERT INTO Personas (Cedula, Nombre, Apellido, FechaNacimiento, FechaRegistro, Estado, Nacionalidad)
+VALUES ('1000000010', 'Pedro', 'Ramirez', '1988-05-20', GETDATE(), 1, 1);
+
+-- Comprador Id = 5
+INSERT INTO Compradores (Id, PresupuestoMaximo)
+VALUES (5, 500000000.00);
+
+-- Respaldo financiero del comprador Id = 1
+INSERT INTO RespaldosFinancieros (DeudasTotales, IngresosMensuales, Observaciones)
+VALUES (5000000.00, 8000000.00, 'Comprador con ingresos estables');
+
+INSERT INTO RespaldosCompradores (Id, Comprador)
+VALUES (1, 5);
+
+INSERT INTO Bienes (Nombre, Descripcion, FechaAdquisicion, ValorAdquisicion, ValorActual, RespaldoFinanciero)
+VALUES ('Vehiculo', 'Toyota Corolla 2020', '2020-01-15', 60000000.00, 50000000.00, 1);
+
+INSERT INTO ActivosFinancieros (Nombre, Descripcion, FechaAdquisicion, Valor, RespaldoFinanciero)
+VALUES ('Cuenta bancaria', 'Cuenta de ahorros Bancolombia', GETDATE(), 20000000.00, 1);
+
+-- ─── Codeudor ───
+INSERT INTO Personas (Cedula, Nombre, Apellido, FechaNacimiento, FechaRegistro, Estado, Nacionalidad)
+VALUES ('1000000011', 'Laura', 'Gomez', '1990-03-10', GETDATE(), 1, 1);
+
+-- Codeudor Id = 6, referencia al comprador Id = 5
+INSERT INTO Codeudores (Id, Comprador)
+VALUES (6, 5);
+
+-- Respaldo financiero del codeudor Id = 2
+INSERT INTO RespaldosFinancieros (DeudasTotales, IngresosMensuales, Observaciones)
+VALUES (2000000.00, 5000000.00, 'Codeudor con ingresos moderados');
+
+INSERT INTO RespaldosCodeudores (Id, Codeudor)
+VALUES (2, 6);
+
+INSERT INTO Bienes (Nombre, Descripcion, FechaAdquisicion, ValorAdquisicion, ValorActual, RespaldoFinanciero)
+VALUES ('Apartamento', 'Apto en Laureles', '2015-06-01', 200000000.00, 220000000.00, 2);
+
+INSERT INTO ActivosFinancieros (Nombre, Descripcion, FechaAdquisicion, Valor, RespaldoFinanciero)
+VALUES ('CDT', 'CDT Davivienda', GETDATE(), 15000000.00, 2);
+
+-- ─── Cliente ───
+INSERT INTO Personas (Cedula, Nombre, Apellido, FechaNacimiento, FechaRegistro, Estado, Nacionalidad)
+VALUES ('1000000012', 'Sofia', 'Torres', '1992-08-14', GETDATE(), 1, 1);
+
+-- Cliente Id = 7, asignado al empleado Id = 3
+INSERT INTO Clientes (Id, PorcentajeComision, Calificacion, EmpleadoSector)
+VALUES (7, 5.00, 8, 3);
+
+-- ─── Tipo propiedad ───
+INSERT INTO TiposPropiedades (Nombre, Estado)
+VALUES ('Apartamento', 1);
+
+-- ─── Propiedad del cliente ───
+INSERT INTO Propiedades (Codigo, NumeroHabitaciones, NumeroBaños, Patio, Garaje, Pisos, FechaConstruccion, ValorPropiedad, ValorArriendo, Disponible, Cliente, TipoPropiedad, Sector)
+VALUES ('PROP-001', 3, 2, 1, 1, 2, '2010-06-15', 350000000.00, 2000000.00, 1, 7, 1, 1);

@@ -1,7 +1,8 @@
 ﻿@page
-@model ActivoFinancieroModel
+@using presentacion_aspnetcore.Pages
+@model EmpleadosModel
 @{
-    ViewData["Title"] = "Activos Financieros";
+    ViewData["Title"] = "Empleadoes";
 }
 <center>
     <div>
@@ -10,7 +11,7 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Activos Financieros</h3>
+                <h3>Empleados</h3>
             </div>
 
             <div style="margin-right: 30px">
@@ -21,22 +22,16 @@
                     asp-page-handler="BtRefrescar" />
                 <input type="submit"
                     style="margin-bottom: 15px"
-                    value="Nuevo"
-                    class="btn btn-secondary"
-                    asp-page-handler="BtNuevo"
-                    disabled="@(Model.Activo != null)"/>     @*Hace que el boton quede deshabilitado segun la condicion*@
-                <input type="submit"
-                    style="margin-bottom: 15px"
                     value="Guardar"
                     class="btn btn-secondary"
                     asp-page-handler="BtGuardar"
-                    disabled="@(Model.Activo == null)"/>
+                    disabled="@(Model.empleado == null)"/>
             </div>
 
-            @if (Model.Activo != null)
+            @if (Model.empleado != null)
             {
                 <input type="hidden" 
-                    asp-for="@Model.Activo!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
+                    asp-for="@Model.empleado!.Id"/>     @*Sirve para guardar datos sin que el usuario lo vea*@
 
                 <div>
                     <div class="form-group">
@@ -46,50 +41,97 @@
                         <div class="col-6">
                             <input id="inNombre"
                                    class="cts_forms form-control"
-                                   asp-for="@Model.Activo!.Nombre" />
+                                   asp-for="@Model.empleado!.Nombre" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Descripcion
+                            Apellido
                         </label>
                         <div class="col-6">
-                            <input id="inDescripcion"
-                                   asp-for="@Model.Activo!.Descripcion" />
+                            <input id="inApellido"
+                                   asp-for="@Model.empleado!.Apellido" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Fecha adquisicion
+                            Cedula
                         </label>
                         <div class="col-6">
-                            <input id="inFechaAdquisicion"
-                                   asp-for="@Model.Activo!.FechaAdquisicion" />
+                            <input id="inCedula"
+                                   asp-for="@Model.empleado!.Cedula" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Valor
+                            Fecha nacimiento
                         </label>
                         <div class="col-6">
-                            <input id="inValor"
-                                   asp-for="@Model.Activo!.Valor" />
+                            <input id="inFechaNacimiento"
+                                   asp-for="@Model.empleado!.FechaNacimiento" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label>
-                            Respaldo financiero
+                            Fecha registro
                         </label>
                         <div class="col-6">
-                            @if (Model.respaldos != null)
-                            {
-                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                        asp-for="@Model.Activo!.RespaldoFinanciero" @*Lo guarda en TipoPropiedad*@
-                                        asp-items="@(new SelectList(Model.respaldos, "Id", "Nombre"))">
-                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                                </select>
-                            }
+                            <input id="inFechaRegistro"
+                                   asp-for="@Model.empleado!.FechaRegistro" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Estado
+                        </label>
+                        <div class="col-6">
+                            <input id="inEstado"
+                                   asp-for="@Model.empleado!.Estado" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Nacionalidad
+                        </label>
+                        <div class="col-6">
+                            <input id="inNacionalidad"
+                                   asp-for="@Model.empleado!.Nacionalidad" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Horario de trabajo
+                        </label>
+                        <div class="col-6">
+                            <input id="inHorarioTrabajo"
+                                   asp-for="@Model.empleado!.HorarioTrabajo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Sueldo
+                        </label>
+                        <div class="col-6">
+                            <input id="inSueldo"
+                                   asp-for="@Model.empleado!.Sueldo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Sector
+                        </label>
+                        <div class="col-6">
+                            <input id="inSector"
+                                   asp-for="@Model.empleado!.Sector" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            JefeSector
+                        </label>
+                        <div class="col-6">
+                            <input id="inJefeSector"
+                                   asp-for="@Model.empleado!.JefeSector" />
                         </div>
                     </div>
                 </div>
@@ -100,7 +142,7 @@
                 @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");
             }
 
-            @if (Model.Activo != null && Model.Borrando)
+            @if (Model.empleado != null && Model.Borrando)
             {
                 <div class='popup'>
                     <div class='pp_ms_inner'>
@@ -110,10 +152,10 @@
                             </h2>
 
                             <h6 align="left">
-                                Desea borrar el Activo seleccionado?
+                                Desea borrar el empleado de forma permanente?
                             </h6>
                             <h6 align="left">
-                                @Model.Activo!.Nombre
+                                @Model.empleado!.Nombre
                             </h6>
                             <input type="submit"
                                    value="Cerrar"
@@ -129,8 +171,8 @@
             }
 
             @if (Model != null &&
-                 Model.Lista != null &&
-                 Model.Lista.Count > 0)
+                 Model.empleados != null &&
+                 Model.empleados.Count > 0)
             {
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
@@ -138,35 +180,53 @@
                             Nombre
                         </th>
                         <th>
-                            Descripcion
+                            Apellido
                         </th>
                         <th>
-                            Fecha de adquisicion
+                            Cedula
                         </th>
                         <th>
-                            Valor
+                            Sector
                         </th>
                         <th>
-                            Observacion respaldo
+                            Jefe Sector
+                        </th>
+                        <th>
+                            Horario Trabajo
+                        </th>
+                        <th class="cl_hidden">
+                            Sueldo
+                        </th>
+                        <th class="cl_hidden">
+                            Nacionalidad
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.Lista)
+                    @foreach (var elemento in Model.empleados)
                     {
                         <tr>
                             <th>
                                 @elemento.Nombre
                             </th>
                             <th>
-                                @elemento.Descripcion
+                                @elemento.Apellido
                             </th>
                             <th>
-                                @elemento.FechaAdquisicion
+                                @elemento.Cedula
                             </th>
                             <th>
-                                @elemento.Valor
+                                @(Model.sectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
-                                @(Model.respaldos!.FirstOrDefault(d => d.Id == elemento.RespaldoFinanciero)?.Observaciones ?? "Sin tipo")
+                                @(Model.jefes?.FirstOrDefault(x => x.Id == elemento.JefeSector)?.Nombre ?? "Sin tipo")
+                            </th>
+                            <th>
+                                @elemento.HorarioTrabajo
+                            </th>
+                            <th>
+                                @elemento.Sueldo
+                            </th>
+                            <th>
+                                @(Model.nacionalidades?.FirstOrDefault(x => x.Id == elemento.Nacionalidad)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
                                 <input type="submit"

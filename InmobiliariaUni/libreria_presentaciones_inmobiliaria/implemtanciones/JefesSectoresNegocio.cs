@@ -62,20 +62,61 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
 
         public JefesSectores Guardar(CrearUsuariosJefesDtos jefeDto)
         {
-            if (jefeDto == null)
-                throw new ArgumentNullException("La entidad no puede ser nula");
-
-            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Nombre))
-                throw new Exception("El nombre es obligatorio");
-
+            //validaciones de usuario
             if (string.IsNullOrWhiteSpace(jefeDto.Correo))
                 throw new Exception("El correo es obligatorio");
 
             if (string.IsNullOrWhiteSpace(jefeDto.Contraseña))
                 throw new Exception("La contraseña es obligatoria");
 
-            if (!jefeDto.Correo!.Contains("@"))
-                throw new Exception("El correo no tiene un formato válido");
+            //Validaciones de Administrador
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Cedula))
+                throw new Exception("La cédula es obligatoria");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Nombre))
+                throw new Exception("El nombre es obligatorio");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Apellido))
+                throw new Exception("El apellido es obligatorio");
+
+            if (jefeDto.Jefe.Sector == 0)
+                throw new Exception("El departamento es obligatorio");
+
+            if (jefeDto.Jefe.Nacionalidad == 0)
+                throw new Exception("La nacionalidad es obligatoria");
+
+            if (jefeDto.Jefe.Sueldo <= 0)
+                throw new Exception("El sueldo debe ser mayor a 0");
+
+            //validacion de la direccion
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Direccion.TipoVia))
+                throw new Exception("El tipo de vía es obligatorio");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Direccion.Numero))
+                throw new Exception("El número de dirección es obligatorio");
+
+            if (jefeDto.Jefe.Direccion.Ciudad == 0)
+                throw new Exception("La ciudad es obligatoria");
+
+            //validacion del telefono
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Telefono.Numero))
+                throw new Exception("El número de teléfono es obligatorio");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Telefono.Prefijo))
+                throw new Exception("El prefijo del teléfono es obligatorio");
+
+            //validacion del expediente
+            if (jefeDto.Jefe.Expediente.FechaIngreso == default)
+                throw new Exception("La fecha de ingreso es obligatoria");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Expediente.Cargo))
+                throw new Exception("El cargo es obligatorio");
+
+            if (jefeDto.Jefe.Expediente.Antiguedad < 0)
+                throw new Exception("La antigüedad no puede ser negativa");
+
+            if (string.IsNullOrWhiteSpace(jefeDto.Jefe.Expediente.EstadoLaboral))
+                throw new Exception("El estado laboral es obligatorio");
 
             this.iComunicaciones = new Comunicaciones();
 

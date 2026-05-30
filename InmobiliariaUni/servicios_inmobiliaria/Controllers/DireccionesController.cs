@@ -17,11 +17,11 @@ namespace Inmobiliaria_Servicios.Controllers
         }
 
         [HttpGet]
-        public List<Direcciones> Consultar(int Id)
+        public List<Direcciones> Consultar()
         {
             if (this.IDireccionesnegocio == null)
                 throw new Exception("No implementado");
-            return this.IDireccionesnegocio.Consultar(Id);
+            return this.IDireccionesnegocio.Consultar();
         }
 
         [HttpPost]

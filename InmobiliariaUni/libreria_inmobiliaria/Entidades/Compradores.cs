@@ -2,11 +2,11 @@
 
 namespace libreria_inmobiliaria.Entidades
 {
-    public class Compradores : Personas  //RELACION 1 A 1 CON CODEUDORES, CODEUDOR DEPENDE DE COMPRADORES
+    public class Compradores : Personas  
     {
         public decimal PresupuestoMaximo { get; set; }
 
-        [NotMapped] public Codeudores? _Codeudor { get; set; }   //CODEUDOR QUE DEPENDE DEL COMPRADOR
-        [NotMapped] public List<Contratos>? Contratos { get; set; }   //PUEDE TENER MUCHOS CONTRATOS
+        [NotMapped] public Codeudores? _Codeudor { get; set; }   
+        [NotMapped] public List<Contratos>? Contratos { get; set; }   
     }
 }

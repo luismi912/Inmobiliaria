@@ -51,6 +51,36 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label>Imagen</label>
+                        <div class="col-6">
+                            <input type="file"
+                                   class="form-control"
+                                   id="inImagen"
+                                   name="ImagenFile"
+                                   accept="image/*" />
+                        </div>
+                        @if (Model.propiedad?.Imagen != null)
+                        {
+                            <img src="@Model.propiedad.Imagen" style="width: 200px; margin-top: 10px;" />
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Clientes
+                        </label>
+                        <div class="col-6">
+                            @if (Model.clientes != null)
+                            {
+                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
+                                        asp-for="@Model.propiedad!.Cliente" @*Lo guarda en TipoPropiedad*@
+                                        asp-items="@(new SelectList(Model.clientes, "Id", "Nombre"))">
+                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
+                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
+                                </select>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label>
                             NumeroHabitaciones
                         </label>
@@ -138,11 +168,11 @@
                             Tipo Propiedad
                         </label>
                         <div class="col-6">
-                            @if (Model.listaTiposPropiedades != null)
+                            @if (Model.tiposPropiedades != null)
                             {
                                 <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
                                         asp-for="@Model.propiedad!.TipoPropiedad" @*Lo guarda en TipoPropiedad*@
-                                        asp-items="@(new SelectList(Model.listaTiposPropiedades, "Id", "Nombre"))">
+                                        asp-items="@(new SelectList(Model.tiposPropiedades, "Id", "Nombre"))">
                                     @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
                                     <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
                                 </select>
@@ -154,10 +184,10 @@
                             Sector
                         </label>
                         <div class="col-6">
-                            @if (Model.listaSectores != null)
+                            @if (Model.sectores != null)
                             {   <select class="form-control"  @*Crea un dropdown, lista despliegable para abajo*@
                                         asp-for="@Model.propiedad!.Sector" @*Lo guarda en TipoPropiedad*@
-                                        asp-items="@(new SelectList(Model.listaSectores, "Id", "Nombre"))">
+                                        asp-items="@(new SelectList(Model.sectores, "Id", "Nombre"))">
                                     @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
                                     <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
                                 </select>
@@ -198,13 +228,16 @@
             }
 
             @if (Model != null &&
-                 Model.Lista != null &&
-                 Model.Lista.Count > 0)
+                 Model.propiedades != null &&
+                 Model.propiedades.Count > 0)
             {
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
                             Codigo
+                        </th>
+                        <th>
+                            Propiedad
                         </th>
                         <th>
                             Disponible
@@ -243,17 +276,27 @@
                             Sector
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.Lista)
+                    @foreach (var elemento in Model.propiedades)
                     {
                         <tr>
                             <th>
                                 @elemento.Codigo
                             </th>
                             <th>
+                                @if (elemento.Imagen != null)
+                                {
+                                    <img src="@elemento.Imagen" style="width: 80px; height: 80px; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    <span>Sin imagen</span>
+                                }
+                            </th>
+                            <th>
                                 @elemento.Disponible
                             </th>
                             <th>
-                                @elemento._Cliente!.Nombre
+                                @(Model.clientes?.FirstOrDefault(x => x.Id == elemento.Cliente)?.Nombre ?? "Sin cliente")
                             </th>
                             <th>
                                 @elemento.ValorArriendo
@@ -268,10 +311,10 @@
                                 @elemento.FechaConstruccion
                             </th>
                             <th class ="cl_hidden">
-                                @(Model.listaTiposPropiedades?.FirstOrDefault(x => x.Id == elemento.TipoPropiedad)?.Nombre ?? "Sin tipo")
+                                @(Model.tiposPropiedades?.FirstOrDefault(x => x.Id == elemento.TipoPropiedad)?.Nombre ?? "Sin tipo")
                             </th>
                             <th class="cl_hidden">
-                                @(Model.listaSectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
+                                @(Model.sectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
                                 <input type="submit"

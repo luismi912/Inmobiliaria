@@ -11,7 +11,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public List<ContratosContados> Consultar()
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/ContratosContado/Consultar";
+            datos["Url"] = "https://localhost:7165/ContratosContados/Consultar";
 
             this.iComunicaciones = new Comunicaciones();
             var task = this.iComunicaciones.EjecutarConsultar(datos)!;
@@ -28,7 +28,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public string Eliminar(ContratosContados entidad)
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/ContratosContado/Eliminar";
+            datos["Url"] = "https://localhost:7165/ContratosContados/Eliminar";
             datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();
@@ -50,7 +50,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             this.iComunicaciones = new Comunicaciones();
 
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/ContratosContado/Guardar";
+            datos["Url"] = "https://localhost:7165/ContratosContados/Guardar";
             datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();
@@ -73,7 +73,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
             this.iComunicaciones = new Comunicaciones();
 
             var datos = new Dictionary<string, object>();
-            datos["Url"] = "https://localhost:7165/ContratosContado/Modificar";
+            datos["Url"] = "https://localhost:7165/ContratosContados/Modificar";
             datos["Entidad"] = entidad;
 
             this.iComunicaciones = new Comunicaciones();

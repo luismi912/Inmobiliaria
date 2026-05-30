@@ -50,7 +50,7 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             Bien = new Bienes()
             {
-
+                FechaAdquisicion = DateTime.Now
             };
             Borrando = false;
         }

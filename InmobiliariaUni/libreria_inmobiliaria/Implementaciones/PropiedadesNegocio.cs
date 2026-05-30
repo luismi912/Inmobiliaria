@@ -17,7 +17,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public List<Propiedades> Consultar()
         {
-            var lista = this.conexion!.Propiedades.ToList();
+            var lista = this.conexion!.Propiedades.Include(p => p._Cliente).ToList();
             return lista;
         }
 

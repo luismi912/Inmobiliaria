@@ -9,30 +9,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace inmobiliaria_front.Pages.Ventanas
 {
     [Authorize(Roles = "Jefe")]
-    public class CrearEmpleadoModel : PageModel
+    public class CrearEmpleadosModel : PageModel
     {
         private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocio { get; set; }
+        private ISectoresNegocio? ISectoresnegocio { get; set; }
         private IJefesSectoresNegocio? IJefesSectoresnegocio { get; set; }
         private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
         private ICiudadesNegocio? ICiudadesnegocio { get; set; }
-        private IAdministradoresDepartamentosNegocio? IAdministradoresDepartamentosnegocio { get; set; }
         private IUsuarioRolesNegocio? IUsuarioRolesnegocio { get; set; }
 
         //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
         [BindProperty] public CrearUsuariosEmpleadosDtos? EmpleadoDto { get; set; }
-        public List<AdministradoresDepartamentos>? Administradores { get; set; }
         public List<Nacionalidades>? Nacionalidades { get; set; }
         public List<Ciudades>? Ciudades { get; set; }
         public List<Sectores>? Sectores { get; set; }
+        public List<JefesSectores>? jefes { get; set; }
 
-        public CrearEmpleadoModel()
+        public CrearEmpleadosModel()
         {
             INacionalidadesnegocio = new NacionalidadesNegocio();
             ICiudadesnegocio = new CiudadesNegocio();
             IUsuarioRolesnegocio = new UsuariosRolesNegocio();
-            IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
             IJefesSectoresnegocio = new JefesSectoresNegocio();
             IEmpleadosSectoresnegocio = new EmpleadosSectoresNegocio();
+            ISectoresnegocio = new SectoresNegocio();
         }
 
         public void OnGet()
@@ -42,9 +42,10 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void Refrescar()
         {
-            Administradores = IAdministradoresDepartamentosnegocio!.Consultar();
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
+            Sectores = ISectoresnegocio!.Consultar();
+            jefes = IJefesSectoresnegocio!.Consultar();
             EmpleadoDto = new CrearUsuariosEmpleadosDtos()
             {
                 Empleado = new EmpleadosDtos()
@@ -57,15 +58,16 @@ namespace inmobiliaria_front.Pages.Ventanas
             };
         }
 
-        public async Task OnPostBtEnviar()
+        public void OnPostBtEnviar()
         {
             try
             {
-                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(EmpleadoDto!.Correo!)!;
-                if (usuario == null)
-                    throw new Exception("Correo o contraseña incorrectos, reintente por favor");
-                if (usuario.Correo == EmpleadoDto!.Correo)
+                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(EmpleadoDto!.Correo!);
+
+                if (usuario != null && usuario.Correo == EmpleadoDto.Correo)
                     throw new Exception("El correo que intentas crear ya existe");
+              
+
                 IEmpleadosSectoresnegocio!.Guardar(EmpleadoDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();

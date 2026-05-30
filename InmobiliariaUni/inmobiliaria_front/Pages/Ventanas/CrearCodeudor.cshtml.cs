@@ -19,8 +19,9 @@ namespace inmobiliaria_front.Pages
 
         //El usuario llena un campo en el formulario y se necesita ese valor en el servidor
         [BindProperty] public CodeudoresDtos? CodeudorDto { get; set; }
-        public List<Nacionalidades>? Nacionalidades { get; set; }
-        public List<Ciudades>? Ciudades { get; set; }
+        public List<Compradores>? compradores { get; set; }
+        public List<Nacionalidades>? nacionalidades { get; set; }
+        public List<Ciudades>? ciudades { get; set; }
 
         public CrearCodeudorModel()
         {
@@ -37,8 +38,9 @@ namespace inmobiliaria_front.Pages
 
         public void Refrescar()
         {
-            Nacionalidades = INacionalidadesnegocio!.Consultar();
-            Ciudades = ICiudadesnegocio!.Consultar();
+            compradores = ICompradoresnegocio!.Consultar();
+            nacionalidades = INacionalidadesnegocio!.Consultar();
+            ciudades = ICiudadesnegocio!.Consultar();
             CodeudorDto = new CodeudoresDtos()
             {
                 Estado = true,
@@ -57,8 +59,6 @@ namespace inmobiliaria_front.Pages
         {
             try
             {
-                var id = ICompradoresnegocio!.ConsultarPorCedula(CodeudorDto!.CedulaRelacionComprador!);
-                CodeudorDto.Comprador = id;
                 ICodeudoresnegocio!.Guardar(CodeudorDto!);
                 ViewData["Mensaje"] = "Se creó correctamente";
                 ModelState.Clear();

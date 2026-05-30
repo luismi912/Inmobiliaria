@@ -75,6 +75,20 @@
                             }
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>Latitud</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Sector!.Latitud" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Longitud</label>
+                        <div class="col-6">
+                            <input class="cts_forms form-control"
+                                   asp-for="@Model.Sector!.Longitud" />
+                        </div>
+                    </div>
                 </div>
             }
             
@@ -126,6 +140,12 @@
                         <th class="cl_hidden">
                             Ciudad
                         </th>
+                        <th class="cl_hidden">
+                            Latitud
+                        </th>
+                        <th class="cl_hidden">
+                            Longitud
+                        </th>
                     </tr>
                     @foreach (var elemento in Model.Lista)
                     {
@@ -140,6 +160,12 @@
                                 @(Model.ListaCiudad!.FirstOrDefault(c => c.Id == elemento.Ciudad)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
+                                @elemento.Latitud
+                            </th>                           
+                            <th class="cl_hidden">
+                                @elemento.Longitud
+                            </th>
+                            <th>
                                 <input type="submit"
                                     value="Modificar"
                                     asp-page-handler="BtModificar"
@@ -152,8 +178,40 @@
                                     asp-route-data="@elemento.Id" />
                             </th>
                         </tr>
-                    }
+                    }  
                 </table>
+
+                @if (Model.Lista != null && Model.Lista.Count > 0)
+                {
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+                    <div id="map" style="height: 500px; margin-top: 20px; border-radius: 8px; border: 1px solid #ccc;"></div>
+
+                    <script>
+                        const sectores = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Lista));
+
+                        const map = L.map('map').setView([4.5709, -74.2973], 5);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap'
+                        }).addTo(map);
+
+                        sectores.forEach(s => {
+                        if (s.Latitud == null || s.Longitud == null) return;
+
+                        L.circleMarker([s.Latitud, s.Longitud], {
+                        radius: 12,
+                        fillColor: s.Estado ? '#1D9E75' : '#888780',
+                        color: s.Estado ? '#0F6E56' : '#5F5E5A',
+                        weight: 2,
+                        fillOpacity: 0.9
+                        })
+                        .bindPopup(`<b>${s.Nombre}</b><br>${s.Estado ? '✅ Activo' : '❌ Inactivo'}`)
+                        .addTo(map);
+                        });
+                    </script>
+                }
             }
         </form>
     </div>

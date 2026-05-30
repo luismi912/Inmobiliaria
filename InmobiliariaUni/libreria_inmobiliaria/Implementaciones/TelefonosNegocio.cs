@@ -39,10 +39,9 @@ namespace libreria_inmobiliaria.Implementaciones
             return entidad;
         }
 
-        public List<Telefonos> Consultar(int Id)
+        public List<Telefonos> Consultar()
         {
-            var Lista = this.conexion!.Telefonos!.Where(p => p.Persona == Id).ToList();   //Buscamos lss Telefonos segun la persona
-
+            var Lista = this.conexion!.Telefonos!.ToList();   
             return Lista;
         }
 

@@ -11,27 +11,38 @@ namespace inmobiliaria_front.Pages.Ventanas
     [Authorize(Roles = "Empleado")]
     public class PropiedadesModel : PageModel
     {
+        [BindProperty] public IFormFile? ImagenFile { get; set; }
+
         private IPropiedadesNegocio? IPropiedadesnegocio;
         private ITiposPropiedadesNegocio? ITiposPropiedadesnegocio;
         private ISectoresNegocio? ISectoresnegocio;
+        private IClientesNegocio? IClientesnegocio;
+        private IRespaldosFinancierosNegocio? IRespaldosnegocio;
 
-        [BindProperty] public List<Propiedades>? Lista { get; set; }
+        public List<Propiedades>? propiedades { get; set; }
         [BindProperty] public Propiedades? propiedad { get; set; }
-        [BindProperty] public List<TiposPropiedades>? listaTiposPropiedades { get; set; }
-        [BindProperty] public List<Sectores>? listaSectores { get; set; }
-        [BindProperty] public bool Borrando { get; set; }
+        public List<TiposPropiedades>? tiposPropiedades { get; set; }
+        public List<Sectores>? sectores { get; set; }
+        public List<Clientes>? clientes { get;set; }
+        public List<RespaldosFinancieros>? respaldos { get; set; }
+        public bool Borrando { get; set; }
 
         public PropiedadesModel()
         {
             IPropiedadesnegocio = new PropiedadesNegocio();
             ITiposPropiedadesnegocio = new TiposPropiedadesNegocio();
             ISectoresnegocio = new SectoresNegocio();
+            IClientesnegocio = new ClientesNegocio();
+            IRespaldosnegocio = new RespaldosFinancierosNegocio();
         }
 
         private void cargarlistas()
         {
-            listaTiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
-            listaSectores = ISectoresnegocio!.Consultar();
+            tiposPropiedades = ITiposPropiedadesnegocio!.Consultar();
+            sectores = ISectoresnegocio!.Consultar();
+            propiedades = IPropiedadesnegocio!.Consultar();
+            clientes = IClientesnegocio!.Consultar();
+            respaldos = IRespaldosnegocio!.Consultar();
         }
 
         public void OnGet()
@@ -45,7 +56,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             {
                 if (IPropiedadesnegocio == null)
                     return;
-                Lista = IPropiedadesnegocio.Consultar();
+                propiedades = IPropiedadesnegocio.Consultar();
                 cargarlistas();
                 propiedad = null;
             }
@@ -58,9 +69,10 @@ namespace inmobiliaria_front.Pages.Ventanas
         public void OnPostBtNuevo()
         {
             cargarlistas();
+            propiedades = null;
             propiedad = new Propiedades()
             {
-
+                FechaConstruccion = DateTime.Now
             };
             Borrando = false;
         }
@@ -70,9 +82,9 @@ namespace inmobiliaria_front.Pages.Ventanas
             try
             {
                 OnPostBtRefrescar();
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
+                propiedad = propiedades!.FirstOrDefault(x => x.Id == data);
                 cargarlistas();
-                Lista = null;
+                propiedades = null;
                 Borrando = false;
             }
             catch (Exception ex)
@@ -85,6 +97,25 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
+                if (propiedad == null)
+                    return;
+
+                if (ImagenFile != null)
+                {
+                    var carpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes", "propiedades");
+                    Directory.CreateDirectory(carpeta);
+
+                    var nombreArchivo = $"{Guid.NewGuid()}{Path.GetExtension(ImagenFile.FileName)}";
+                    var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+                    using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                    {
+                        ImagenFile.CopyTo(stream);
+                    }
+
+                    propiedad!.Imagen = $"/imagenes/propiedades/{nombreArchivo}";
+                }
+
                 if (propiedad == null)
                     return;
                 if (propiedad.Id == 0)
@@ -121,8 +152,8 @@ namespace inmobiliaria_front.Pages.Ventanas
             OnPostBtRefrescar();
             try
             {
-                propiedad = Lista!.FirstOrDefault(x => x.Id == data);
-                Lista = null;
+                propiedad = propiedades!.FirstOrDefault(x => x.Id == data);
+                propiedades = null;
                 Borrando = true;
             }
             catch (Exception ex)

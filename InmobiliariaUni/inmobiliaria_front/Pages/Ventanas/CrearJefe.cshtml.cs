@@ -13,6 +13,7 @@ namespace inmobiliaria_front.Pages
     {
         private IJefesSectoresNegocio? IJefesSectoresnegocio { get; set; }
         private INacionalidadesNegocio? INacionalidadesnegocio { get; set; }
+        private ISectoresNegocio? ISectoresnegocio { get; set; }
         private ICiudadesNegocio? ICiudadesnegocio { get; set; }
         private IAdministradoresDepartamentosNegocio? IAdministradoresDepartamentosnegocio { get; set; }
         private IUsuarioRolesNegocio? IUsuarioRolesnegocio { get; set; }
@@ -31,6 +32,7 @@ namespace inmobiliaria_front.Pages
             IUsuarioRolesnegocio = new UsuariosRolesNegocio();
             IAdministradoresDepartamentosnegocio = new AdministradoresDepartamentosNegocio();
             IJefesSectoresnegocio = new JefesSectoresNegocio();
+            ISectoresnegocio = new SectoresNegocio();
         }
 
         public void OnGet()
@@ -43,6 +45,7 @@ namespace inmobiliaria_front.Pages
             Administradores = IAdministradoresDepartamentosnegocio!.Consultar();
             Nacionalidades = INacionalidadesnegocio!.Consultar();
             Ciudades = ICiudadesnegocio!.Consultar();
+            Sectores = ISectoresnegocio!.Consultar();
             JefeDto = new CrearUsuariosJefesDtos()
             {
                 Jefe = new JefesDtos()
@@ -55,15 +58,15 @@ namespace inmobiliaria_front.Pages
             };
         }
 
-        public async Task OnPostBtEnviar()
+        public void OnPostBtEnviar()
         {
             try
             {
-                var usuario = await IUsuarioRolesnegocio!.ConsultarCorreo(JefeDto!.Correo!)!;
+                //Mandamos el correo a crear
+                var usuario = IUsuarioRolesnegocio!.ConsultarCorreo(JefeDto!.Correo!);
 
-                if (usuario == null)
-                    throw new Exception("Correo o contraseña incorrectos, reintente por favor");
-                if (usuario!.Correo == JefeDto!.Correo)
+                //verificamos que no existe, si existe retorna el usuario si no retorna null
+                if (usuario != null)
                     throw new Exception("El correo que intentas crear ya existe");
 
                 IJefesSectoresnegocio!.Guardar(JefeDto!);
