@@ -7,6 +7,12 @@
 <form method="POST"  @*Indica como se enviaran los datos*@
             enctype="multipart/form-data">
             @Html.AntiForgeryToken()  
+
+    @if (ViewData.ContainsKey("Mensaje"))
+    {
+        @await Html.PartialAsync("/Pages/Emergentes/Mensajes.cshtml")
+        ;
+    }
     <div style="border-radius: 10px; border: 6px solid aliceblue; margin: auto; margin-top: 50px; padding: 10px">
         <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px">Login</h1>
         <div>

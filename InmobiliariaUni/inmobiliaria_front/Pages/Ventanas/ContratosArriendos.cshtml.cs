@@ -24,7 +24,10 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public List<Propiedades>? propiedades { get; set; }
         public List<ContratosArriendos>? contratos { get; set; }
+        public List<ContratosArriendos>? contratosPendientes { get; set; }
         public List<ContratosArriendos>? contratosAceptados { get; set; }
+        public List<ContratosArriendos>? contratosSolicitudes { get; set; }
+        public List<ContratosArriendos>? contratosNoAceptados { get; set; }
         public List<Clientes>? clientes { get; set; }
         public List<Codeudores>? codeudores { get; set; }
         public List<Compradores>? compradores { get; set; }
@@ -57,7 +60,10 @@ namespace inmobiliaria_front.Pages.Ventanas
             compradores = ICompradoresnegocio!.Consultar();
             codeudores = ICodeudoresnegocio!.Consultar();
             contratos = IContratosArriendosnegocio!.Consultar();
-            contratosAceptados = IContratosArriendosnegocio.Consultar().Where(c => c.Estado == "Aceptado").ToList();
+            contratosSolicitudes = contratos.Where(c => c.Estado == "Solicitud").ToList();
+            contratosAceptados = contratos.Where(c => c.Estado == "Aceptado").ToList();
+            contratosNoAceptados = contratos.Where(c => c.Estado == "No aceptado").ToList();
+            contratosPendientes = contratos.Where(c => c.Estado == "Pendiente").ToList();
             clientes = IClientesnegocio!.Consultar();
             empleados = IEmpleadosSectoresnegocios!.Consultar();
         }
@@ -74,8 +80,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             {
                 cargarlistas();
                 if (IContratosArriendosnegocio == null)
-                    return;
-                contratos = IContratosArriendosnegocio.Consultar();
+                    return;;
                 Contrato = null;
                 Aceptar = false;
             }
@@ -94,6 +99,10 @@ namespace inmobiliaria_front.Pages.Ventanas
                 FechaFinalizacion = DateTime.Now,
                 Estado = "Pendiente"
             };
+            contratosNoAceptados = null;
+            contratosSolicitudes = null;
+            contratosAceptados = null;
+            contratosPendientes = null;
             Borrando = false;
             Aceptar = false;
         }
@@ -105,7 +114,10 @@ namespace inmobiliaria_front.Pages.Ventanas
                 OnPostBtRefrescar();
                 cargarlistas();
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
-                contratos = null;
+                contratosPendientes = null;
+                contratosSolicitudes = null;
+                contratosAceptados = null;
+                contratosNoAceptados = null;
             }
             catch (Exception ex)
             {
@@ -127,8 +139,16 @@ namespace inmobiliaria_front.Pages.Ventanas
                 if (pro == null)
                     throw new Exception("La propiedad seleccionada no existe");
 
-                Contrato!.Cliente = pro.Cliente;
+                //Para que la casa no le puedan hacer mas de un contrato
+                pro.Disponible = false;
 
+                //Guardamos el cambio a la propiedad
+                pro = IPropiedadesnegocio!.Modificar(pro);
+
+                //De la misma sacamos al cliente para no tener que repetir informacion
+                Contrato!.Cliente = pro.Cliente;
+                
+                //El empleado lo llenamos con el que esta haciendo justamente el contrato y lo llamos com cargarIdEmpleado
                 Contrato!.EmpleadoSector = empleado;
 
                 if (Contrato.Id == 0)
@@ -169,6 +189,10 @@ namespace inmobiliaria_front.Pages.Ventanas
             {
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
                 contratos = null;
+                contratosNoAceptados = null;
+                contratosAceptados = null;
+                contratosPendientes = null;
+                contratosSolicitudes = null;
                 Borrando = true;
             }
             catch (Exception ex)
@@ -182,7 +206,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             try
             {
                 OnPostBtRefrescar();
-                cargarlistas();
+                contratos = IContratosArriendosnegocio!.Consultar();
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
                 Contrato!.Estado = "Solicitud";
                 Contrato = IContratosArriendosnegocio!.Modificar(Contrato!);
@@ -201,9 +225,11 @@ namespace inmobiliaria_front.Pages.Ventanas
             try
             {
                 OnPostBtRefrescar();
-                cargarlistas();
+                contratos = IContratosArriendosnegocio!.Consultar();
                 Contrato = contratos!.FirstOrDefault(x => x.Id == data);
                 contratos = null;
+                contratosAceptados = null;
+                contratosSolicitudes = null;
                 Aceptar = true;
                 Borrando = false;
             }
@@ -217,13 +243,35 @@ namespace inmobiliaria_front.Pages.Ventanas
         {
             try
             {
-                cargarlistas();
-                var contra = contratos!.FirstOrDefault(c => c.Id == Contrato!.Id);
+                contratosSolicitudes = IContratosArriendosnegocio!.Consultar().Where(c => c.Estado == "Solicitud").ToList();
+
+                var contra = contratosSolicitudes!.FirstOrDefault(c => c.Id == Contrato!.Id);
 
                 if (contra == null)
                     throw new Exception("Contrato no encontrado");
 
                 contra!.Estado = "Aceptado";
+                Contrato = IContratosArriendosnegocio!.Modificar(contra!);
+                OnPostBtCerrar();
+            }
+            catch (Exception ex)
+            {
+                ViewData["Mensaje"] = ex.Message;
+            }
+        }
+
+        public void OnPostBtNoAceptarContrato()
+        {
+            try
+            {
+                contratosSolicitudes = IContratosArriendosnegocio!.Consultar().Where(c => c.Estado == "Solicitud").ToList();
+
+                var contra = contratosSolicitudes!.FirstOrDefault(c => c.Id == Contrato!.Id);
+
+                if (contra == null)
+                    throw new Exception("Contrato no encontrado");
+
+                contra!.Estado = "No aceptado";
                 Contrato = IContratosArriendosnegocio!.Modificar(contra!);
                 OnPostBtCerrar();
             }

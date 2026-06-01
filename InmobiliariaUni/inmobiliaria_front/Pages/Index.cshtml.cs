@@ -48,16 +48,19 @@ namespace inmobiliaria_front.Pages
                 //Se realiza una busqueda si si existe el correo y que retorne la entidad relacionada al mismo
                 var usuario = await IUsuariosRolesnegocio!.ConsultarCorreoAsync(UsuarioRol.Correo!)!;
 
+                if (usuario == null)
+                    throw new Exception("Contrase o correo incorrectos, reintente por favor");
+
                 //Verificamos que en esa entidad que llamamos coincida con todos los datos que el usuario completo
                 if (usuario.Correo != UsuarioRol.Correo || usuario.Contraseña != UsuarioRol.Contraseña || usuario.Rol != UsuarioRol.Rol)
                     throw new Exception("La contraseña o el correo son incorrectos, reintente por favor");
 
                 //Los atributos con los cuales se identificara el usuario en la navegacion
                 var claims = new List<Claim>
-            {
+                {
                 new Claim(ClaimTypes.Name, UsuarioRol.Correo!),
                 new Claim(ClaimTypes.Role, UsuarioRol.Rol!),
-            };
+                };
 
                 //Añadimos el id en caso de que queramos utilizarlo en otras paginas
                 if (usuario.Rol == "Administrador")
@@ -88,7 +91,7 @@ namespace inmobiliaria_front.Pages
                     Response.Redirect("/Ventanas/Inicio");
                 else if (usuario.Rol == "Jefe")
                     Response.Redirect("/Ventanas/Inicio");
-                else
+                else if (usuario.Rol == "Empleado")
                     Response.Redirect("/Ventanas/Inicio");
 
             } catch (Exception ex)

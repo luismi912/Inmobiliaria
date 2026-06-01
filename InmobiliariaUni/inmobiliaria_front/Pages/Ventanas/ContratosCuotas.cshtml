@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Contratos Cuotas</h3>
+                <h3>Contratos Arriendos</h3>
             </div>
 
             <div>
@@ -58,6 +58,10 @@
                             <input type="submit"
                                    value="Aceptar"
                                    asp-page-handler="BtAceptarContrato"
+                                   class="btn btn-secondary" />
+                            <input type="submit"
+                                   value="No aceptar"
+                                   asp-page-handler="BtNoAceptarContrato"
                                    class="btn btn-secondary" />
                         </div>
                     </div>
@@ -134,6 +138,16 @@
                     </div>
                     <div class="form-group">
                         <label>
+                            Precio acordado
+                        </label>
+                        <div class="col-6">
+                            <input id="inPrecioAcordado"
+                                   class="cts_forms form-control"
+                                   asp-for="@Model.Contrato!.PrecioAcordado" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
                             Propiedad a comprar
                         </label>
                         <div class="col-6">
@@ -150,17 +164,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Precio acordado
-                        </label>
-                        <div class="col-6">
-                            <input id="inPrecioAcordado"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Contrato!.PrecioAcordado" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>
-                            Numero de cuotas
+                             Numero Cuotas
                         </label>
                         <div class="col-6">
                             <input id="inNumeroCuotas"
@@ -168,9 +172,9 @@
                                    asp-for="@Model.Contrato!.NumeroCuotas" />
                         </div>
                     </div>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label>
-                            Valor cuota
+                            Valor Cuota
                         </label>
                         <div class="col-6">
                             <input id="inValorCuota"
@@ -180,7 +184,7 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Pago inicial
+                            Pago Inicial
                         </label>
                         <div class="col-6">
                             <input id="inPagoInicial"
@@ -223,10 +227,223 @@
                 </div>
             }
 
-            @if (Model != null &&
-                             Model.contratos != null &&
-                             Model.contratos.Count > 0)
+            @if (User.IsInRole("Empleado"))
             {
+
+                @if (Model != null &&
+                    Model.contratosPendientes != null &&
+                    Model.contratosPendientes.Count > 0)
+                {
+                    <h2>Contratos Pendientes</h2>
+                    <table class="tb_data table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>
+                                Fecha Contrato
+                            </th>
+                            <th>
+                                Fecha Finalizacion
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                Codeudor
+                            </th>
+                            <th>
+                                Cliente
+                            </th>
+                            <th>
+                                Comprador
+                            </th>
+                            <th class="cl_hidden">
+                                Empleado
+                            </th>
+                            <th class="cl_hidden">
+                                Propiedad
+                            </th>
+                            <th class="cl_hidden">
+                                Precio acordado
+                            </th>
+                            <th class="cl_hidden">
+                                Numero Cuotas
+                            </th>
+                            <th class="cl_hidden">
+                                Valor de cuota
+                            </th>
+                            <th class="cl_hidden">
+                                Pago inicial
+                            </th>
+                        </tr>
+                        @foreach (var elemento in Model.contratosPendientes!)
+                        {
+                        
+                            <tr>
+                                <th>
+                                    @elemento.FechaContrato
+                                </th>
+                                <th>
+                                    @elemento.FechaFinalizacion
+                                </th>
+                                <th>
+                                    @elemento.Estado
+                                </th>
+                                <th>
+                                    @(Model.codeudores?.FirstOrDefault(x => x.Id == elemento.Codeudor)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.clientes?.FirstOrDefault(x => x.Id == elemento.Cliente)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.compradores?.FirstOrDefault(x => x.Id == elemento.Comprador)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.empleados?.FirstOrDefault(x => x.Id == elemento.EmpleadoSector)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.propiedades?.FirstOrDefault(x => x.Id == elemento.Propiedad)?.Codigo ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @elemento.PrecioAcordado
+                                </th>
+                                <th>
+                                    @elemento.NumeroCuotas
+                                </th>
+                                <th>
+                                    @elemento.ValorCuota
+                                </th>
+                                <th>
+                                    @elemento.PagoInicial
+                                </th>
+                                <th>
+                                
+                                    <input type="submit"
+                                           value="Modificar"
+                                           asp-page-handler="BtModificar"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id" />
+                                    <input type="submit"
+                                           value="Borrar"
+                                           asp-page-handler="BtBorrarVal"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id" />
+                                    <input type="submit"
+                                           value="Solicitud"
+                                           asp-page-handler="BtSolicitud"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id" />
+                                </th>
+                            </tr>
+                        }
+                    </table>
+                }
+            }
+
+            @if (User.IsInRole("Jefe"))
+            {
+
+                @if (Model != null &&
+                                    Model.contratosSolicitudes != null &&
+                                    Model.contratosSolicitudes.Count > 0)
+                {
+                    <h2>Contratos Solicitados</h2>
+                    <table class="tb_data table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>
+                                Fecha Contrato
+                            </th>
+                            <th>
+                                Fecha Finalizacion
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                Codeudor
+                            </th>
+                            <th>
+                                Cliente
+                            </th>
+                            <th>
+                                Comprador
+                            </th>
+                            <th class="cl_hidden">
+                                Empleado
+                            </th>
+                            <th class="cl_hidden">
+                                Propiedad
+                            </th>
+                            <th class="cl_hidden">
+                                Precio Acordado
+                            </th>
+                            <th class="cl_hidden">
+                                Numero Cuotas
+                            </th>
+                            <th class="cl_hidden">
+                                Valor de cuota
+                            </th>
+                            <th class="cl_hidden">
+                                Pago inicial
+                            </th>
+                        </tr>
+                        @foreach (var elemento in Model.contratosSolicitudes!)
+                        {
+                        
+                            <tr>
+                                <th>
+                                    @elemento.FechaContrato
+                                </th>
+                                <th>
+                                    @elemento.FechaFinalizacion
+                                </th>
+                                <th>
+                                    @elemento.Estado
+                                </th>
+                                <th>
+                                    @(Model.codeudores?.FirstOrDefault(x => x.Id == elemento.Codeudor)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.clientes?.FirstOrDefault(x => x.Id == elemento.Cliente)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.compradores?.FirstOrDefault(x => x.Id == elemento.Comprador)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.empleados?.FirstOrDefault(x => x.Id == elemento.EmpleadoSector)?.Cedula ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @(Model.propiedades?.FirstOrDefault(x => x.Id == elemento.Propiedad)?.Codigo ?? "Sin tipo")
+                                </th>
+                                <th>
+                                    @elemento.PrecioAcordado
+                                </th>
+                                <th>
+                                    @elemento.NumeroCuotas
+                                </th>
+                                <th>
+                                    @elemento.ValorCuota
+                                </th>
+                                <th>
+                                    @elemento.PagoInicial
+                                </th>
+                                <th>
+                                    <input type="submit"
+                                           value="VerSolicitud"
+                                           asp-page-handler="BtVerSolicitud"
+                                           class="btn btn-secondary"
+                                           asp-route-data="@elemento.Id" />
+                                </th>
+                            </tr>
+                        }
+                    </table>
+                }
+            }
+            
+            @if (Model != null &&
+                            Model.contratosAceptados != null &&
+                            Model.contratosAceptados.Count > 0)
+            {
+                <h2>Contratos Aceptados</h2>
+
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
@@ -254,19 +471,19 @@
                             Propiedad
                         </th>
                         <th class="cl_hidden">
-                            Precio acordado
+                            Precio Acordado
                         </th>
                         <th class="cl_hidden">
-                            Numero de cuotas
+                            Numero Cuotas
                         </th>
                         <th class="cl_hidden">
-                            Valor de la cuota
+                            Valor de cuota
                         </th>
                         <th class="cl_hidden">
                             Pago inicial
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.contratos!)
+                    @foreach (var elemento in Model.contratosAceptados!)
                     {
                         
                         <tr>
@@ -306,49 +523,17 @@
                             <th>
                                 @elemento.PagoInicial
                             </th>
-                            <th>
-                                
-                                <input type="submit"
-                                       value="Modificar"
-                                       asp-page-handler="BtModificar"
-                                       class="btn btn-secondary"
-                                       asp-route-data="@elemento.Id" />
-                                <input type="submit"
-                                       value="Borrar"
-                                       asp-page-handler="BtBorrarVal"
-                                       class="btn btn-secondary"
-                                       asp-route-data="@elemento.Id" />
-                                
-
-                                @if (User.IsInRole("Empleado"))
-                                {
-                                    <input type="submit"
-                                           value="Solicitud"
-                                           asp-page-handler="BtSolicitud"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id"
-                                           disabled="@(elemento.Estado == "Pendiente")" />
-                                }
-
-                                @if (User.IsInRole("Jefe"))
-                                {
-                                    <input type="submit"
-                                           value="VerSolicitud"
-                                           asp-page-handler="BtVerSolicitud"
-                                           class="btn btn-secondary"
-                                           asp-route-data="@elemento.Id" />
-                                }
-                            </th>
                         </tr>
                     }
                 </table>
             }
-
-            <h2>Contratos Aceptados</h2>
+            
             @if (Model != null &&
-                Model.contratosAceptados != null &&
-                Model.contratosAceptados.Count > 0)
+                            Model.contratosNoAceptados != null &&
+                            Model.contratosNoAceptados.Count > 0)
             {
+                <h2>Contratos No Aceptados</h2>
+
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
                         <th>
@@ -376,13 +561,19 @@
                             Propiedad
                         </th>
                         <th class="cl_hidden">
-                            Precio acordado
+                            Precio Acordado
                         </th>
                         <th class="cl_hidden">
-                            Precio final
+                            Numero Cuotas
+                        </th>
+                        <th class="cl_hidden">
+                            Valor de cuota
+                        </th>
+                        <th class="cl_hidden">
+                            Pago inicial
                         </th>
                     </tr>
-                    @foreach (var elemento in Model.contratos!)
+                    @foreach (var elemento in Model.contratosNoAceptados!)
                     {
                         
                         <tr>
@@ -414,7 +605,7 @@
                                 @elemento.PrecioAcordado
                             </th>
                             <th>
-                                @elemento.NumeroCuotas
+                                @elemento.NumeroCuota
                             </th>
                             <th>
                                 @elemento.ValorCuota
