@@ -39,5 +39,13 @@ namespace Inmobiliaria_Servicios.Controllers
                 throw new Exception("No implementado");
             return this.IActivosFinancierosnegocio!.Modificar(entidad);
         }
+
+        [HttpPost]
+        public ActivosFinancieros Guardar(ActivosFinancieros entidad)
+        {
+            if (this.IActivosFinancierosnegocio == null)
+                throw new Exception("No implementado");
+            return this.IActivosFinancierosnegocio!.Guardar(entidad);
+        }
     }
 }

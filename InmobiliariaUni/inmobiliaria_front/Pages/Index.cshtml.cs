@@ -81,6 +81,7 @@ namespace inmobiliaria_front.Pages
 
                 //Primero juntamos los datos con los que vamos a identificar al usuario
                 var identidad = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
                 //Luego creamos la principal con el cual con esto se da de cuenta quien esta navegando en la pagina
                 var principal = new ClaimsPrincipal(identidad);
 

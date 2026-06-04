@@ -6,6 +6,7 @@
 
 <form method="POST"  @*Indica como se enviaran los datos*@
             enctype="multipart/form-data">
+            
             @Html.AntiForgeryToken()  
 
     @if (ViewData.ContainsKey("Mensaje"))
@@ -78,15 +79,18 @@
 </form>
 
 <script>
+    @*Al igual que en java sirve para mostrar el elemento segun el id*@
     const correo = document.getElementById('inCorreo');
     const contrasena = document.getElementById('inContrasena');
     const btn = document.getElementById('btnIngresar');
     const verificarcontrasena = document.getElementById('inVerificarContrasena')
 
+    @*Funcion la cual mira si los campos estan vacios para desactivar el boton*@
     function validarCampos() {
         btn.disabled = correo.value.trim() === '' || contrasena.value.trim() === '' || verificarcontrasena.value.trim() != contrasena.value.trim();
     }
 
+    @*Sirve para que mientras se ejecute un input se haga verificacion con la funcion hecha previamente*@
     correo.addEventListener('input', validarCampos);
     contrasena.addEventListener('input', validarCampos);
     verificarcontrasena.addEventListener('input', validarCampos);

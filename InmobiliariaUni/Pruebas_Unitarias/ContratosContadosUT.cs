@@ -67,7 +67,8 @@ namespace Pruebas_Unitarias
                 Comprador = comprador.Id,
                 EmpleadoSector = empleado.Id,
                 Propiedad = propiedad.Id,
-                PrecioAcordado = 350000000
+                PrecioAcordado = 350000000,
+                Estado = "Pendiente"
             };
 
             this.conexion!.ContratosContados.Add(contrato);

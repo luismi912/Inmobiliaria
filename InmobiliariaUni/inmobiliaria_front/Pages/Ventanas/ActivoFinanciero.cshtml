@@ -78,18 +78,11 @@
                     </div>
                     <div class="form-group">
                         <label>
-                            Respaldo financiero
+                            Cedula del propietario
                         </label>
                         <div class="col-6">
-                            @if (Model.respaldos != null)
-                            {
-                                <select class="form-control" @*Crea un dropdown, lista despliegable para abajo*@
-                                        asp-for="@Model.Activo!.RespaldoFinanciero" @*Lo guarda en TipoPropiedad*@
-                                        asp-items="@(new SelectList(Model.respaldos, "Id", "Nombre"))">
-                                    @*Crea las opciones con parametro( lista de valores, guarda el id, y muestra el nombre)*@
-                                    <option value="">-- Seleccione un tipo --</option> @*Placeholder o boton para desplegar*@
-                                </select>
-                            }
+                            <input id="inValor"
+                                   asp-for="@Model.CedulaDelPropietario" />
                         </div>
                     </div>
                 </div>

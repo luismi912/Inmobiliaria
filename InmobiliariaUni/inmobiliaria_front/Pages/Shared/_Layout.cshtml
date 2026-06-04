@@ -27,26 +27,27 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio/">Inicio</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Nacionalidades">Nacionalidades</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Creacion de superiores
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearAdministrador">Crear Administrador</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearJefe">Crear Jefes</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Departamentos">Departamentos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Ciudades">Ciudades</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Manejo de ubicaciones
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Nacionalidades">Nacionalidades</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Departamentos">Departamentos</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Sectores">Sectores</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/TiposPropiedades">Tipos Propiedades</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Sectores">Sectores</a>
-                            </li>                                                                  
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearJefe">Crear jefe</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearAdministrador">Crear admin</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Auditorias">Auditorias</a>
@@ -58,21 +59,25 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio">Inicio</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearEmpleados">CrearEmpleado</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Seccion empleados
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearEmpleados">Crear Empleado</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/VerEmpleados">Empleados</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosArriendos">ContratosArriendos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosContados">ContratosContados</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosCuotas">ContratosCuotas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/VerEmpleados">Empleados</a>
-                            </li>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Tipos de contratos
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosArriendos">Contratos de Arriendos</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosContados">Contrato de Contados</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosCuotas">Contratos de Cuotas</a></li>
+                                </ul>
+                            </li>                       
                         }
 
                         @if (User.IsInRole("Empleado"))
@@ -80,47 +85,42 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Inicio">Inicio</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCliente">Crear cliente</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Tipos de contratos
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosArriendos">Contratos de Arriendos</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosContados">Contrato de Contados</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ContratosCuotas">Contratos de Cuotas</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearCodeudor">Crear codeudor</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Registrar de usuarios
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearCliente">Crear Cliente</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearCodeudor">Crear Codeudor</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/CrearComprador">Crear Comprador</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/ActivoFinanciero">Activo Financiero</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Bienes">Bienes</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Direcciones">Direcciones</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Telefonos">Telefonos</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/CrearComprador">Crear comprador</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Bienes">Bienes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ActivoFinanciero">Actvos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosArriendos">ContratosArriendos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosContados">ContratosContados</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/ContratosCuotas">ContratosCuotas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Direcciones">Direcciones</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Telefonos">Telefonos</a>
+                            <li class="nav-item dropdown" style="color: black">
+                                <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navRecepcionControl" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-clipboard2-pulse me-1"></i> Vistas de usuarios
+                                </a>
+                                <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="navRecepcionControl" style="border-radius: 12px;">
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Clientes">Clientes</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Codeudores">Codeudores</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Ventanas/Compradores">Compradores</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Propiedades">Propiedades</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Clientes">Clientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Codeudores">Codeudores</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Ventanas/Compradores">Compradores</a>
                             </li>
                         }
 

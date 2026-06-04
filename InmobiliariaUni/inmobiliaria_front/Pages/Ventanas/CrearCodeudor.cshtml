@@ -13,12 +13,12 @@
             @await Html.PartialAsync("../Emergentes/Mensajes.cshtml");        
     }
 
-    <div>
-        <h1 class="display-4" style="background-color: aliceblue; padding-left: 20px; text-align:center">Registrar Comprador</h1>
+    <div style="border: 5px solid lavender; padding: 8px">
+        <h1 class="display-4" style="background-color: aliceblue; border: 3px solid lavender; padding-left: 20px; text-align:center">Registrar Codeudor</h1>
 
         @*INFORMACION PERSONAL*@
         <div>
-            <h1 class ="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Informacion Personal</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; border: 3px solid lavender; margin-top: 70px">Informacion Personal</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -120,7 +120,7 @@
 
         @*DIRECCION*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Direccion</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; border: 3px solid lavender; margin-top: 70px">Direccion</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -174,7 +174,7 @@
 
         @*TELEFONOS*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Contacto</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 70px;border: 3px solid lavender">Contacto</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -201,7 +201,7 @@
 
         @*Expediente Laboral*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Expediente Laboral</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 70px; border: 3px solid lavender">Expediente Laboral</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -250,7 +250,7 @@
 
         @*RespaldosCompradores*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 70px; border: 3px solid lavender">Respaldos Financieros</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -287,7 +287,7 @@
 
         @*RespaldosCompradores-Bien*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros (Bien)</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 70px; border: 3px solid lavender">Respaldos Financieros (Bien)</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -346,7 +346,7 @@
 
         @*RespaldosCompradores-ActivoFinanciero*@
         <div>
-            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 50px">Respaldos Financieros (Activo Financiero)</h1>
+            <h1 class="display-4" style="background-color: aliceblue; padding-left: 10px; margin-top: 70px;border: 3px solid lavender">Respaldos Financieros (Activo Financiero)</h1>
             <div>
                 <div class="form-group" style="margin-bottom: 10px"></div>
                 <label>
@@ -394,8 +394,8 @@
         <div style="margin-top: 10px">
             <input type="submit"
                    value="Enviar"
-                   asp-page-handler="BtEnviar" />
-                   class="btn btn-secondary"          
+                   class="btn btn-secondary"
+                   asp-page-handler="BtEnviar" />        
         </div>  
     </div>
 </form>

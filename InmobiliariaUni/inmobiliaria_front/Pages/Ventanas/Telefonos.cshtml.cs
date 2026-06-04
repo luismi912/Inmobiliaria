@@ -61,6 +61,7 @@ namespace inmobiliaria_front.Pages.Ventanas
 
             };
             Borrando = false;
+            telefonos = null;
         }
 
         public void OnPostBtModificar(int data)

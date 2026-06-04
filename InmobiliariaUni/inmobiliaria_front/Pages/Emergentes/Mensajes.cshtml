@@ -1,20 +1,48 @@
-﻿<center>
-    <div class='popup'>
-        <div class='pp_ms_inner'>
-            <div style='width:95%'>
-                <h2 align="left">
-                    Mensaje
-                </h2>
+﻿<div style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;">
 
-                <h4 align="left">
-                    @ViewData["Mensaje"]
-                </h4>
+    <div style="
+        background: #fff;
+        border-radius: 16px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        text-align: left;">
 
-                <input type="submit"
-                       value="Cerrar"
-                       asp-page-handler="BtCerrar"
-                       class="btn btn-secondary" />
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="
+                width: 36px; height: 36px;
+                background: #eef2ff;
+                border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 18px;">ℹ️</span>
             </div>
+            <h5 style="margin: 0; font-weight: 600; color: #1e293b;">Mensaje</h5>
+        </div>
+
+        <p style="color: #475569; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+            @ViewData["Mensaje"]
+        </p>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <input type="submit"
+                   value="Cerrar"
+                   asp-page-handler="BtCerrar"
+                   style="
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;" />
         </div>
     </div>
-</center>
+</div>

@@ -69,7 +69,8 @@ namespace Pruebas_Unitarias
                 Propiedad = propiedad.Id,
                 ValorMensual = 1500000,
                 DiaPago = 5,
-                Renovable = true
+                Renovable = true,
+                Estado = "Pendiente"
             };
 
             this.conexion!.ContratosArriendos.Add(contrato);

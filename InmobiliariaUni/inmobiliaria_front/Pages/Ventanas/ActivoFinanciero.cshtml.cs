@@ -1,3 +1,4 @@
+using DocumentFormat.OpenXml.Wordprocessing;
 using libreria_inmobiliaria.Entidades;
 using libreria_presentaciones_inmobiliaria.implemtanciones;
 using libreria_presentaciones_inmobiliaria.interfaces;
@@ -20,6 +21,8 @@ namespace inmobiliaria_front.Pages.Ventanas
         public List<RespaldosFinancieros>? respaldos{ get; set; }
         [BindProperty] public ActivosFinancieros? Activo { get; set; }
         public bool Borrando { get; set; }
+
+        [BindProperty] public string? CedulaDelPropietario { get; set; } = "0";
 
         public ActivoFinancieroModel()
         {
@@ -65,6 +68,8 @@ namespace inmobiliaria_front.Pages.Ventanas
                 FechaAdquisicion = DateTime.Now
             };
             Borrando = false;
+            Lista = null;
+            respaldos = null;
         }
 
         public void OnPostBtModificar(int data)
@@ -85,7 +90,6 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         public void OnPostBtGuardar()
         {
-            cargarListas();
             try
             {
                 //Validacion 
@@ -95,6 +99,18 @@ namespace inmobiliaria_front.Pages.Ventanas
                 //Guardamos bien sea la entidad o la modificamos
                 if (Activo.Id == 0)
                 {
+                    if (string.IsNullOrWhiteSpace(CedulaDelPropietario))
+                        throw new Exception("La cedula del propietario es requerida");
+
+                    //Mediante la cedula que pedimos buscamos el respaldo y le agregamos las observaciones ya añadidadas
+                    //Aunque sea el servicio de otro metodo, nos ayuda para buscar el respaldo del activo
+                    var respaldo = IBienesnegocio!.ConsultarRespaldoCedula(CedulaDelPropietario);
+
+                    if (respaldo == null)
+                        throw new Exception("No se encontro ningun respaldo para guardar la el bien, reintenta por favor");
+
+                    Activo!.RespaldoFinanciero = respaldo.Id;
+
                     Activo = IActivosFinancierosnegocio!.Guardar(Activo!);
                 }
                 else

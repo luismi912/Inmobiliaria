@@ -175,7 +175,7 @@
                                 @(Model.Personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Nombre ?? "Sin tipo")
                             </th>
                             <th>
-                                Model.CedulaPersona
+                                @(Model.Personas?.FirstOrDefault(c => c.Id == elemento.Persona)?.Cedula ?? "Sin tipo")
                             </th>                           
                             <th class="cl_hidden">
                                 @(Model.Ciudades?.FirstOrDefault(c => c.Id == elemento.Ciudad)?.Nombre ?? "Sin tipo")

@@ -166,32 +166,40 @@
 
             @if (Model!.Lista != null && Model.Lista.Count > 0)
             {
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+                //Cargan la libreria la cual se utiliza para dibujar el mapa
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />   //El estilo del mapa
+
+                //Funcionalidad del mapa
                 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+                //Donde se dibujo el mapa con sus valores por alto y ancho
                 <div id="map" style="height: 500px; margin-top: 20px; border-radius: 8px; border: 1px solid #ccc;"></div>
 
                 <script>
+                    @*La lista la convierte primero a texto json y luego la convierte en un array*@
                     const departamentos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Lista));
 
+                    @*Estas son las coordenadas iniciales en las cuales comienza el mapa, su punto de partida*@
                     const map = L.map('map').setView([4.5709, -74.2973], 5);
 
+                    @*Ajusta la perspectiva segun la parte del mapa que estemos mirando*@
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap'
                     }).addTo(map);
 
+                    @*Aqui lo que hace es segun la latitud y la longitud dibujar un circulo verde, dependiendo finalminete del estado si es verde o rojo*@
                     departamentos.forEach(d => {
                     if (d.Latitud == null || d.Longitud == null) return;
 
                     L.circleMarker([d.Latitud, d.Longitud], {
-                    radius: 12,
-                    fillColor: d.Estado ? '#1D9E75' : '#888780',
+                    radius: 12,    @*Tamaño medido por el radio*@
+                    fillColor: d.Estado ? '#1D9E75' : '#888780',   @*Si esta activo se pone verde si no gris*@
                     color: d.Estado ? '#0F6E56' : '#5F5E5A',
-                    weight: 2,
-                    fillOpacity: 0.9
+                    weight: 2,  @*Tamaño del borde*@
+                    fillOpacity: 0.9    @*Transparencia del relleno*@
                     })
-                    .bindPopup(`<b>${d.Nombre}</b><br>${d.Estado ? '✅ Activo' : '❌ Inactivo'}`)
-                    .addTo(map);
+                    .bindPopup(`<b>${d.Nombre}</b><br>${d.Estado ? '✅ Activo' : '❌ Inactivo'}`)  @*Indicador segun el estado poner activo o inactivo*@
+                    .addTo(map);  @*El punto se agrega al mapa*@
                     });
                 </script>
             }

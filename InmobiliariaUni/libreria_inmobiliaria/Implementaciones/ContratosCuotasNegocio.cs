@@ -44,7 +44,7 @@ namespace libreria_inmobiliaria.Implementaciones
 
         public List<ContratosCuotas> Consultar()
         {
-            var Lista = this.conexion!.ContratosCuotas!.ToList();
+            var Lista = this.conexion!.ContratosCuotas!.Include(c => c._Propiedad).ToList();
             return Lista;
         }
 

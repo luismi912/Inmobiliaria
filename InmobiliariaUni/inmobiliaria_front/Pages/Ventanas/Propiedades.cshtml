@@ -252,6 +252,12 @@
                             Valor Propiedad
                         </th>
                         <th class="cl_hidden">
+                            Tipo
+                        </th>
+                        <th class="cl_hidden">
+                            Sector
+                        </th>
+                        <th class="cl_hidden">
                             Pisos
                         </th>
                         <th class="cl_hidden">
@@ -268,12 +274,6 @@
                         </th>
                         <th class="cl_hidden">
                             Baños
-                        </th>
-                        <th class="cl_hidden">
-                            Tipo
-                        </th>
-                        <th class="cl_hidden">
-                            Sector
                         </th>
                     </tr>
                     @foreach (var elemento in Model.propiedades)
@@ -305,17 +305,29 @@
                                 @elemento.ValorPropiedad
                             </th>                           
                             <th class="cl_hidden">
-                                @elemento.Pisos
-                            </th>
-                            <th class="cl_hidden">
-                                @elemento.FechaConstruccion
-                            </th>
-                            <th class ="cl_hidden">
                                 @(Model.tiposPropiedades?.FirstOrDefault(x => x.Id == elemento.TipoPropiedad)?.Nombre ?? "Sin tipo")
                             </th>
                             <th class="cl_hidden">
                                 @(Model.sectores?.FirstOrDefault(x => x.Id == elemento.Sector)?.Nombre ?? "Sin tipo")
                             </th>
+                            <th class="cl_hidden">
+                                @elemento.Pisos
+                            </th>
+                            <th class="cl_hidden">
+                                @elemento.FechaConstruccion
+                            </th>
+                            <th class="cl_hidden">
+                                @elemento.Garaje
+                            </th>
+                            <th class="cl_hidden">
+                                @elemento.Patio
+                            </th>
+                            <th class="cl_hidden">
+                                @elemento.NumeroHabitaciones
+                            </th>
+                            <th class="cl_hidden">
+                                @elemento.NumeroBaños
+                            </th>              
                             <th>
                                 <input type="submit"
                                     value="Modificar"

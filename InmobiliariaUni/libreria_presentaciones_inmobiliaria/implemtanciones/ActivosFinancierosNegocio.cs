@@ -68,7 +68,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public ActivosFinancieros Modificar(ActivosFinancieros entidad)
         {
             if (entidad.Id == 0)
-                throw new Exception("Ya se guardo");
+                throw new Exception("No se puede modificar");
 
             this.iComunicaciones = new Comunicaciones();
 

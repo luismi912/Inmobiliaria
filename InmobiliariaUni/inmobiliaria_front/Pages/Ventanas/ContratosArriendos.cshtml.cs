@@ -55,15 +55,16 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         private void cargarlistas()
         {
+            cargarIdEmpleado();
             //Buscamos las propiedades relacionadas con el sector en el que se encuentra el empleado
             propiedades = IPropiedadesnegocio!.Consultar();
             compradores = ICompradoresnegocio!.Consultar();
             codeudores = ICodeudoresnegocio!.Consultar();
             contratos = IContratosArriendosnegocio!.Consultar();
-            contratosSolicitudes = contratos.Where(c => c.Estado == "Solicitud").ToList();
-            contratosAceptados = contratos.Where(c => c.Estado == "Aceptado").ToList();
-            contratosNoAceptados = contratos.Where(c => c.Estado == "No aceptado").ToList();
-            contratosPendientes = contratos.Where(c => c.Estado == "Pendiente").ToList();
+            contratosSolicitudes = contratos.Where(c => c.Estado == "Solicitud" && c.EmpleadoSector == empleado).ToList();
+            contratosAceptados = contratos.Where(c => c.Estado == "Aceptado" && c.EmpleadoSector == empleado).ToList();
+            contratosNoAceptados = contratos.Where(c => c.Estado == "No aceptado" && c.EmpleadoSector == empleado).ToList();
+            contratosPendientes = contratos.Where(c => c.Estado == "Pendiente" && c.EmpleadoSector == empleado).ToList();
             clientes = IClientesnegocio!.Consultar();
             empleados = IEmpleadosSectoresnegocios!.Consultar();
         }

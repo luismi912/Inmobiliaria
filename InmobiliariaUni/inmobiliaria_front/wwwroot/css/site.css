@@ -29,3 +29,13 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.nav-item.dropdown .nav-link.dropdown-toggle {
+    color: #000000 !important; /* Negro de tu paleta */
+    transition: color 0.2s ease;
+}
+
+    /* Efecto cuando el usuario pasa el mouse por encima */
+    .nav-item.dropdown .nav-link.dropdown-toggle:hover {
+        color: #117F0E !important; /* Tu verde principal #117F0E */
+    }

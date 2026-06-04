@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()     @*Esto es un token para darle privacidad a la pagina*@
 
             <div align="left">
-                <h3>Contratos Arriendos</h3>
+                <h3>Contratos Cuotas</h3>
             </div>
 
             <div>
@@ -172,16 +172,6 @@
                                    asp-for="@Model.Contrato!.NumeroCuotas" />
                         </div>
                     </div>
-                     <div class="form-group">
-                        <label>
-                            Valor Cuota
-                        </label>
-                        <div class="col-6">
-                            <input id="inValorCuota"
-                                   class="cts_forms form-control"
-                                   asp-for="@Model.Contrato!.ValorCuota" />
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label>
                             Pago Inicial
@@ -234,7 +224,7 @@
                     Model.contratosPendientes != null &&
                     Model.contratosPendientes.Count > 0)
                 {
-                    <h2>Contratos Pendientes</h2>
+                    <h2 style="background-color: cornflowerblue; margin-top: 10px">Contratos Pendientes</h2>
                     <table class="tb_data table table-striped table-bordered table-hover">
                         <tr>
                             <th>
@@ -345,7 +335,7 @@
                                     Model.contratosSolicitudes != null &&
                                     Model.contratosSolicitudes.Count > 0)
                 {
-                    <h2>Contratos Solicitados</h2>
+                    <h2 style="background-color: yellow; margin-top: 10px">Contratos Solicitados</h2>
                     <table class="tb_data table table-striped table-bordered table-hover">
                         <tr>
                             <th>
@@ -442,7 +432,7 @@
                             Model.contratosAceptados != null &&
                             Model.contratosAceptados.Count > 0)
             {
-                <h2>Contratos Aceptados</h2>
+                <h2 style="background-color: lawngreen; margin-top: 10px">Contratos Aceptados</h2>
 
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
@@ -529,10 +519,10 @@
             }
             
             @if (Model != null &&
-                            Model.contratosNoAceptados != null &&
-                            Model.contratosNoAceptados.Count > 0)
+                Model.contratosNoAceptados != null &&
+                Model.contratosNoAceptados.Count > 0)
             {
-                <h2>Contratos No Aceptados</h2>
+                <h2 style="background-color: indianred; margin-top: 10px">Contratos No Aceptados</h2>
 
                 <table class="tb_data table table-striped table-bordered table-hover">
                     <tr>
@@ -605,7 +595,7 @@
                                 @elemento.PrecioAcordado
                             </th>
                             <th>
-                                @elemento.NumeroCuota
+                                @elemento.NumeroCuotas
                             </th>
                             <th>
                                 @elemento.ValorCuota

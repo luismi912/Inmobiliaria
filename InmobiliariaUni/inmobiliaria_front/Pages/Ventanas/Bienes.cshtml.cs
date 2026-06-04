@@ -53,6 +53,7 @@ namespace inmobiliaria_front.Pages.Ventanas
                 FechaAdquisicion = DateTime.Now
             };
             Borrando = false;
+            Lista = null;
         }
 
         public void OnPostBtModificar(int data)

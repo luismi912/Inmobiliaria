@@ -28,7 +28,7 @@ namespace libreria_presentaciones_inmobiliaria.implemtanciones
         public RespaldosFinancieros ConsultarRespaldoCedula(string cedula)
         {
             var datos = new Dictionary<string, object>();
-            datos["Url"] = $"https://localhost:7165/Bienes/Consultar/{cedula}";
+            datos["Url"] = $"https://localhost:7165/Bienes/ConsultarRespaldoCedula/{cedula}";
 
             this.iComunicaciones = new Comunicaciones();
             var task = this.iComunicaciones.EjecutarConsultar(datos)!;

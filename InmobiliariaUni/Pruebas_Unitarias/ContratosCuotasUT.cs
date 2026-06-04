@@ -69,7 +69,8 @@ namespace Pruebas_Unitarias
                 Propiedad = propiedad.Id,
                 NumeroCuotas = 24,
                 ValorCuota = 5000000,
-                PagoInicial = 50000000
+                PagoInicial = 50000000,
+                Estado = "Pendiente"
             };
 
             this.conexion!.ContratosCuotas.Add(contrato);

@@ -18,6 +18,7 @@ namespace inmobiliaria_front.Pages.Ventanas
         private ICodeudoresNegocio? ICodeudoresnegocio { get; set; }
         private IPropiedadesNegocio? IPropiedadesnegocio { get; set; }
         private IEmpleadosSectoresNegocio? IEmpleadosSectoresnegocios { get; set; }
+        private IJefesSectoresNegocio? IJefesSectoresnegocio { get; set; }
 
         [BindProperty] public ContratosCuotas? Contrato { get; set; }
         public Propiedades? Propiedad { get; set; }
@@ -46,6 +47,7 @@ namespace inmobiliaria_front.Pages.Ventanas
             ICodeudoresnegocio = new CodeudoresNegocio();
             IPropiedadesnegocio = new PropiedadesNegocio();
             IEmpleadosSectoresnegocios = new EmpleadosSectoresNegocio();
+            IJefesSectoresnegocio = new JefesSectoresNegocio();
         }
 
         public void OnGet()
@@ -55,6 +57,7 @@ namespace inmobiliaria_front.Pages.Ventanas
 
         private void cargarlistas()
         {
+            cargarIdEmpleado();
             //Buscamos las propiedades relacionadas con el sector en el que se encuentra el empleado
             propiedades = IPropiedadesnegocio!.Consultar();
             compradores = ICompradoresnegocio!.Consultar();
@@ -71,7 +74,14 @@ namespace inmobiliaria_front.Pages.Ventanas
         public void cargarIdEmpleado()
         {
             //Sacamos el id del usuario que esta utilizando en el momento la aplicacion
-            empleado = int.Parse(User.FindFirstValue("IdPersona")!);
+            if (User.IsInRole("Empleado"))
+            {
+                empleado = int.Parse(User.FindFirstValue("IdPersona")!);
+            }
+            else
+            {
+                jefe = int.Parse(User.FindFirstValue("IdPersona")!);
+            }
         }
 
         public void OnPostBtRefrescar()
@@ -150,6 +160,8 @@ namespace inmobiliaria_front.Pages.Ventanas
 
                 //El empleado lo llenamos con el que esta haciendo justamente el contrato y lo llamos com cargarIdEmpleado
                 Contrato!.EmpleadoSector = empleado;
+
+                Contrato!.ValorCuota = (Contrato.PrecioAcordado - Contrato.PagoInicial) / Contrato.NumeroCuotas;
 
                 if (Contrato.Id == 0)
                     Contrato = IContratosCuotasnegocio!.Guardar(Contrato!);

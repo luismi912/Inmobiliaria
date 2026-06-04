@@ -54,6 +54,7 @@ namespace Pruebas_Unitarias
 
             this.propiedad = new Propiedades()
             {
+                Codigo = "QER-213",
                 NumeroHabitaciones = 3,
                 NumeroBaños = 4,
                 Patio = true,
